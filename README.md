@@ -35,3 +35,30 @@
 ```
 - 마켓 정보 조회
 - 마켓 리뷰 조회
+```
+## 용어 사전
+
+| 도메인 | 물리명 | 약어 | 데이터 타입 | 설명 |
+| --- | --- | --- | --- | --- |
+| User | user identification | uid | Int | 유저 아이디 |
+| User | password | pw | varchar(20) | 유저 비밀번호 |
+| User | user name | uname | varchar(20) | 유저 이름 |
+| User | email | email | varchar(50) | 유저 이메일 |
+| User | telephone number | tel | varchar(10) | 유저 전화번호 |
+| User | nickname | nickname | varchar(20) | 유저 별명 |
+|  |  |  |  |  |
+| Notification | notification | nid | Int | 알림 아이디 |
+| Notification | notification Info | ninfo | varchar(20) | 알림 정보 |
+| Notification | notification date | ndate | date | 알림 날짜 |
+|  |  |  |  |  |
+| Plan | plan identification | pid | Int | 계획 아이디 |
+| Plan | plan date | date | date | 계획 날짜 |
+|  |  |  |  |  |
+| Market | market identification | mid | Int | 마켓 아이디 |
+| Market | market name | mname | varchar(20) | 마켓 이름 |
+| Market | location | loc | varchar(20) | 마켓 위치 |
+| Market | market info | minfo | varchar(100) | 마켓 정보 |
+|  |  |  |  |  |
+| Market History | rate | rate | Int | 마켓 순위 |
+| Market History | review | review | varchar(300) | 마켓 리뷰 |
+| Market History | review date | rdate | date | 마켓 리뷰 날짜 |
