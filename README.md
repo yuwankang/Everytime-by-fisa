@@ -13,7 +13,7 @@
 ![image](https://github.com/user-attachments/assets/523b39d4-2e85-4791-b9aa-7ea4f119f46f)
 
 ## 🛒DB ER View
-![fisa's tower](https://github.com/user-attachments/assets/2bb65dff-c2e0-49d7-97f7-17c7fbf415c2)
+![fisa's tower](https://github.com/user-attachments/assets/c626b556-61ef-42f9-8975-46428f600b48)
 
 ## 목표 기능
 
