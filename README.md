@@ -83,6 +83,6 @@ sudo docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}
 ```
 sudo ufw allow 1521/tcp
 ```
->Wifi를 사용할 경우 ipconfig를 다시 확인 해서 연결해야하지만 랜선이 연결되어있는 경우 랜선으로 하는 것이 좋다.
+>Wifi를 사용할 경우 ipconfig를 다시 확인 해야하며 랜선이 연결되어있는 경우 랜선으로 하는 것이 편하다.
 
 
