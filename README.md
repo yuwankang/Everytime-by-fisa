@@ -10,8 +10,7 @@
 |HyeonWoo Park<br/>[@smartcow99](https://github.com/smartcow99)|강유완<br/>[@yuwankang](https://github.com/yuwankang)|부준혁<br/>[@BooJunhyuk](https://github.com/BooJunhyuk)|이정욱<br/>[@jeonguk0201](https://github.com/jeonguk0201)|
 
 ## Develop Env
-![image](https://github.com/user-attachments/assets/f19f2997-d6fc-452e-a938-e4efafecdb18)
-
+![image](https://github.com/user-attachments/assets/523b39d4-2e85-4791-b9aa-7ea4f119f46f)
 
 ## 🛒DB ER View
 ![fisa's tower](https://github.com/user-attachments/assets/2bb65dff-c2e0-49d7-97f7-17c7fbf415c2)
