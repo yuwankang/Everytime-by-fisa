@@ -5,9 +5,9 @@
 
 
 ## 👨‍💻팀원
-|<img src="https://avatars.githubusercontent.com/u/78792358?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/74589010?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/127727927?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/175282913?v=4" width="150" height="150"/>|
+|<img src="https://avatars.githubusercontent.com/u/127727927?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/78792358?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/74589010?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/175282913?v=4" width="150" height="150"/>|
 |:-:|:-:|:-:|:-:|
-|HyeonWoo Park<br/>[@smartcow99](https://github.com/smartcow99)|강유완<br/>[@yuwankang](https://github.com/yuwankang)|부준혁<br/>[@BooJunhyuk](https://github.com/BooJunhyuk)|이정욱<br/>[@jeonguk0201](https://github.com/jeonguk0201)|
+|부준혁 / 팀장⚜ <br/>[@BooJunhyuk](https://github.com/BooJunhyuk)|HyeonWoo Park<br/>[@smartcow99](https://github.com/smartcow99)|강유완<br/>[@yuwankang](https://github.com/yuwankang)|이정욱<br/>[@jeonguk0201](https://github.com/jeonguk0201)|
 
 ## Develop Env
 ![image](https://github.com/user-attachments/assets/523b39d4-2e85-4791-b9aa-7ea4f119f46f)
