@@ -39,7 +39,7 @@
 ## 용어 사전
 
 | 도메인 | 물리명 | 약어 | 데이터 타입 | 설명 |
-| --- | --- | --- | --- | --- |
+| :---: | :---: | :---: | :---: | :---: |
 | User | user identification | uid | Int | 유저 아이디 |
 | User | password | pw | varchar(20) | 유저 비밀번호 |
 | User | user name | uname | varchar(20) | 유저 이름 |
