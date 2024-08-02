@@ -36,6 +36,9 @@
 - 마켓 정보 조회
 - 마켓 리뷰 조회
 ```
+## Table Diagram
+![image](https://github.com/user-attachments/assets/e8f6bc5e-f377-4f61-9260-aa8a7f16f97a)
+
 ## 용어 사전
 
 | 도메인 | 물리명 | 약어 | 데이터 타입 | 설명 |
