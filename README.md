@@ -15,6 +15,11 @@
 ## 🛒DB ER View
 ![fisa's tower](https://github.com/user-attachments/assets/0b93ceef-3a67-4274-b306-e84d050ef34d)
 
+## 공유 DB 사용
+![image (3)](https://github.com/user-attachments/assets/57dbddc2-0fe7-47c1-ae75-c0b437243202)
+> 명령프롬포트->ipconfig->ip주소를 VirtualBox 포워딩 -> DBeaver Host name 입력 후 -> 연결확인
+![image](https://github.com/user-attachments/assets/0676123b-372d-4322-983a-e130ec178431)
+
 ## 목표 기능
 
 ### user
@@ -65,3 +70,19 @@
 | Market History | rate | rate | Int | 마켓 순위 |
 | Market History | review | review | varchar(300) | 마켓 리뷰 |
 | Market History | review date | rdate | date | 마켓 리뷰 날짜 |
+
+# Troubleshooting🤯
+## 공유 DB 사용할때 WiFi를 사용할 경우
+![image (4)](https://github.com/user-attachments/assets/69fc434e-0fce-4c97-8474-693f70fae935)
+### 해결 방법
+#### 컨테이너의 IP 주소 확인
+```
+sudo docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' oracle-db
+```
+#### 방화벽 설정 확인
+```
+sudo ufw allow 1521/tcp
+```
+>Wifi를 사용할 경우 ipconfig를 다시 확인 해서 연결해야하지만 랜선이 연결되어있는 경우 랜선으로 하는 것이 좋다.
+
+
