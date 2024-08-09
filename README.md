@@ -13,7 +13,8 @@
 ![image](https://github.com/user-attachments/assets/523b39d4-2e85-4791-b9aa-7ea4f119f46f)
 
 ## 🛒DB ER View
-![fisa's tower](https://github.com/user-attachments/assets/0b93ceef-3a67-4274-b306-e84d050ef34d)
+![FISA's TW](https://github.com/user-attachments/assets/6fc8c624-d523-485a-b4f2-47aa0648a2c8)
+
 
 ## 공유 DB 사용
 ![image (3)](https://github.com/user-attachments/assets/57dbddc2-0fe7-47c1-ae75-c0b437243202)
