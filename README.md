@@ -1,13 +1,14 @@
-# Fisa's Tower
+# FISA-Land
 
 ## 목적
-> 매일 점심 메뉴를 고민하는 우리 FISA 수강생들을 위해 식사 모임 및 랜덤 점심 추천 서비스를 제공하기 위함.
+> FISA 학생들을 위한 커뮤니티 물건 빌리지 | 피사에탑
 
 
 ## 👨‍💻팀원
-|<img src="https://avatars.githubusercontent.com/u/127727927?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/78792358?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/74589010?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/175282913?v=4" width="150" height="150"/>|
-|:-:|:-:|:-:|:-:|
-|부준혁 / 팀장⚜ <br/>[@BooJunhyuk](https://github.com/BooJunhyuk)|HyeonWoo Park<br/>[@smartcow99](https://github.com/smartcow99)|강유완<br/>[@yuwankang](https://github.com/yuwankang)|이정욱<br/>[@jeonguk0201](https://github.com/jeonguk0201)|
+## 👨‍💻Team
+|<img src="https://avatars.githubusercontent.com/u/65991884?v=4" width="100" height="100"/>|<img src="https://avatars.githubusercontent.com/u/107031994?v=4" width="100" height="100"/>|<img src="https://avatars.githubusercontent.com/u/86452494?v=4" width="100" height="100"/>|<img src="https://avatars.githubusercontent.com/u/78792358?v=4" width="100" height="100"/>|<img src="https://avatars.githubusercontent.com/u/74589010?v=4" width="100" height="100"/>|<img src="https://avatars.githubusercontent.com/u/175282913?v=4" width="100" height="100"/>|<img src="https://avatars.githubusercontent.com/u/127727927?v=4" width="100" height="100"/>|
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|류채현<br/>[@RyuChaeHyun](https://github.com/RyuChaeHyun)|박정주<br/>[@gorapang](https://github.com/gorapang)|백승지<br/>[@seungji2001](https://github.com/seungji2001)|박현우<br/>[@smartcow99](https://github.com/smartcow99)|강유완<br/>[@yuwankang](https://github.com/yuwankang)|이정욱<br/>[@jeonguk0201](https://github.com/jeonguk0201)|부준혁<br/>[@BooJunhyuk](https://github.com/BooJunhyuk)|
 
 ## Develop Env
 ![image](https://github.com/user-attachments/assets/523b39d4-2e85-4791-b9aa-7ea4f119f46f)
