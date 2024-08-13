@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-public class GetheringRecord {
+public class GatheringRecord {
 	 @EmbeddedId
-	 private GetheringRecordId id;
+	 private GatheringRecordId id;
 }

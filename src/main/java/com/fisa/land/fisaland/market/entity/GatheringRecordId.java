@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class GetheringRecordId implements Serializable {
+public class GatheringRecordId implements Serializable {
 	@ManyToOne
     private User user;
 
