@@ -9,7 +9,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fisa.land.fisaland.common.User;
 import com.fisa.land.fisaland.market.dto.MarketReviewDTO;
+import com.fisa.land.fisaland.market.entity.Market;
 import com.fisa.land.fisaland.market.entity.MarketReview;
 import com.fisa.land.fisaland.market.repository.MarketReviewRepository;
 
@@ -21,6 +23,14 @@ public class MarketReviewService {
 
     @Autowired
     private ModelMapper modelMapper;
+    
+    
+//    @Autowired
+//    private MarketRepository marketRepository;
+//
+//    @Autowired
+//    private UserRepository userRepository;
+    
 
     public List<MarketReviewDTO> getAllReviews() {
         return marketReviewRepository.findAll().stream()
@@ -28,18 +38,37 @@ public class MarketReviewService {
                 .collect(Collectors.toList());
     }
 
+    
     public MarketReviewDTO getReviewById(Long id) {
         MarketReview review = marketReviewRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Review not found"));
         return modelMapper.map(review, MarketReviewDTO.class);
     }
+    
 
     public MarketReviewDTO createReview(MarketReviewDTO reviewDTO) {
-        MarketReview review = modelMapper.map(reviewDTO, MarketReview.class);
+    	
+    	MarketReview review = new MarketReview();
+    	
+//        // User 설정
+//        User user = userRepository.findById(reviewDTO.getUserId())
+//            .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+//        review.setUser(user);
+//        
+//        // Market 설정
+//        Market market = marketRepository.findById(reviewDTO.getMarketId())
+//            .orElseThrow(() -> new IllegalArgumentException("Invalid market ID"));
+//        review.setMarket(market);
+    	
+        // 나머지 필드 설정
+        review.setContent(reviewDTO.getContent());
+        review.setRate(reviewDTO.getRate());
+        
         MarketReview savedReview = marketReviewRepository.save(review);
         return modelMapper.map(savedReview, MarketReviewDTO.class);
     }
 
+    
     public MarketReviewDTO updateReview(Long id, MarketReviewDTO reviewDTO) {
         MarketReview existingReview = marketReviewRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Review not found"));
@@ -52,8 +81,10 @@ public class MarketReviewService {
         return modelMapper.map(updatedReview, MarketReviewDTO.class);
     }
 
+    
     public void deleteReview(Long id) {
         marketReviewRepository.deleteById(id);
     }
+    
 }
 
