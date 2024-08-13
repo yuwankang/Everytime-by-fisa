@@ -1,6 +1,8 @@
-package com.fisa.land.fisaland.common;
+package com.fisa.land.fisaland.common.entity;
 
 import java.time.LocalDateTime;
+
+import com.fisa.land.fisaland.common.BaseTimeEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,7 +24,7 @@ import lombok.ToString;
 @Entity
 
 @Table(name = "User")
-public class User {
+public class User extends BaseTimeEntity{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,11 +44,5 @@ public class User {
 
 	@Column(name = "class", length = 20)
 	private String userClass;
-
-	@Column(name = "created_at", nullable = false)
-	private LocalDateTime createdAt;
-
-	@Column(name = "updated_at", nullable = false)
-	private LocalDateTime updatedAt;
 
 }
