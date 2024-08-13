@@ -21,7 +21,7 @@ public class ProductDTO {
     	private String description;
         private String productName;
         private Integer price;
-        private Category category; // ProductCategory는 열거형(enum)으로 정의해야 합니다
+        private Category category; 
     }
     
 	@NoArgsConstructor
@@ -30,8 +30,8 @@ public class ProductDTO {
 	@Setter
 	@ToString
 	public static class getProduct{
-		private long product_id;
-		private String product_name;
+		private long productId;
+		private String productName;
 		private String description;
 		private Status status;  
 		private int price;	

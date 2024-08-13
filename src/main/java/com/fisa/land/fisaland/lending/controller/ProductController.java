@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fisa.land.fisaland.lending.dto.ProductDTO;
+import com.fisa.land.fisaland.lending.entity.Product;
 import com.fisa.land.fisaland.lending.service.ProductService;
 
 
@@ -34,9 +36,20 @@ public class ProductController {
         
     }
     
-    @GetMapping("/{product_id}")
-    public ProductDTO.getProduct getProduct(@PathVariable("product_id") Long product_id) {
-    	return productService.getProduct(product_id);
+    @GetMapping("/{productId}")
+    public ProductDTO.getProduct getProduct(@PathVariable("productId") Long productId) {
+    	return productService.getProduct(productId);
     }
+    
+    @PatchMapping("/products/{productId}/rent")
+    public void rentProduct(@PathVariable("productId") Long productId) {
+        productService.updateProductStatus(productId, Product.Status.RENTED);
+    }
+    
+    @PatchMapping("products/{productId}/return")
+    public void returnProduct(@PathVariable("productId") Long productId) {
+        productService.updateProductStatus(productId, Product.Status.AVAILABLE);
+    }
+    
     
 }
