@@ -1,4 +1,4 @@
-package com.fisa.land.fisaland.common;
+package com.fisa.land.fisaland.common.entity;
 
 import java.time.LocalDate;
 

@@ -2,7 +2,7 @@ package com.fisa.land.fisaland.market.entity;
 
 import java.time.LocalDateTime;
 
-import com.fisa.land.fisaland.common.BaseTimeEntity;
+import com.fisa.land.fisaland.common.entity.BaseTimeEntity;
 import com.fisa.land.fisaland.common.entity.User;
 
 import jakarta.persistence.Entity;
