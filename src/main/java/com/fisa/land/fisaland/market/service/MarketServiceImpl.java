@@ -29,7 +29,6 @@ public class MarketServiceImpl implements MarketService{
 		List<MarketDTO.getMarket> markets =  marketRepository.findAll().stream()
 				.map(market -> modelMapper.map(market, MarketDTO.getMarket.class))
 				.collect(Collectors.toList());
-		System.out.println(markets);
 		return markets;
 	}
 
