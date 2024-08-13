@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fisa.land.fisaland.common.entity.User;
 import com.fisa.land.fisaland.market.entity.Market;
 import com.fisa.land.fisaland.market.type.Status;
 
@@ -43,8 +44,8 @@ public class GatheringRecordInfoDTO {
 	@Setter
 	@ToString
 	public static class saveGatheringRecord{
-		private Long userId;
-		private Long marketId;
+		private User userId;
+		private Market marketId;
 		private Status status;
 		private LocalDateTime meetingTime;
 		private String title;
