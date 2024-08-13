@@ -1,7 +1,9 @@
 package com.fisa.land.fisaland.market.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +18,12 @@ public class GatheringRecordController {
 	GatheringRecordService gatheringRecordService;
 	
 	@PostMapping("/gathering")
-	public Long saveGatheringRecord(GatheringRecordInfoDTO.setGatheringRecord gatheringRecordInfoDto) {
+	public Long saveGatheringRecord(@RequestBody GatheringRecordInfoDTO.setGatheringRecord gatheringRecordInfoDto) {
 		return gatheringRecordService.saveGatheringRecord(gatheringRecordInfoDto);
 	}
+
+//	@GetMapping("/gatherings")
+//	public Long getGatherings(GatheringRecordInfoDTO.setGatheringRecord gatheringRecordInfoDto) {
+//		return gatheringRecordService.saveGatheringRecord(gatheringRecordInfoDto);
+//	}
 }

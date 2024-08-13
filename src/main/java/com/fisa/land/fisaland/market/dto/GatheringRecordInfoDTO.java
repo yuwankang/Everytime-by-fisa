@@ -54,4 +54,16 @@ public class GatheringRecordInfoDTO {
 		private String title;
 	}
 	
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@Getter
+	@Setter
+	@ToString
+	public static class getGatheringRecord{
+		private Long userId;
+		private String marketName;
+		private Status status;
+		private String meetingTime;
+		private String title;
+	}
 }
