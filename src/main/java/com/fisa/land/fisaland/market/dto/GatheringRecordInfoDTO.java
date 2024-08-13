@@ -50,7 +50,7 @@ public class GatheringRecordInfoDTO {
 		private User userId;
 		private Market marketId;
 		private Status status;
-		private LocalDate meetingTime;
+		private LocalDateTime meetingTime;
 		private String title;
 	}
 	

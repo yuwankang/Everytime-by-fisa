@@ -11,7 +11,7 @@ import lombok.extern.log4j.Log4j2;
 public class CustomServletConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry){
-        registry.addFormatter(new LocalDateFormatter());
+        registry.addFormatter(new LocalDateTimeFormatter());
     }
 
 }

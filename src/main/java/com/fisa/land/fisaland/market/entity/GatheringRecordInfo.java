@@ -46,7 +46,7 @@ public class GatheringRecordInfo extends BaseTimeEntity{
 	private Status status;
 	
 	@Column(nullable=false)
-	private LocalDate meetingTime;
+	private LocalDateTime meetingTime;
 	
 	@Column(nullable=false)
 	private String title;

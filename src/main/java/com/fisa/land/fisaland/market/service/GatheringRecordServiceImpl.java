@@ -50,7 +50,7 @@ public class GatheringRecordServiceImpl implements GatheringRecordService{
 		GatheringRecordInfoDTO.saveGatheringRecord saveGatheringRecord = GatheringRecordInfoDTO.saveGatheringRecord.builder()
 				.marketId(market)
 				.userId(user)
-				.meetingTime(LocalDate.parse(gatheringRecord.getMeetingTime()))
+				.meetingTime(LocalDateTime.parse(gatheringRecord.getMeetingTime()))
 				.status(gatheringRecord.getStatus())
 				.title(gatheringRecord.getTitle())
 				.build();
