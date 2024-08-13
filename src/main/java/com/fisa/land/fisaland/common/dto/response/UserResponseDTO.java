@@ -22,5 +22,7 @@ public class UserResponseDTO {
 	private String phone;
 
 	private String userClass;
+	
+    private boolean isActivated;
 
 }

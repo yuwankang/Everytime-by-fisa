@@ -43,7 +43,6 @@ public class UserServiceImpl implements UserService{
 
             // 비밀번호가 일치하는지 확인
             if (user.getPassword().equals(loginDTO.getPw())) {
-                // User를 UserDTO로 변환하여 반환
             	 return mapper.map(user, UserResponseDTO.class);
             } throw new RuntimeException("비밀번호가 일치하지 않습니다.");
         } throw new RuntimeException("사용자를 찾을 수 없습니다.");
@@ -88,7 +87,8 @@ public class UserServiceImpl implements UserService{
 		
 		if (userOptional.isPresent()) {
 			User user = userOptional.get();
-			userRepository.deleteByUserId(user.getUserId());
+			user.setActivated(false); 
+			userRepository.save(user);
 			return;
 		}throw new RuntimeException("사용자를 찾을 수 없습니다.");
 	}
