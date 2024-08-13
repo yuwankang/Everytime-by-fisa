@@ -30,7 +30,7 @@ public class MarketReviewController {
     }
 
     @GetMapping("/{marketId}/review/{id}")
-    public MarketReviewDTO getReviewById(@PathVariable Long id) {
+    public MarketReviewDTO getReviewById(@PathVariable("id") Long id) {
         return marketReviewService.getReviewById(id);
     }
 
@@ -40,12 +40,12 @@ public class MarketReviewController {
     }
 
     @PutMapping("/{marketId}/review/{id}")
-    public MarketReviewDTO updateReview(@PathVariable Long id, @RequestBody MarketReviewDTO reviewDTO) {
+    public MarketReviewDTO updateReview(@PathVariable("id") Long id, @RequestBody MarketReviewDTO reviewDTO) {
         return marketReviewService.updateReview(id, reviewDTO);
     }
 
     @DeleteMapping("/{marketId}/review/{id}")
-    public void deleteReview(@PathVariable Long id) {
+    public void deleteReview(@PathVariable("id") Long id) {
         marketReviewService.deleteReview(id);
     }
 }
