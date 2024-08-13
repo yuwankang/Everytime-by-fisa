@@ -1,4 +1,4 @@
-package com.fisa.land.fisaland.common.dto;
+package com.fisa.land.fisaland.common.dto.response;
 
 import java.time.LocalDateTime;
 
@@ -13,23 +13,14 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-
-public class UserDTO {
-	
-	private Long userId;
+public class UserResponseDTO {
 
 	private String username;
 
 	private String email;
 
-	private String password;
-
 	private String phone;
 
 	private String userClass;
-
-	private LocalDateTime createdAt;
-
-	private LocalDateTime updatedAt;
 
 }

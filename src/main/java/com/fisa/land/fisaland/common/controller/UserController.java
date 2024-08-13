@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fisa.land.fisaland.common.dto.LoginDTO;
-import com.fisa.land.fisaland.common.dto.UserDTO;
+import com.fisa.land.fisaland.common.dto.request.LoginDTO;
+import com.fisa.land.fisaland.common.dto.request.UserDTO;
+import com.fisa.land.fisaland.common.dto.response.UserResponseDTO;
 import com.fisa.land.fisaland.common.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,12 +33,13 @@ public class UserController {
 
 	// 로그인
 	@PostMapping("user/login")
-	public UserDTO login(@RequestBody LoginDTO loginDTO, HttpSession session) {
+	public UserResponseDTO login(@RequestBody LoginDTO loginDTO, HttpSession session) {
 		System.out.println("login() is called!");
-		UserDTO userDto = userService.login(loginDTO);
+		UserResponseDTO userDto = userService.login(loginDTO);
 		
 		// 로그인 성공 시 세션에 id 값을 저장
-        session.setAttribute("userId", userDto.getUserId());
+		Long userId = userService.findByEmail(userDto.getEmail());
+        session.setAttribute("userId", userId);
         
 		return userDto;
 	}
@@ -56,7 +58,8 @@ public class UserController {
 	
 	// User 정보 조회
 	@GetMapping("user")
-	public UserDTO getUser() {
+	public UserDTO getUser(Long userId) {
+//		userService.findByUserId(userId);
 		System.out.println("getUser() is called!");
 		return new UserDTO();
 	}

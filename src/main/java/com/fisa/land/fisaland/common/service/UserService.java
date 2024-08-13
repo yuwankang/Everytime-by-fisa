@@ -1,12 +1,15 @@
 package com.fisa.land.fisaland.common.service;
 
-import com.fisa.land.fisaland.common.dto.LoginDTO;
-import com.fisa.land.fisaland.common.dto.UserDTO;
+import com.fisa.land.fisaland.common.dto.request.LoginDTO;
+import com.fisa.land.fisaland.common.dto.request.UserDTO;
+import com.fisa.land.fisaland.common.dto.response.UserResponseDTO;
 
 public interface UserService {
 
 	void register(UserDTO user);
 
-	UserDTO login(LoginDTO user);
+	UserResponseDTO login(LoginDTO user);
+	
+	Long findByEmail(String email);
 	
 }
