@@ -7,5 +7,5 @@ import com.fisa.land.fisaland.market.entity.GatheringRecord;
 import com.fisa.land.fisaland.market.entity.GatheringRecordId;
 
 @Repository
-public interface GetheringRecordRepository extends JpaRepository<GatheringRecord, GatheringRecordId>{
+public interface GatheringRecordRepository extends JpaRepository<GatheringRecord, GatheringRecordId>{
 }

@@ -18,6 +18,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -42,6 +43,7 @@ public class GatheringRecordInfoDTO {
 	@AllArgsConstructor
 	@Getter
 	@Setter
+	@Builder
 	@ToString
 	public static class saveGatheringRecord{
 		private User userId;
