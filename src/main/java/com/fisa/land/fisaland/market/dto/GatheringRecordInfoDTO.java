@@ -1,5 +1,6 @@
 package com.fisa.land.fisaland.market.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -35,7 +36,7 @@ public class GatheringRecordInfoDTO {
 		private Long userId;
 		private Long marketId;
 		private Status status;
-		private LocalDateTime meetingTime;
+		private String meetingTime;
 		private String title;
 	}
 	
@@ -49,7 +50,7 @@ public class GatheringRecordInfoDTO {
 		private User userId;
 		private Market marketId;
 		private Status status;
-		private LocalDateTime meetingTime;
+		private LocalDate meetingTime;
 		private String title;
 	}
 	

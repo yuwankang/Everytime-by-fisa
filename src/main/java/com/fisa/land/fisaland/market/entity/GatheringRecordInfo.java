@@ -1,9 +1,11 @@
 package com.fisa.land.fisaland.market.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fisa.land.fisaland.common.entity.BaseTimeEntity;
 import com.fisa.land.fisaland.common.entity.User;
 import com.fisa.land.fisaland.market.type.Status;
@@ -23,10 +25,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Builder
 @Entity
 public class GatheringRecordInfo extends BaseTimeEntity{
@@ -38,13 +42,11 @@ public class GatheringRecordInfo extends BaseTimeEntity{
 	@ManyToOne(fetch=FetchType.LAZY)
 	private Market market;
 	
-	@Enumerated(EnumType.STRING)
 	@Column(nullable=false)
 	private Status status;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(nullable=false)
-	private LocalDateTime meetingTime;
+	private LocalDate meetingTime;
 	
 	@Column(nullable=false)
 	private String title;
