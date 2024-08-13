@@ -2,6 +2,8 @@ package com.fisa.land.fisaland.common.entity;
 
 import java.time.LocalDateTime;
 
+import com.fisa.land.fisaland.common.dto.request.UserDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,27 +22,37 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Entity
-
 @Table(name = "User")
-public class User extends BaseTimeEntity{
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long userId;
+public class User extends BaseTimeEntity {
 
-	@Column(name = "username", nullable = false, length = 16)
-	private String username;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
 
-	@Column(name = "email", nullable = false, length = 50)
-	private String email;
+    @Column(name = "username", nullable = false, length = 16)
+    private String username;
 
-	@Column(name = "password", nullable = false, length = 50)
-	private String password;
+    @Column(name = "email", nullable = false, length = 50)
+    private String email;
 
-	@Column(name = "phone", length = 20)
-	private String phone;
+    @Column(name = "password", nullable = false, length = 50)
+    private String password;
 
-	@Column(name = "class", length = 20)
-	private String userClass;
+    @Column(name = "phone", length = 20)
+    private String phone;
 
+    @Column(name = "class", length = 20)
+    private String userClass;
+
+    @Column(name = "is_activated", nullable = false)
+    private boolean isActivated = true; 
+
+    public User update(UserDTO userDto) {
+        this.username = userDto.getUsername();
+        this.email = userDto.getEmail();
+        this.password = userDto.getPassword();
+        this.phone = userDto.getPhone();
+        this.userClass = userDto.getUserClass();
+        return this;
+    }
 }

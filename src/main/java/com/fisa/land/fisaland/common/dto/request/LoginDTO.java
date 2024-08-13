@@ -1,4 +1,4 @@
-package com.fisa.land.fisaland.common.dto;
+package com.fisa.land.fisaland.common.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
