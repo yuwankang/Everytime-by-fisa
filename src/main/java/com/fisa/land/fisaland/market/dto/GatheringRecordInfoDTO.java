@@ -1,5 +1,6 @@
 package com.fisa.land.fisaland.market.dto;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -58,12 +59,14 @@ public class GatheringRecordInfoDTO {
 	@AllArgsConstructor
 	@Getter
 	@Setter
+	@Builder
 	@ToString
-	public static class getGatheringRecord{
-		private Long userId;
+	public static class getGatheringRecord implements Serializable{
+		private Long gatheringRecordInfoId;
+		private String userName;
 		private String marketName;
 		private Status status;
-		private String meetingTime;
+		private LocalDateTime meetingTime;
 		private String title;
 	}
 }

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fisa.land.fisaland.market.dto.GatheringRecordInfoDTO;
 import com.fisa.land.fisaland.market.service.GatheringRecordService;
 
+import java.util.*;
+
 @RestController
 @RequestMapping("market")
 public class GatheringRecordController {
@@ -22,8 +24,8 @@ public class GatheringRecordController {
 		return gatheringRecordService.saveGatheringRecord(gatheringRecordInfoDto);
 	}
 
-//	@GetMapping("/gatherings")
-//	public Long getGatherings(GatheringRecordInfoDTO.setGatheringRecord gatheringRecordInfoDto) {
-//		return gatheringRecordService.saveGatheringRecord(gatheringRecordInfoDto);
-//	}
+	@GetMapping("/gatherings")
+	public List<GatheringRecordInfoDTO.getGatheringRecord> getGatherings() {
+		return gatheringRecordService.getGatheringRecord();
+	}
 }

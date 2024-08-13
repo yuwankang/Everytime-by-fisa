@@ -1,6 +1,5 @@
 package com.fisa.land.fisaland.market.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -38,10 +37,15 @@ public class GatheringRecordInfo extends BaseTimeEntity{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long getherRecordId;
 	
+	@JoinColumn(name="userId")
+	@ManyToOne(fetch=FetchType.LAZY)
+	private User user;
+	
 	@JoinColumn(name="marketId")
 	@ManyToOne(fetch=FetchType.LAZY)
 	private Market market;
 	
+	@Enumerated(EnumType.STRING)
 	@Column(nullable=false)
 	private Status status;
 	
