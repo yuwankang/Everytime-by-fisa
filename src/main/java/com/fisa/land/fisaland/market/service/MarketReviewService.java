@@ -9,7 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fisa.land.fisaland.common.User;
+import com.fisa.land.fisaland.common.entity.User;
 import com.fisa.land.fisaland.market.dto.MarketReviewDTO;
 import com.fisa.land.fisaland.market.entity.Market;
 import com.fisa.land.fisaland.market.entity.MarketReview;
