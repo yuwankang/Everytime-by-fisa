@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fisa.land.fisaland.common.entity.User;
+import com.fisa.land.fisaland.common.respository.UserRepository;
 import com.fisa.land.fisaland.market.dto.MarketReviewDTO;
 import com.fisa.land.fisaland.market.entity.Market;
 import com.fisa.land.fisaland.market.entity.MarketReview;
+import com.fisa.land.fisaland.market.repository.MarketRepository;
 import com.fisa.land.fisaland.market.repository.MarketReviewRepository;
 
 @Service
@@ -25,11 +27,11 @@ public class MarketReviewService {
     private ModelMapper modelMapper;
     
     
-//    @Autowired
-//    private MarketRepository marketRepository;
-//
-//    @Autowired
-//    private UserRepository userRepository;
+    @Autowired
+    private MarketRepository marketRepository;
+
+    @Autowired
+    private UserRepository userRepository;
     
 
     public List<MarketReviewDTO> getAllReviews() {
@@ -50,15 +52,15 @@ public class MarketReviewService {
     	
     	MarketReview review = new MarketReview();
     	
-//        // User 설정
-//        User user = userRepository.findById(reviewDTO.getUserId())
-//            .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
-//        review.setUser(user);
-//        
-//        // Market 설정
-//        Market market = marketRepository.findById(reviewDTO.getMarketId())
-//            .orElseThrow(() -> new IllegalArgumentException("Invalid market ID"));
-//        review.setMarket(market);
+        // User 설정
+        User user = userRepository.findById(reviewDTO.getUserId())
+            .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+        review.setUser(user);
+        
+        // Market 설정
+        Market market = marketRepository.findById(reviewDTO.getMarketId())
+            .orElseThrow(() -> new IllegalArgumentException("Invalid market ID"));
+        review.setMarket(market);
     	
         // 나머지 필드 설정
         review.setContent(reviewDTO.getContent());
@@ -75,7 +77,6 @@ public class MarketReviewService {
 
         existingReview.setContent(reviewDTO.getContent());
         existingReview.setRate(reviewDTO.getRate());
-        existingReview.setUpdatedAt(LocalDate.now());
 
         MarketReview updatedReview = marketReviewRepository.save(existingReview);
         return modelMapper.map(updatedReview, MarketReviewDTO.class);
