@@ -10,4 +10,6 @@ public interface MarketService {
 	List<MarketDTO.getMarket> getMarketList();
 	
 	Long saveMarket(MarketDTO.setMarket market);
+	
+	MarketDTO.getMarket getMarket(Long marketId);
 }
