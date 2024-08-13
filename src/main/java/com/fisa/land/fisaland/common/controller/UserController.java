@@ -12,6 +12,7 @@ import com.fisa.land.fisaland.common.dto.LoginDTO;
 import com.fisa.land.fisaland.common.dto.UserDTO;
 import com.fisa.land.fisaland.common.service.UserService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -30,12 +31,16 @@ public class UserController {
 
 	// 로그인
 	@PostMapping("user/login")
-	public UserDTO login(@RequestBody LoginDTO loginDTO) {
+	public UserDTO login(@RequestBody LoginDTO loginDTO, HttpSession session) {
 		System.out.println("login() is called!");
 		UserDTO userDto = userService.login(loginDTO);
+		
+		// 로그인 성공 시 세션에 id 값을 저장
+        session.setAttribute("userId", userDto.getUserId());
+        
 		return userDto;
 	}
-
+	
 	// 로그아웃
 	@PostMapping("user/logout")
 	public void logout() {
