@@ -24,9 +24,9 @@ public class Product extends BaseTimeEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long product_id;
+	private Long productId;
 	
-	private Long user_id;
+	private Long userId;
 	private String product_name;
 	private String description;
 	
