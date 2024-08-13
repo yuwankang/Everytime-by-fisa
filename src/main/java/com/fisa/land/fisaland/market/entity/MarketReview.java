@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.fisa.land.fisaland.common.BaseTimeEntity;
+import com.fisa.land.fisaland.common.entity.BaseTimeEntity;
 import com.fisa.land.fisaland.common.entity.User;
 
 import jakarta.persistence.Entity;

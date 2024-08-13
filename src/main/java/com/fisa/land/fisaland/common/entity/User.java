@@ -2,8 +2,6 @@ package com.fisa.land.fisaland.common.entity;
 
 import java.time.LocalDateTime;
 
-import com.fisa.land.fisaland.common.BaseTimeEntity;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
