@@ -30,10 +30,10 @@ public class UserController {
 
 	// 로그인
 	@PostMapping("user/login")
-	public UserDTO login(@RequestBody LoginDTO user) {
+	public UserDTO login(@RequestBody LoginDTO loginDTO) {
 		System.out.println("login() is called!");
-		System.out.println(user.getId());
-		return new UserDTO();
+		UserDTO userDto = userService.login(loginDTO);
+		return userDto;
 	}
 
 	// 로그아웃
