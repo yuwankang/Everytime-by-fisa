@@ -10,16 +10,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fisa.land.fisaland.common.dto.LoginDTO;
 import com.fisa.land.fisaland.common.dto.UserDTO;
+import com.fisa.land.fisaland.common.service.UserService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("common")
 public class UserController {
-
+	
+	private final UserService userService;
+	
 	// 회원가입
 	@PostMapping("user/register")
-	public void register() {
+	public void register(@RequestBody UserDTO user) {
 		System.out.println("register() is called!");
-		return;
+		userService.register(user);
 	}
 
 	// 로그인
