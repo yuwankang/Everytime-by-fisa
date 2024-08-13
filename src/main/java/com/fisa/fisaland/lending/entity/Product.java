@@ -22,9 +22,14 @@ import lombok.ToString;
 @Entity
 public class Product {
 	@Id
+<<<<<<< Updated upstream:src/main/java/com/fisa/fisaland/lending/entity/Product.java
 	private long product_id;
+=======
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long product_id;
+>>>>>>> Stashed changes:src/main/java/com/fisa/land/fisaland/lending/entity/Product.java
 	
-	private long user_id;
+	private Long user_id;
 	private String product_name;
 	private String description;
 	
