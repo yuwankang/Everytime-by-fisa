@@ -2,6 +2,7 @@ package com.fisa.land.fisaland.common.controller;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,8 +48,8 @@ public class UserController {
 	// 로그아웃
 	@PostMapping("user/logout")
 	public void logout(HttpServletRequest request) {
-		HttpSession session = request.getSession();
 		System.out.println("logout() is called!");
+		HttpSession session = request.getSession();
 	
 		session.invalidate();
 		session = null;
@@ -57,25 +58,27 @@ public class UserController {
 	}
 	
 	// User 정보 조회
-	@GetMapping("user")
-	public UserDTO getUser(Long userId) {
-//		userService.findByUserId(userId);
+	@GetMapping("user/{userId}")
+	public UserResponseDTO getUser(@PathVariable("userId") Long userId) {
 		System.out.println("getUser() is called!");
-		return new UserDTO();
+		UserResponseDTO userDto = userService.getUser(userId);
+		
+		return userDto;
 	}
 
 	// 회원 정보 수정
 	@PutMapping("user")
-	public UserDTO updateUser(@RequestBody UserDTO user) {
+	public UserResponseDTO updateUser(@RequestBody UserDTO user) {
 		System.out.println("updateUser() is called!");
-		return new UserDTO();
+		UserResponseDTO userDto = userService.updateUser(user);
+		return userDto;
 	}
 
 	// 회원 탈퇴
-	@DeleteMapping("user")
-	public void deleteUser(@RequestBody String id) {
-		System.out.println("deleteUser() is called!");
-		return;
+	@DeleteMapping("user/{userId}")
+	public void deleteUser(@PathVariable("userId") Long userId) {
+		System.out.println("deleteUser() is called! "+ userId);
+		userService.deleteUser(userId);
 	}
 
 }

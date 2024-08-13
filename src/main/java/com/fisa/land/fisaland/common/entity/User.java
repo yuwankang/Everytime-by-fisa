@@ -3,6 +3,7 @@ package com.fisa.land.fisaland.common.entity;
 import java.time.LocalDateTime;
 
 import com.fisa.land.fisaland.common.BaseTimeEntity;
+import com.fisa.land.fisaland.common.dto.request.UserDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -44,5 +45,14 @@ public class User extends BaseTimeEntity{
 
 	@Column(name = "class", length = 20)
 	private String userClass;
+	
 
+	public User update(UserDTO userDto) {
+		this.username = userDto.getUsername();
+		this.email = userDto.getEmail();
+		this.password = userDto.getPassword();
+		this.phone = userDto.getPhone();
+		this.userClass = userDto.getUserClass();
+		return this;
+	}
 }

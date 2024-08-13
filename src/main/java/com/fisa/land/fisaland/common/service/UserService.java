@@ -11,5 +11,11 @@ public interface UserService {
 	UserResponseDTO login(LoginDTO user);
 	
 	Long findByEmail(String email);
+
+	UserResponseDTO getUser(Long userId);
+
+	UserResponseDTO updateUser(UserDTO user);
+
+	void deleteUser(Long userId);
 	
 }

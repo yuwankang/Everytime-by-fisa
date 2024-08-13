@@ -45,14 +45,20 @@ public class UserServiceImpl implements UserService{
             if (user.getPassword().equals(loginDTO.getPw())) {
                 // User를 UserDTO로 변환하여 반환
             	 return mapper.map(user, UserResponseDTO.class);
-            } else {
-                throw new RuntimeException("비밀번호가 일치하지 않습니다.");
-            }
-        } else {
-            throw new RuntimeException("사용자를 찾을 수 없습니다.");
-        }
+            } throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+        } throw new RuntimeException("사용자를 찾을 수 없습니다.");
     }
 
+	@Override
+	public UserResponseDTO getUser(Long userId) {
+		Optional<User> userOptional = userRepository.findByUserId(userId);
+		if (userOptional.isPresent()) {
+			User user = userOptional.get();
+			return mapper.map(user, UserResponseDTO.class);
+		}
+		throw new RuntimeException("사용자를 찾을 수 없습니다.");
+	}
+	
 	@Override
 	public Long findByEmail(String email) {
 		Optional<User> userOptional = userRepository.findByEmail(email);
@@ -61,6 +67,30 @@ public class UserServiceImpl implements UserService{
 			return user.getUserId();
 		}
 		throw new RuntimeException("사용자를 찾을 수 없습니다.");
+	}
+
+	@Override
+	public UserResponseDTO updateUser(UserDTO userDto) {
+		Optional<User> userOptional = userRepository.findByUserId(userDto.getUserId());
+		if (userOptional.isPresent()) {
+			User user = userOptional.get();
+			
+			//회원 정보 수정
+			User updateUser = user.update(userDto);
+			return mapper.map(updateUser, UserResponseDTO.class);
+		
+		}throw new RuntimeException("사용자를 찾을 수 없습니다.");
+	}
+
+	@Override
+	public void deleteUser(Long userId) {
+		Optional<User> userOptional = userRepository.findByUserId(userId);
+		
+		if (userOptional.isPresent()) {
+			User user = userOptional.get();
+			userRepository.deleteByUserId(user.getUserId());
+			return;
+		}throw new RuntimeException("사용자를 찾을 수 없습니다.");
 	}
 }
 
