@@ -23,7 +23,5 @@ public class LendingRecords {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long lending_record_id;
 
-    private LocalDateTime created;
-
-    // Getters and Setters
+    private LocalDateTime created; // 생성 날짜
 }
