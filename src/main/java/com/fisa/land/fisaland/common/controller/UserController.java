@@ -12,6 +12,7 @@ import com.fisa.land.fisaland.common.dto.LoginDTO;
 import com.fisa.land.fisaland.common.dto.UserDTO;
 import com.fisa.land.fisaland.common.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
@@ -43,10 +44,16 @@ public class UserController {
 	
 	// 로그아웃
 	@PostMapping("user/logout")
-	public void logout() {
+	public void logout(HttpServletRequest request) {
+		HttpSession session = request.getSession();
 		System.out.println("logout() is called!");
+	
+		session.invalidate();
+		session = null;
+		
+		System.out.println("logout success !!");
 	}
-
+	
 	// User 정보 조회
 	@GetMapping("user")
 	public UserDTO getUser() {
