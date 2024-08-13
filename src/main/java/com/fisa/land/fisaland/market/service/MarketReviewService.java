@@ -1,7 +1,7 @@
 package com.fisa.land.fisaland.market.service;
 
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,7 +46,7 @@ public class MarketReviewService {
 
         existingReview.setContent(reviewDTO.getContent());
         existingReview.setRate(reviewDTO.getRate());
-        existingReview.setUpdatedAt(LocalDateTime.now());
+        existingReview.setUpdatedAt(LocalDate.now());
 
         MarketReview updatedReview = marketReviewRepository.save(existingReview);
         return modelMapper.map(updatedReview, MarketReviewDTO.class);

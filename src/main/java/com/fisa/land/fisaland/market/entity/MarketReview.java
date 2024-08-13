@@ -2,6 +2,7 @@ package com.fisa.land.fisaland.market.entity;
 
 import java.time.LocalDateTime;
 
+import com.fisa.land.fisaland.common.BaseTimeEntity;
 import com.fisa.land.fisaland.common.User;
 
 import jakarta.persistence.Entity;
@@ -24,7 +25,7 @@ import lombok.ToString;
 
 @ToString
 @Entity
-public class MarketReview {
+public class MarketReview extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
@@ -40,9 +41,5 @@ public class MarketReview {
     private String content;
 
     private double rate;
-
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
 
 }
