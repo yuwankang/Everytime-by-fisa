@@ -25,13 +25,12 @@ public class MarketServiceImpl implements MarketService{
     private ModelMapper modelMapper;
 
 	@Override
-	public MarketDTO.getMarets getMarketList() {
-		List<MarketDTO.getMarket> markets = marketRepository.findAll().stream()
+	public List<MarketDTO.getMarket> getMarketList() {
+		List<MarketDTO.getMarket> markets =  marketRepository.findAll().stream()
 				.map(market -> modelMapper.map(market, MarketDTO.getMarket.class))
 				.collect(Collectors.toList());
-		return MarketDTO.getMarets.builder()
-				.marketList(markets)
-				.build();
+		System.out.println(markets);
+		return markets;
 	}
 
 	@Override

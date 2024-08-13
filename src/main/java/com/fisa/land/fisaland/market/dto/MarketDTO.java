@@ -13,15 +13,6 @@ public class MarketDTO {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	@Getter
-	@Builder
-	@ToString
-	public static class getMarets{
-		List<getMarket> marketList;
-	}
-	
-	@NoArgsConstructor
-	@AllArgsConstructor
-	@Getter
 	@ToString
 	public static class getMarket{
 		private Long marketId;

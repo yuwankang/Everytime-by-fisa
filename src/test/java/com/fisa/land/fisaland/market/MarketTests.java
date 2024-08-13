@@ -16,11 +16,6 @@ public class MarketTests {
 	
 	@Autowired
 	MarketService marketService;
-
-	@Test
-	public void marketGetAllTest() {
-		
-	}
 	
 	@Test
 	public void insertMarketTest() {
