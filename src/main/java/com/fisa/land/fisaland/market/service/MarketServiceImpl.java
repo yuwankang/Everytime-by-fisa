@@ -14,7 +14,6 @@ import com.fisa.land.fisaland.market.repository.MarketRepository;
 
 import jakarta.transaction.Transactional;
 
-@Transactional
 @Service
 public class MarketServiceImpl implements MarketService{
 	
