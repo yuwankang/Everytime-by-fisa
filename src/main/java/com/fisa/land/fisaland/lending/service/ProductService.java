@@ -10,5 +10,7 @@ public interface ProductService {
     Long saveProduct(ProductDTO.CreateProduct createProduct);
 
 	List<getProduct> getProductList();
+	
+	ProductDTO.getProduct getProduct(Long product_id);
     
 }

@@ -8,11 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fisa.land.fisaland.lending.dto.ProductDTO;
-import com.fisa.land.fisaland.lending.dto.ProductDTO.CreateProduct;
 import com.fisa.land.fisaland.lending.dto.ProductDTO.getProduct;
 import com.fisa.land.fisaland.lending.entity.Product;
 import com.fisa.land.fisaland.lending.repository.ProductRepository;
-import com.fisa.land.fisaland.market.dto.MarketDTO;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -55,6 +53,11 @@ public class ProductServiceImpl implements ProductService{
 		
 		return products;
 
+	}
+	
+	public ProductDTO.getProduct getProduct(Long product_id) {
+		Product product = productRepository.findById(product_id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 product id입니다"));
+		return modelMapper.map(product, ProductDTO.getProduct.class);
 	}
 
   
