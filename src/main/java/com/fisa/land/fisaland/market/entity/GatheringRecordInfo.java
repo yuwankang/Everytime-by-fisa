@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fisa.land.fisaland.common.BaseTimeEntity;
+import com.fisa.land.fisaland.common.entity.BaseTimeEntity;
 import com.fisa.land.fisaland.common.entity.User;
 import com.fisa.land.fisaland.market.type.Status;
 
