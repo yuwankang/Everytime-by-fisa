@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fisa.land.fisaland.lending.dto.ProductDTO;
 import com.fisa.land.fisaland.lending.dto.ProductDTO.getProduct;
+import com.fisa.land.fisaland.lending.entity.Product;
 
 public interface ProductService {
 
@@ -11,6 +12,8 @@ public interface ProductService {
 
 	List<getProduct> getProductList();
 	
-	ProductDTO.getProduct getProduct(Long product_id);
+	ProductDTO.getProduct getProduct(Long productId);
     
+	void updateProductStatus(Long productId, Product.Status status);
+	
 }

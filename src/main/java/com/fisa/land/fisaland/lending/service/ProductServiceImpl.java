@@ -38,11 +38,11 @@ public class ProductServiceImpl implements ProductService{
 		        product.setPrice(createProduct.getPrice());
 		        product.setCategory(createProduct.getCategory());
 		        product.setStatus(Product.Status.AVAILABLE);
-		        product.setUser_id(userId);
+		        product.setUserId(userId);
 		
-		        Product savedProduct =productRepository.save(product);
+		        Product savedProduct = productRepository.save(product);
 		        
-		        return savedProduct.getUser_id();
+		        return savedProduct.getUserId();
 		    }
 
 	@Override
@@ -55,10 +55,19 @@ public class ProductServiceImpl implements ProductService{
 
 	}
 	
-	public ProductDTO.getProduct getProduct(Long product_id) {
-		Product product = productRepository.findById(product_id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 product id입니다"));
+	public ProductDTO.getProduct getProduct(Long productId) {
+		Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 product id입니다"));
 		return modelMapper.map(product, ProductDTO.getProduct.class);
 	}
-
+	
+	@Override
+    public void updateProductStatus(Long productId, Product.Status status) {
+        Product product = productRepository.findById(productId)
+            .orElseThrow(() -> new RuntimeException("Product not found"));
+        product.setStatus(status);
+        productRepository.save(product);
+    }
+	
+	
   
 }
