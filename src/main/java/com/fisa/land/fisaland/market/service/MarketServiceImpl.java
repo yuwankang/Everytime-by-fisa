@@ -44,4 +44,11 @@ public class MarketServiceImpl implements MarketService{
 		return marketRepository.save(market).getMarketId();
 	}
 
+	@Override
+	public MarketDTO.getMarket getMarket(Long marketId) {
+		// TODO Auto-generated method stub
+		Market market = marketRepository.findById(marketId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 market id입니다"));
+		return modelMapper.map(market, MarketDTO.getMarket.class);
+	}
+
 }
