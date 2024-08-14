@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -58,7 +59,11 @@ public class LendingReviewsServiceImpl implements LendingReviewsService {
         Optional<LendingReviews> optionalReview = lendingReviewsRepository.findById(reviewId);
         if (optionalReview.isPresent()) {
             LendingReviews review = optionalReview.get();
-            modelMapper.map(reviewDto, review);
+            
+            review.setContent(reviewDto.getContent());
+            review.setRate(reviewDto.getRate());
+            review.setUpdatedAt(LocalDateTime.now()); // 수정 날짜를 현재 시각으로 설정
+            
             LendingReviews updatedReview = lendingReviewsRepository.save(review);
             return modelMapper.map(updatedReview, LendingReviewsDto.class);
         } else {

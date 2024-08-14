@@ -16,6 +16,7 @@ import lombok.ToString;
 
 import java.time.LocalDateTime;
 
+import com.fisa.land.fisaland.common.entity.BaseTimeEntity;
 import com.fisa.land.fisaland.common.entity.User;
 import com.fisa.land.fisaland.lending.entity.Product;
 
@@ -26,7 +27,7 @@ import com.fisa.land.fisaland.lending.entity.Product;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "LendingReviews")
-public class LendingReviews {
+public class LendingReviews extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,12 +39,6 @@ public class LendingReviews {
 
     @Column(name = "rate")
     private Double rate;
-
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
