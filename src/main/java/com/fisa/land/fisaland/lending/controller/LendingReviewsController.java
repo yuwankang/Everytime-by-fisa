@@ -16,7 +16,7 @@ public class LendingReviewsController {
     private LendingReviewsService lendingReviewsService;
 
     //리뷰 등록
-    @PostMapping
+    @PostMapping("/{productId}/review")
     public ResponseEntity<LendingReviewsDto> createReview(@RequestBody LendingReviewsDto reviewDto) {
         LendingReviewsDto createdReview = lendingReviewsService.createReview(reviewDto);
         return ResponseEntity.ok(createdReview);
@@ -45,6 +45,12 @@ public class LendingReviewsController {
     public ResponseEntity<Void> deleteReview(@PathVariable("reviewId") Long reviewId) {
         lendingReviewsService.deleteReview(reviewId);
         return ResponseEntity.noContent().build();
+    }
+    
+    //평점 평균
+    @GetMapping("/averageRate/{productId}")
+    public Double getAverageRate(@PathVariable("productId") Long productId) {
+        return lendingReviewsService.getAverageRateByProductId(productId);
     }
     
 }
