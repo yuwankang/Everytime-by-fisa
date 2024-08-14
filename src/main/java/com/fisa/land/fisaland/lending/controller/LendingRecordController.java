@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fisa.land.fisaland.lending.dto.LendingRecordDto;
-import com.fisa.land.fisaland.lending.dto.LendingRecordStatusUpdateDto;
 import com.fisa.land.fisaland.lending.entity.LendingRecordInfo;
 import com.fisa.land.fisaland.lending.entity.LendingRecords;
 import com.fisa.land.fisaland.lending.service.LendingRecordService;
@@ -54,12 +53,9 @@ public class LendingRecordController {
 	 * */
 	
 	//대여 상태 수정
-    @PutMapping("/status")
+    @PutMapping("/{lendingRecordId}/status")
     public LendingRecordInfo updateLendingRecordStatus(
-    		@RequestBody LendingRecordStatusUpdateDto updateDto) {
-        Long lendingRecordId = updateDto.getLendingRecordId();
-        LendingRecordInfo.LendingStatus status = updateDto.getStatus();
-        
-        return lendingRecordService.updateLendingRecordStatus(lendingRecordId, status);
+            @PathVariable("lendingRecordId") Long lendingRecordId) {
+        return lendingRecordService.updateLendingRecordStatus(lendingRecordId);
     }
 }
