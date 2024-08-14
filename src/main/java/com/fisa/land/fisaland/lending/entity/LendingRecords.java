@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
@@ -17,12 +18,13 @@ import lombok.ToString;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fisa.land.fisaland.common.entity.User;
+import com.fisa.land.fisaland.lending.dto.LendingRecordDto;
 
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "LendingRecords") // 테이블 이름 설정
@@ -61,7 +63,23 @@ public class LendingRecords {
     private User owner; // User 엔티티와의 관계 (소유자)
 
     // LendingRecordInfo와의 1:1 관계 설정
-    @OneToOne
-    @JoinColumn(name = "lending_record_id", referencedColumnName = "lending_record_id", insertable = false, updatable = false)
+    @OneToOne(mappedBy = "lendingRecords", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private LendingRecordInfo lendingRecordInfo; // LendingRecordInfo와의 1:1 관계
+    
+    
+    // 생성 메서드 추가
+    public static LendingRecords createLendingRecords(LendingRecordDto dto) {
+        LendingRecords lendingRecords = new LendingRecords();
+        lendingRecords.setProductId(dto.getProductId());
+        lendingRecords.setBorrowerId(dto.getBorrowerId());
+        lendingRecords.setOwnerId(dto.getOwnerId());
+        lendingRecords.setCreated(LocalDateTime.now());
+
+        // LendingRecordInfo 엔티티 생성 및 설정
+        LendingRecordInfo lendingRecordInfo = LendingRecordInfo.createLendingRecordInfo(dto, lendingRecords);
+        lendingRecords.setLendingRecordInfo(lendingRecordInfo);
+
+        return lendingRecords;
+    }
 }

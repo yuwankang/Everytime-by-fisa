@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToOne;
 
@@ -18,19 +20,20 @@ import lombok.ToString;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fisa.land.fisaland.lending.dto.LendingRecordDto;
+
 
 
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "LendingRecordInfo") // 테이블 이름 설정
 public class LendingRecordInfo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lending_record_id")
     private Long lendingRecordId; // 대여 기록 ID (기본 키)
 
@@ -40,7 +43,7 @@ public class LendingRecordInfo {
     @Column(name = "return_date", nullable = false)
     private LocalDateTime returnDate; // 반납 예정 날짜
 
-    @Column(name = "actual_return_date", nullable = false)
+    @Column(name = "actual_return_date")
     private LocalDateTime actualReturnDate; // 실제 반납 날짜
 
     @Column(name = "status", nullable = false)
@@ -53,9 +56,26 @@ public class LendingRecordInfo {
     @Column(name = "overdue_fee")
     private Integer overdueFee; // 연체료 (NULL 가능)
 
-    @OneToOne(mappedBy = "lendingRecordInfo")
-    private LendingRecords lendingRecords; // LendingRecords와의 1:1 관계
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "lending_record_id")
+    @JsonBackReference
+    private LendingRecords lendingRecords; // LendingRecords와의 1:1 관계    
 
+    // 생성 메서드 추가
+    public static LendingRecordInfo createLendingRecordInfo(LendingRecordDto dto, LendingRecords lendingRecords) {
+        LendingRecordInfo lendingRecordInfo = new LendingRecordInfo();
+        lendingRecordInfo.setLendingRecordId(lendingRecords.getLendingRecordId());
+        lendingRecordInfo.setBorrowDate(dto.getBorrowDate());
+        lendingRecordInfo.setReturnDate(dto.getReturnDate());
+        lendingRecordInfo.setActualReturnDate(null); // 초기 상태
+        lendingRecordInfo.setStatus(LendingStatus.RENTED);
+        lendingRecordInfo.setFee(dto.getFee());
+        lendingRecordInfo.setLendingRecords(lendingRecords);
+
+        return lendingRecordInfo;
+    }
+    
     // 대여 상태 Enum 정의
     public enum LendingStatus {
         RENTED,
