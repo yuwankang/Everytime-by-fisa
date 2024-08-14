@@ -13,4 +13,8 @@ public class MainPageController {
 	   public String getVillagePage() {
 		   return "villageMain";
 	   }
+	   @GetMapping("market")
+	   public String getMarketPage() {
+		   return "marketMain";
+	   }
 }
