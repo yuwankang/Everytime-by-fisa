@@ -30,8 +30,15 @@ public class MainPageController {
 	   public String getMarketPage() {
 		   return "marketMain";
 	   }
+	   
+	   @GetMapping("myGathering")
+	   public String getmyGathering() {
+		   return "myGathering";
+		}
+
 	   @GetMapping("marketJoin")
 	   public String getMarketJoinPage() {
 		   return "marketJoinGathering";
+
 	   }
 }
