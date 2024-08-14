@@ -11,9 +11,9 @@ public class MainPageController {
 	    	return "index";
 	    }
 	   
-	    @GetMapping("/gathering_register")
+	    @GetMapping("/create_gathering")
 	    public String gatheringRegisterPage() {
-	        return "gathering_register"; 
+	        return "create_gathering"; 
 	    }
 	    
 	    @GetMapping("/login")
