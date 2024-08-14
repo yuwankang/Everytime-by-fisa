@@ -17,7 +17,5 @@ public class LendingRecordDto {
     private Long productId;
     private Long borrowerId;
     private Long ownerId;
-    private LocalDateTime borrowDate;
-    private LocalDateTime returnDate;
     private Integer fee;
 }
