@@ -22,8 +22,8 @@ public class LendingReviewsController {
         return ResponseEntity.ok(createdReview);
     }
 
-    //상품 리뷰 리스트 조회
-    @GetMapping("{productId}/reviews")
+    //상품별 리뷰 리스트 조회
+    @GetMapping("/{productId}/reviews")
     public ResponseEntity<List<LendingReviewsDto>> getReviewsByProductId(@PathVariable("productId") Long productId) {
         List<LendingReviewsDto> reviews = lendingReviewsService.getReviewsByProductId(productId);
         return ResponseEntity.ok(reviews);

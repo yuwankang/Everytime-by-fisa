@@ -26,8 +26,8 @@ import com.fisa.land.fisaland.lending.entity.Product;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "LendingReviews")
-public class LendingReviews extends BaseTimeEntity{
+@Table(name = "lending_reviews")  // 테이블 이름 확인
+public class LendingReviews extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,5 +43,4 @@ public class LendingReviews extends BaseTimeEntity{
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
-
 }

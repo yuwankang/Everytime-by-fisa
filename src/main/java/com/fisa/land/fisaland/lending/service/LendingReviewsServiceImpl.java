@@ -13,13 +13,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fisa.land.fisaland.lending.dto.LendingReviewsDto;
 import com.fisa.land.fisaland.lending.entity.LendingReviews;
+import com.fisa.land.fisaland.lending.entity.Product;
 import com.fisa.land.fisaland.lending.repository.LendingReviewsRepository;
+import com.fisa.land.fisaland.lending.repository.ProductRepository;
 
 @Service
 public class LendingReviewsServiceImpl implements LendingReviewsService {
 
     @Autowired
     private LendingReviewsRepository lendingReviewsRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -46,11 +51,19 @@ public class LendingReviewsServiceImpl implements LendingReviewsService {
                       .collect(Collectors.toList());
     }
 
-
     @Transactional
     @Override
     public LendingReviewsDto createReview(LendingReviewsDto reviewDto) {
+        // 상품 조회
+        Optional<Product> productOpt = productRepository.findById(reviewDto.getProductId());
+        if (!productOpt.isPresent()) {
+            throw new RuntimeException("Product not found with id: " + reviewDto.getProductId());
+        }
+        Product product = productOpt.get();
+
+        // 리뷰 엔티티 생성
         LendingReviews review = modelMapper.map(reviewDto, LendingReviews.class);
+        review.setProduct(product); // 상품 설정
         LendingReviews savedReview = lendingReviewsRepository.save(review);
         return modelMapper.map(savedReview, LendingReviewsDto.class);
     }
