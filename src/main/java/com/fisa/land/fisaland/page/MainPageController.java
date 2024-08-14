@@ -5,12 +5,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class MainPageController {
+	
 	   @GetMapping("main")
 	    public String get() {
 	    	return "index";
 	    }
-	   @GetMapping("about")
-	   public String get2() {
-		   return "about";
-	   }
+	   
+	    @GetMapping("/gathering_register")
+	    public String gatheringRegisterPage() {
+	        return "gathering_register"; 
+	    }
+	    
+	    @GetMapping("/login")
+	    public String loginPage() {
+	        return "login"; 
+	    }
 }
