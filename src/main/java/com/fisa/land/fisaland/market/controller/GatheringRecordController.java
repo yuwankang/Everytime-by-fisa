@@ -2,6 +2,7 @@ package com.fisa.land.fisaland.market.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,11 @@ public class GatheringRecordController {
 
 	@GetMapping("/gatherings")
 	public List<GatheringRecordInfoDTO.getGatheringRecord> getGatherings() {
+		return gatheringRecordService.getGatheringRecord();
+	}
+	
+	@GetMapping("/gathering/{gathering_id}")
+	public List<GatheringRecordInfoDTO.getGatheringRecord> getGatheringById(@PathVariable Long gatheringId) {
 		return gatheringRecordService.getGatheringRecord();
 	}
 }

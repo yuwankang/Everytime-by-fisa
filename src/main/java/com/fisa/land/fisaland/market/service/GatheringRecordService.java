@@ -11,4 +11,6 @@ public interface GatheringRecordService {
 	Long saveGatheringRecord(GatheringRecordInfoDTO.setGatheringRecord gethreingRecord);
 	
 	List<GatheringRecordInfoDTO.getGatheringRecord> getGatheringRecord();
+	
+	GatheringRecordInfoDTO.getGatheringRecordDetail getGatheringRecordDetail(Long gatheringRecordId);
 }
