@@ -31,4 +31,8 @@ public class Market extends BaseTimeEntity{
 	private String location;
 	
 	private String description;
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 }

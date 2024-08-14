@@ -3,6 +3,7 @@ package com.fisa.land.fisaland.market.dto;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -33,7 +34,7 @@ public class GatheringRecordInfoDTO {
 	@Getter
 	@Setter
 	@ToString
-	public static class setGatheringRecord{
+	public static class setGatheringRecordInfo{
 		private Long userId;
 		private Long marketId;
 		private Status status;
@@ -47,7 +48,7 @@ public class GatheringRecordInfoDTO {
 	@Setter
 	@Builder
 	@ToString
-	public static class saveGatheringRecord{
+	public static class saveGatheringRecordInfo{
 		private User userId;
 		private Market marketId;
 		private Status status;
@@ -61,12 +62,37 @@ public class GatheringRecordInfoDTO {
 	@Setter
 	@Builder
 	@ToString
-	public static class getGatheringRecord implements Serializable{
+	public static class getGatheringRecordInfo implements Serializable{
 		private Long gatheringRecordInfoId;
 		private String userName;
 		private String marketName;
 		private Status status;
 		private LocalDateTime meetingTime;
+		private String title;
+	}
+	
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@Getter
+	@Setter
+	@Builder
+	@ToString
+	public static class getGatheringRecordInfoDetail implements Serializable{
+		getGatheringRecordInfo getGatheringRecordInfos;
+		List<String> participants;
+	}
+	
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@Getter
+	@Setter
+	@Builder
+	@ToString
+	public static class updateGatheringRecordInfo implements Serializable{
+		private Long userId;
+		private String marketName;
+		private Status status;
+		private String meetingTime;
 		private String title;
 	}
 }

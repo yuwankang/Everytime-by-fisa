@@ -1,14 +1,15 @@
 package com.fisa.land.fisaland.market.service;
 
-import java.util.*;
-import com.fisa.land.fisaland.market.dto.GatheringRecordInfoDTO;
+import java.util.List;
 
-import jakarta.transaction.Transactional;
+import com.fisa.land.fisaland.market.dto.GatheringRecordDTO;
 
-@Transactional
 public interface GatheringRecordService {
-
-	Long saveGatheringRecord(GatheringRecordInfoDTO.setGatheringRecord gethreingRecord);
 	
-	List<GatheringRecordInfoDTO.getGatheringRecord> getGatheringRecord();
+    Long joinGathering(Long userId, Long gatheringRecordInfoId);
+    
+    void deleteGatheringRecord(Long gatheringRecordId);
+
+    List<GatheringRecordDTO> getGatheringRecordsByUserId(Long userId);
+    
 }

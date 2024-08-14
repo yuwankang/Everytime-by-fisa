@@ -1,9 +1,5 @@
 package com.fisa.land.fisaland.market.service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,81 +8,55 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fisa.land.fisaland.common.entity.User;
-import com.fisa.land.fisaland.common.respository.UserRepository;
-import com.fisa.land.fisaland.market.dto.GatheringRecordInfoDTO;
-import com.fisa.land.fisaland.market.dto.MarketReviewDTO;
+import com.fisa.land.fisaland.market.dto.GatheringRecordDTO;
+import com.fisa.land.fisaland.market.entity.GatheringRecord;
 import com.fisa.land.fisaland.market.entity.GatheringRecordInfo;
-import com.fisa.land.fisaland.market.entity.Market;
+import com.fisa.land.fisaland.market.repository.GatheringRecordRepository;
+import com.fisa.land.fisaland.common.respository.UserRepository;
 import com.fisa.land.fisaland.market.repository.GatheringRecordInfoRepository;
-import com.fisa.land.fisaland.market.repository.MarketRepository;
-import com.fisa.land.fisaland.market.type.Status;
 
 @Service
-public class GatheringRecordServiceImpl implements GatheringRecordService{
-	
-	@Autowired
-	UserRepository userRepository;
-	
-	@Autowired
-	MarketRepository marketRepository;
-	
-	@Autowired
-	GatheringRecordInfoRepository gatheringRecordInfoRepository;
+public class GatheringRecordServiceImpl implements GatheringRecordService {
+
+    @Autowired
+    private GatheringRecordRepository gatheringRecordRepository;
+    
+    @Autowired
+    private UserRepository userRepository;
+    
+    @Autowired
+    private GatheringRecordInfoRepository gatheringRecordInfoRepository;
 
     @Autowired
     private ModelMapper modelMapper;
-    
-    public String formatMeetingTime(LocalDateTime meetingTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return meetingTime.format(formatter);
-    }
-    
-    public LocalDateTime parseMeetingTime(String meetingTimeString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return LocalDateTime.parse(meetingTimeString, formatter);
-    }
-    
-	@Override
-	public Long saveGatheringRecord(GatheringRecordInfoDTO.setGatheringRecord gatheringRecord) {
-		// TODO Auto-generated method stub
-		
-		User user = userRepository.findById(gatheringRecord.getUserId()).orElseThrow();
-		Market market = marketRepository.findById(gatheringRecord.getMarketId()).orElseThrow();
-		GatheringRecordInfoDTO.saveGatheringRecord saveGatheringRecord = GatheringRecordInfoDTO.saveGatheringRecord.builder()
-				.marketId(market)
-				.userId(user)
-				.meetingTime(LocalDateTime.parse(gatheringRecord.getMeetingTime()))
-				.status(gatheringRecord.getStatus())
-				.title(gatheringRecord.getTitle())
-				.build();
-		GatheringRecordInfo gatheringRecordInfo = modelMapper.map(saveGatheringRecord, GatheringRecordInfo.class);
-		return gatheringRecordInfoRepository.save(gatheringRecordInfo).getGetherRecordId();
-		
-	}
 
-	/*
-	 * 
-	 * private String userName;
-		private String marketName;
-		private Status status;
-		private String meetingTime;
-		private String title;
-	 */
-	@Override
-	public List<GatheringRecordInfoDTO.getGatheringRecord> getGatheringRecord() {
-		// TODO Auto-generated method stub
-		List<GatheringRecordInfo> list = gatheringRecordInfoRepository.findAllByStatus(Status.BEFORE);
-		return list.stream().map(m ->{
-			return GatheringRecordInfoDTO.getGatheringRecord.builder()
-				.gatheringRecordInfoId(m.getGetherRecordId())
-				.userName(m.getUser().getUsername())
-				.marketName(m.getMarket().getName())
-				.title(m.getTitle())
-				.status(m.getStatus())
-				.meetingTime(m.getMeetingTime())
-				.build();
-		}).collect(Collectors.toList());
-	
-	}
+    @Override
+    public Long joinGathering(Long userId, Long gatheringRecordInfoId) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+        
+        GatheringRecordInfo gatheringRecordInfo = gatheringRecordInfoRepository.findById(gatheringRecordInfoId)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid gathering record info ID"));
 
+        GatheringRecord gatheringRecord = GatheringRecord.builder()
+            .user(user)
+            .gatheringRecordInfo(gatheringRecordInfo)
+            .build();
+
+        GatheringRecord savedRecord = gatheringRecordRepository.save(gatheringRecord);
+        return savedRecord.getId();
+    }
+
+    @Override
+    public void deleteGatheringRecord(Long gatheringRecordId) {
+        gatheringRecordRepository.deleteById(gatheringRecordId);
+    }
+
+    @Override
+    public List<GatheringRecordDTO> getGatheringRecordsByUserId(Long userId) {
+        List<GatheringRecord> gatheringRecords = gatheringRecordRepository.findByUser_UserId(userId);
+        return gatheringRecords.stream()
+            .map(record -> modelMapper.map(record, GatheringRecordDTO.class))
+            .collect(Collectors.toList());
+    }
 }

@@ -35,7 +35,7 @@ import lombok.Setter;
 public class GatheringRecordInfo extends BaseTimeEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long getherRecordId;
+	private Long gatheringRecordInfoId;
 	
 	@JoinColumn(name="userId")
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -54,4 +54,11 @@ public class GatheringRecordInfo extends BaseTimeEntity{
 	
 	@Column(nullable=false)
 	private String title;
+	
+	public void setGatheringRecordInfo(Market market, Status status, LocalDateTime meetingTime, String title) {
+		this.market = market;
+		this.status = status;
+		this.meetingTime = meetingTime;
+		this.title = title;
+	}
 }
