@@ -45,4 +45,12 @@ public class MainPageController {
 	   public String getMarketJoinPage() {
 		   return "marketJoinGathering";
 	   }
+	   @GetMapping("myBorrow")
+	   public String getmyBorrow() {
+		   return "myBorrow";
+		}
+	   @GetMapping("myLend")
+	   public String getmyLend() {
+		   return "myLend";
+		}
 }

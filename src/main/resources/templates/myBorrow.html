@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borrower Records</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #2c3e50, #34495e); /* 그라데이션 배경 */
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 30px auto;
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border: 1px solid #ced6e0;
+            position: relative;
+        }
+        h1 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 26px;
+            font-weight: 600;
+            text-align: center;
+        }
+        #user-info {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background-color: #f1f2f6;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ced6e0;
+        }
+        #user-info div {
+            margin-bottom: 12px;
+            font-size: 16px;
+            color: #2c3e50;
+        }
+        .buttons {
+            text-align: right;
+        }
+        .buttons button {
+            background-color: #3498db;
+            border: none;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+            transition: background-color 0.3s ease;
+        }
+        .buttons button:hover {
+            background-color: #2980b9;
+        }
+        .record {
+            border-bottom: 1px solid #ced6e0;
+            padding: 15px 0;
+        }
+        .record:last-child {
+            border-bottom: none;
+        }
+        .title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #34495e;
+        }
+        .info {
+            margin-top: 8px;
+            font-size: 15px;
+            color: #7f8c8d;
+        }
+        .info strong {
+            color: #2c3e50;
+        }
+        .no-records {
+            text-align: center;
+            font-size: 18px;
+            color: #34495e;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Borrower Records</h1>
+        <div id="user-info">
+            <!-- 사용자 정보가 삽입됩니다 -->
+            <div id="user-info-content">
+                <!-- 사용자 정보와 버튼이 삽입됩니다 -->
+            </div>
+        </div>
+        <div id="records-container">
+            <!-- 대여 기록 정보가 삽입됩니다 -->
+        </div>
+    </div>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        function loadGatherings() {
+            // localStorage에서 전체 userData 객체를 가져오기
+            var userData = localStorage.getItem('userData'); 
+            if (userData) {
+                // 문자열로 저장된 JSON을 객체로 변환
+                userData = JSON.parse(userData); 
+                var userId = userData.userId;
+                var username = userData.username;
+                var userClass = userData.userClass;
+                
+                if (!userId) {
+                    console.error('User ID가 없습니다. 로그인이 필요합니다.');
+                    return;
+                }
+
+                // 우측 상단에 사용자 정보 표시
+                $('#user-info').html(`
+                    <div>반: ${userClass} | 이름: ${username}</div>
+                    <div class="buttons">
+                        <button onclick="window.location.href='/userinfo';">회원정보</button>
+                        <button id="logout-btn">로그아웃</button>
+                    </div>
+                `);
+                
+                // 로그아웃 버튼 클릭 시 이벤트 처리
+                $('#logout-btn').on('click', function() {
+                    $.ajax({
+                        url: 'http://127.0.0.1:8080/common/user/logout',
+                        method: 'POST',
+                        success: function() {
+                            // localStorage 데이터 삭제
+                            localStorage.clear();
+                            alert('로그아웃 되었습니다.');
+                            window.location.href = '/main'; // 로그아웃 후 메인 페이지로 리디렉션
+                        },
+                        error: function(err) {
+                            console.error('로그아웃 실패:', err);
+                            alert('로그아웃에 실패했습니다. 다시 시도해주세요.');
+                        }
+                    });
+                });
+                
+                // 데이터를 가져올 URL
+                var url = 'http://127.0.0.1:8080/village/products/borrower/' + userId;
+
+                // AJAX 요청을 통해 데이터를 가져옵니다.
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    contentType: 'application/json',
+                    success: function(response) {
+                        // 서버에서 반환된 응답의 형식이 올바른지 확인
+                        if (!response || !Array.isArray(response)) {
+                            console.error('올바르지 않은 응답 형식:', response);
+                            $('#records-container').html('<p>데이터 형식 오류가 발생했습니다.</p>');
+                            return;
+                        }
+
+                        // borrower.userId와 localStorage의 userId가 일치하는 항목만 필터링
+                        var filteredRecords = response.filter(function(record) {
+                            return record.borrower.userId == userId;
+                        });
+
+                        // 필터링된 데이터를 표시
+                        var recordsContainer = $('#records-container');
+                        if (filteredRecords.length > 0) {
+                            var recordHtml = filteredRecords.map(function(record) {
+                            	 var productName = record.product.product_name;
+                            	var borrowDate = new Date(record.lendingRecordInfo.borrowDate).toLocaleString();
+                                var returnDate = new Date(record.lendingRecordInfo.returnDate).toLocaleString();
+                                var fee = record.lendingRecordInfo.fee;
+                                var ownerName = record.owner.username;
+                                var ownerEmail = record.owner.email;
+                                var ownerClass = record.owner.userClass;
+
+                                return `
+                                    <div class="record">
+                                <div class="title">Product: ${productName}</div> <!-- product_name을 제목에 추가 -->
+                                        <div class="title">Owner: ${ownerName}</div>
+                                        <div class="info">
+                                            <strong>Email:</strong> ${ownerEmail}
+                                        </div>
+                                        <div class="info">
+                                            <strong>Class:</strong> ${ownerClass}
+                                        </div>
+                                        <div class="info">
+                                            <strong>Borrow Date:</strong> ${borrowDate}
+                                        </div>
+                                        <div class="info">
+                                            <strong>Return Date:</strong> ${returnDate}
+                                        </div>
+                                        <div class="info">
+                                            <strong>Fee:</strong> ${fee} 원
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('');
+                            recordsContainer.html(recordHtml);
+                        } else {
+                            recordsContainer.html('<p>해당 유저의 대여 기록이 없습니다.</p>');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX 요청 실패:', status, error);
+                        alert('데이터를 가져오는 데 실패했습니다.');
+                    }
+                });
+            } else {
+                console.error('User data가 없습니다. 로그인이 필요합니다.');
+                window.location.href = '/login'; // 로그인 페이지로 리디렉션
+            }
+        }
+
+        // 페이지 로드 시 loadGatherings 함수 호출
+        loadGatherings();
+    });
+    </script>
+</body>
+</html>
