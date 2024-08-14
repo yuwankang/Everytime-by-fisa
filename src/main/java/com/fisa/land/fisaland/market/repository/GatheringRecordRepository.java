@@ -14,11 +14,12 @@ import com.fisa.land.fisaland.market.entity.GatheringRecordInfo;
 @Repository
 public interface GatheringRecordRepository extends JpaRepository<GatheringRecord, Long>{
 	
-	@Query("SELECT gr.id.user FROM GatheringRecord gr WHERE gr.id.getheringRecordInfo = :gatheringRecordInfo")
+	@Query("SELECT gr.user FROM GatheringRecord gr WHERE gr.gatheringRecordInfo = :gatheringRecordInfo")
 	List<User> findUsersByGatheringRecordInfo(@Param("gatheringRecordInfo") GatheringRecordInfo gatheringRecordInfo);
 
 	void deleteById(Long gatheringRecordInfoId);
 	
-	List<GatheringRecord> findByUserId(Long userId);
+	List<GatheringRecord> findByUser_UserId(Long userId);
+
 }
 
