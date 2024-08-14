@@ -40,7 +40,11 @@ public class LendingRecordController {
         return lendingRecordService.getLendingRecordsByOwner(ownerId);
     }
 
-	//연체료 조회
+    // 대여자의 총 연체료를 조회
+    @GetMapping("/borrower/{borrowerId}/totalOverdueFee")
+    public Integer getTotalOverdueFeeByBorrower(@PathVariable("borrowerId") Long borrowerId) {
+        return lendingRecordService.getTotalOverdueFeesByBorrower(borrowerId);
+    }
 	
 	/* 반납 시 연체료 세팅 
 	 * 밀린 날짜 * 2 * 대여료 

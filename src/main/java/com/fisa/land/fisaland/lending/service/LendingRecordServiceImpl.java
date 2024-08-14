@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fisa.land.fisaland.lending.dto.LendingRecordDto;
+import com.fisa.land.fisaland.lending.entity.LendingRecordInfo;
 import com.fisa.land.fisaland.lending.entity.LendingRecords;
 import com.fisa.land.fisaland.lending.repository.LendingRecordRepository;
 
@@ -35,5 +36,15 @@ public class LendingRecordServiceImpl implements LendingRecordService{
 	public List<LendingRecords> getLendingRecordsByOwner(Long ownerId) {
 		return lendingRecordsRepository.findByOwnerId(ownerId);
 	}
+
+	@Override
+    public Integer getTotalOverdueFeesByBorrower(Long borrowerId) {
+        List<LendingRecords> lendingRecords = getLendingRecordsByBorrower(borrowerId);
+        return lendingRecords.stream()
+                .map(LendingRecords::getLendingRecordInfo)
+                .filter(info -> info != null && info.getOverdueFee() != null)
+                .mapToInt(LendingRecordInfo::getOverdueFee)
+                .sum();
+    }
 
 }

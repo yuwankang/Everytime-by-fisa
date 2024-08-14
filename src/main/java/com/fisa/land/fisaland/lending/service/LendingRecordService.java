@@ -12,4 +12,6 @@ public interface LendingRecordService {
 	List<LendingRecords> getLendingRecordsByBorrower(Long borrowerId);
 	
 	List<LendingRecords> getLendingRecordsByOwner(Long ownerId);
+	
+	Integer getTotalOverdueFeesByBorrower(Long borrowerId);
 }
