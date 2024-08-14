@@ -9,29 +9,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fisa.land.fisaland.market.dto.GatheringRecordInfoDTO;
-import com.fisa.land.fisaland.market.service.GatheringRecordService;
+import com.fisa.land.fisaland.market.service.GatheringRecordInfoService;
 
 import java.util.*;
 
 @RestController
 @RequestMapping("market")
-public class GatheringRecordController {
+public class GatheringRecordInfoController {
 	
 	@Autowired
-	GatheringRecordService gatheringRecordService;
+	GatheringRecordInfoService gatheringRecordInfoService;
 	
 	@PostMapping("/gathering")
 	public Long saveGatheringRecord(@RequestBody GatheringRecordInfoDTO.setGatheringRecord gatheringRecordInfoDto) {
-		return gatheringRecordService.saveGatheringRecord(gatheringRecordInfoDto);
+		return gatheringRecordInfoService.saveGatheringRecord(gatheringRecordInfoDto);
 	}
 
 	@GetMapping("/gatherings")
 	public List<GatheringRecordInfoDTO.getGatheringRecord> getGatherings() {
-		return gatheringRecordService.getGatheringRecord();
+		return gatheringRecordInfoService.getGatheringRecord();
 	}
 	
 	@GetMapping("/gathering/{gathering_id}")
 	public GatheringRecordInfoDTO.getGatheringRecordDetail getGatheringById(@PathVariable Long gatheringId) {
-		return gatheringRecordService.getGatheringRecordDetail(gatheringId);
+		return gatheringRecordInfoService.getGatheringRecordDetail(gatheringId);
 	}
 }

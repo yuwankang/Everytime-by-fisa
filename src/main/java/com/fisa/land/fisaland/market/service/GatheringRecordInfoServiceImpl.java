@@ -23,7 +23,7 @@ import com.fisa.land.fisaland.market.repository.MarketRepository;
 import com.fisa.land.fisaland.market.type.Status;
 
 @Service
-public class GatheringRecordServiceImpl implements GatheringRecordService{
+public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoService{
 	
 	@Autowired
 	UserRepository userRepository;
