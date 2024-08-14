@@ -44,6 +44,6 @@ public class GatheringRecordInfoController {
 	
 	@DeleteMapping("/gathering/{gathering_id}")
 	public Long deleteGatheringById(@PathVariable Long gatheringId) {
-		return gatheringRecordInfoService.deleteGathringRecordInfo(gatheringId);
+		return gatheringRecordInfoService.deleteGatheringRecordInfo(gatheringId);
 	}
 }
