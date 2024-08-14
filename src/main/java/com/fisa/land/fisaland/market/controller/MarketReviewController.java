@@ -48,4 +48,9 @@ public class MarketReviewController {
     public void deleteReview(@PathVariable("id") Long id) {
         marketReviewService.deleteReview(id);
     }
+    
+    @GetMapping("/user/{userId}/reviews")
+    public List<MarketReviewDTO> getReviewsByUserId(@PathVariable("userId") Long userId) {
+        return marketReviewService.getReviewsByUserId(userId);
+    }
 }
