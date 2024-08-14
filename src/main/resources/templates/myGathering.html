@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내가 만든 모임 페이지</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #000000, #434343); /* 검정색 그라데이션 배경 */
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #333333;
+            color: #ffffff;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid #555555;
+            position: relative; /* 우측 상단 텍스트 위치를 위해 position을 relative로 설정 */
+        }
+        .header .info {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #cccccc;
+        }
+        .header .user-info { /* 우측 상단 텍스트 스타일 */
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 12px;
+            color: #cccccc;
+            text-align: right;
+            display: flex;
+            align-items: center;
+            gap: 10px; /* 요소 간의 간격 */
+        }
+        .header .user-info .buttons {
+            display: flex;
+            gap: 10px; /* 버튼 간의 간격 */
+        }
+        .header .user-info button {
+            background-color: #555555;
+            border: none;
+            color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .header .user-info button:hover {
+            background-color: #777777;
+        }
+        .container {
+            padding: 20px;
+        }
+        .section-title {
+            background-color: #444444;
+            padding: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+        }
+        .gathering-info {
+            background-color: #555555;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+        .gathering-info .title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+        .gathering-info .info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .gathering-info .info div {
+            background-color: #666666;
+            border-radius: 10px;
+            padding: 5px 10px;
+            font-size: 14px;
+            color: #ffffff;
+        }
+        .gathering-info .status {
+            text-align: right;
+            margin-top: 10px;
+        }
+        .gathering-info .status .btn {
+            background-color: #777777;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #ffffff;
+        }
+        .gathering-info .status .btn:hover {
+            background-color: #999999;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>내가 만든 모임 페이지</h1>
+
+        <div class="user-info" id="user-info">
+            <!-- 여기에 className과 userName이 표시됩니다 -->
+        </div>
+    </div>
+    <div class="container">
+        <div class="section-title">현재 내가 만든 모임</div>
+        <div id="gathering-records">
+            <!-- 현재 모임 정보가 여기에 삽입됩니다 -->
+        </div>
+
+        <div class="section-title">지난 모임</div>
+        <div id="past-gatherings">
+            <!-- 지난 모임 정보가 여기에 삽입됩니다 -->
+        </div>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script>
+    
+    $(document).ready(function() {
+        function loadGatherings() {
+
+            // localStorage에서 전체 userData 객체를 가져오기
+            var userData = localStorage.getItem('userData'); 
+
+            if (userData) {
+                // 문자열로 저장된 JSON을 객체로 변환
+                userData = JSON.parse(userData); 
+                var userId = userData.userId;
+                var username = userData.username;
+                var userClass = userData.userClass;
+                
+                if (!userId) {
+                    console.error('User ID가 없습니다. 로그인이 필요합니다.');
+                    return;
+                }
+
+                // 우측 상단에 사용자 정보 표시
+                $('#user-info').html(`
+                    <div>반: ${userClass} | 이름: ${username}</div>
+                    <div class="buttons">
+                        <button onclick="window.location.href='/userinfo';">회원정보</button>
+                        <button id="logout-btn">로그아웃</button>
+                    </div>
+                `);
+
+                // 로그아웃 버튼 클릭 시 이벤트 처리
+                $('#logout-btn').on('click', function() {
+                    $.ajax({
+                        url: 'http://127.0.0.1:8080/common/user/logout',
+                        method: 'POST',
+                        success: function() {
+                            // localStorage 데이터 삭제
+                            localStorage.clear();
+                            alert('로그아웃 되었습니다.');
+                            window.location.href = '/main'; // 로그아웃 후 메인 페이지로 리디렉션
+                        },
+                        error: function(err) {
+                            console.error('로그아웃 실패:', err);
+                            alert('로그아웃에 실패했습니다. 다시 시도해주세요.');
+                        }
+                    });
+                });
+
+                var url = 'http://127.0.0.1:8080/market/' + userId + '/gatherings';
+
+                // 여기서 AJAX 요청 등을 진행합니다.
+            } else {
+                console.error('User 데이터가 없습니다. 로그인이 필요합니다.');
+            }
+
+            $.ajax({
+                url: url,
+                method: 'GET',
+                contentType: 'application/json',
+                success: function(response) {
+                    if (!response || !response.getGatheringRecordInfoBefore || !response.getGatheringRecordInfoAfter) {
+                        console.error('올바르지 않은 응답 형식:', response);
+                        return;
+                    }
+
+                    // 현재 모임 정보 출력
+                    var gatheringRecords = response.getGatheringRecordInfoBefore;
+                    var gatheringHtml = '';
+                    gatheringRecords.forEach(function(record) {
+                        gatheringHtml += '<div class="gathering-info">';
+                        gatheringHtml += '<div class="title">' + record.title + '</div>';
+                        gatheringHtml += '<div class="info">';
+                        gatheringHtml += '<div>작성자: ' + record.userName + '</div>';
+                        gatheringHtml += '<div>시장: ' + record.marketName + '</div>';
+                        gatheringHtml += '</div>';
+                        gatheringHtml += '<div class="info">';
+                        gatheringHtml += '<div>모임 시간: ' + new Date(record.meetingTime).toLocaleString() + '</div>';
+                        gatheringHtml += '</div>';
+                        gatheringHtml += '<div class="status">모임 상태: <span class="btn">' + record.status + '</span></div>';
+                        gatheringHtml += '</div>';
+                    });
+                    $('#gathering-records').html(gatheringHtml);
+
+                    // 지난 모임 정보 출력
+                    var pastGatherings = response.getGatheringRecordInfoAfter;
+                    var pastHtml = '';
+                    pastGatherings.forEach(function(record) {
+                        pastHtml += '<div class="gathering-info">';
+                        pastHtml += '<div class="title">' + record.title + '</div>';
+                        pastHtml += '<div class="info">';
+                        pastHtml += '<div>작성자: ' + record.userName + '</div>';
+                        pastHtml += '<div>시장: ' + record.marketName + '</div>';
+                        pastHtml += '</div>';
+                        pastHtml += '<div class="info">';
+                        pastHtml += '<div>모임 시간: ' + new Date(record.meetingTime).toLocaleString() + '</div>';
+                        pastHtml += '</div>';
+                        pastHtml += '<div class="status">모임 상태: <span class="btn">' + record.status + '</span></div>';
+                        pastHtml += '</div>';
+                    });
+                    $('#past-gatherings').html(pastHtml);
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX 요청 실패:', status, error);
+                    alert('모임 정보를 불러오는데 실패했습니다. 나중에 다시 시도해주세요.');
+                }
+            });
+        }
+
+        // 페이지 로드 시 자동으로 모임 정보 가져오기
+        loadGatherings();
+    });
+
+    </script>
+</body>
+</html>

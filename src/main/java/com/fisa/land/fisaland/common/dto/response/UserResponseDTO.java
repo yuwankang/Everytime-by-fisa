@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString
 public class UserResponseDTO {
 
-	private String userId;
+	private Long userId;
 	
 	private String username;
 
