@@ -17,4 +17,6 @@ public interface GatheringRecordInfoService {
 	Long updateGatheringRecordInfo(Long gatheringRecordInfoId, GatheringRecordInfoDTO.updateGatheringRecordInfo updateGatheringRecordInfo);
 	
 	Long deleteGatheringRecordInfo(Long gatheringRecordInfoId);
+	
+	GatheringRecordInfoDTO.getMyGatheringList getMyGatheringList(Long userId);
 }

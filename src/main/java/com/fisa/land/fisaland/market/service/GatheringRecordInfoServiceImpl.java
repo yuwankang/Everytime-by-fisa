@@ -3,6 +3,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
@@ -144,6 +145,38 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
 		// TODO Auto-generated method stub
 		gatheringRecordInfoRepository.deleteById(gatheringRecordInfoId);
 		return gatheringRecordInfoId;
+	}
+	
+	@Override
+	public GatheringRecordInfoDTO.getMyGatheringList getMyGatheringList(Long userId) {
+		List<GatheringRecordInfo> gatheringRecordInfoBefore = gatheringRecordInfoRepository.findAllByUserUserIdAndStatus(userId, Status.BEFORE);
+		List<GatheringRecordInfoDTO.getGatheringRecordInfo> gatheringRecordInfoDtoBefore = gatheringRecordInfoBefore.stream().map(m->{
+			return GatheringRecordInfoDTO.getGatheringRecordInfo.builder()
+			.gatheringRecordInfoId(m.getGatheringRecordInfoId())
+			.userName(m.getUser().getUsername())
+			.marketName(m.getMarket().getName())
+			.status(m.getStatus())
+			.meetingTime(m.getMeetingTime())
+			.title(m.getTitle())
+			.build();
+		}).toList();
+		
+		List<GatheringRecordInfo> gatheringRecordInfoAfter = gatheringRecordInfoRepository.findAllByUserUserIdAndStatus(userId, Status.AFTER);
+		List<GatheringRecordInfoDTO.getGatheringRecordInfo> gatheringRecordInfoDtoAfter = gatheringRecordInfoAfter.stream().map(m->{
+			return GatheringRecordInfoDTO.getGatheringRecordInfo.builder()
+			.gatheringRecordInfoId(m.getGatheringRecordInfoId())
+			.userName(m.getUser().getUsername())
+			.marketName(m.getMarket().getName())
+			.status(m.getStatus())
+			.meetingTime(m.getMeetingTime())
+			.title(m.getTitle())
+			.build();
+		}).toList();
+		
+		return GatheringRecordInfoDTO.getMyGatheringList.builder()
+				.getGatheringRecordInfoBefore(gatheringRecordInfoDtoBefore)
+				.getGatheringRecordInfoAfter(gatheringRecordInfoDtoAfter)
+				.build();
 	}
 
 }
