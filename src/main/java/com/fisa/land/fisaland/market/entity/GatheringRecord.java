@@ -27,7 +27,7 @@ public class GatheringRecord extends BaseTimeEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long gatheringRecordId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

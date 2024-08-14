@@ -44,7 +44,6 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
     }
 	@Override
 	public Long saveGatheringRecordInfo(GatheringRecordInfoDTO.setGatheringRecordInfo gatheringRecord) {
-		// TODO Auto-generated method stub
 		
 		User user = userRepository.findById(gatheringRecord.getUserId()).orElseThrow();
 		Market market = marketRepository.findById(gatheringRecord.getMarketId()).orElseThrow();
@@ -69,7 +68,7 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
 	 */
 	@Override
 	public List<GatheringRecordInfoDTO.getGatheringRecordInfo> getGatheringRecordInfo() {
-		// TODO Auto-generated method stub
+
 		List<GatheringRecordInfo> list = gatheringRecordInfoRepository.findAllByStatus(Status.BEFORE);
 		return list.stream().map(m ->{
 			return GatheringRecordInfoDTO.getGatheringRecordInfo.builder()
@@ -94,7 +93,6 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
 	@Override
 	public GatheringRecordInfoDTO.getGatheringRecordInfoDetail getGatheringRecordInfoDetail(
 			Long gatheringRecordId) {
-		// TODO Auto-generated method stub
 		
 		GatheringRecordInfo gatheringRecordInfo = gatheringRecordInfoRepository.findById(gatheringRecordId).orElseThrow(()-> new IllegalArgumentException("존재하지 않는 모임입니다"));
 		GatheringRecordInfoDTO.getGatheringRecordInfo gatheringRecord = GatheringRecordInfoDTO.getGatheringRecordInfo.builder()
@@ -118,7 +116,6 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
 
 	@Override
 	public Long updateGatheringRecordInfo(Long gatheringRecordInfoId, GatheringRecordInfoDTO.updateGatheringRecordInfo updateGatheringRecordInfo) {
-		// TODO Auto-generated method stub
 		
 		/*this.market = market;
 		this.status = status;
@@ -139,9 +136,9 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
 	}
 
 	@Override
-	public Long deleteGathringRecordInfo(Long gatheringRecordInfoId) {
+	public Long deleteGatheringRecordInfo(Long gatheringRecordInfoId) {
 		// TODO Auto-generated method stub
-		gatheringRecordRepository.deleteById(gatheringRecordInfoId);
+		gatheringRecordInfoRepository.deleteById(gatheringRecordInfoId);
 		return gatheringRecordInfoId;
 	}
 
