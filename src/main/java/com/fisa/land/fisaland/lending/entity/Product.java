@@ -1,12 +1,12 @@
-package com.fisa.land.fisaland.common.entity;
+package com.fisa.land.fisaland.lending.entity;
 
+import com.fisa.land.fisaland.common.entity.BaseTimeEntity;
 
-import java.time.LocalDateTime;
-
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,41 +19,38 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-
 @Entity
-public class Product {
+public class Product extends BaseTimeEntity{
+
 	@Id
-	private long product_id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long productId;
 	
-	private long user_id;
+	private Long user_id;
 	private String product_name;
 	private String description;
 	
 	@Enumerated(EnumType.STRING)
 	private Status status;  // enum 타입으로 선언해야 합니다.
 	
-	private int price;
+	private int price;	
 	
 	@Enumerated(EnumType.STRING)
 	private Category category;  // enum 타입으로 선언해야 합니다.
-	
-	@Column(updatable = false)  // created_at은 생성 시에만 설정되므로 업데이트되지 않도록 설정
-	private LocalDateTime created_at;
-	
-	private LocalDateTime updated_at;
-	
-	// enum 정의는 클래스 내부에 위치시킵니다.
-	public enum Status {
+    
+    
+    // enum 정의는 클래스 내부에 위치시킵니다.
+    public enum Status {
         AVAILABLE,
-        RENTED,
-        DELETED
-    }
+        RENTED
+    } 
 
     public enum Category {
         CLOTHING,
         BOOKS,
         ACCESSORIES,
         ELECTRONICS,
-        TOYS
+        TOYS,
+        OTHERS
     }
 }
