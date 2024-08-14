@@ -66,8 +66,8 @@ public class LendingRecordInfo {
     public static LendingRecordInfo createLendingRecordInfo(LendingRecordDto dto, LendingRecords lendingRecords) {
         LendingRecordInfo lendingRecordInfo = new LendingRecordInfo();
         lendingRecordInfo.setLendingRecordId(lendingRecords.getLendingRecordId());
-        lendingRecordInfo.setBorrowDate(dto.getBorrowDate());
-        lendingRecordInfo.setReturnDate(dto.getReturnDate());
+        lendingRecordInfo.setBorrowDate(LocalDateTime.now());
+        lendingRecordInfo.setReturnDate(LocalDateTime.now().plusWeeks(1));
         lendingRecordInfo.setActualReturnDate(null); // 초기 상태
         lendingRecordInfo.setStatus(LendingStatus.RENTED);
         lendingRecordInfo.setFee(dto.getFee());

@@ -16,5 +16,5 @@ public interface LendingRecordService {
 	
 	Integer getTotalOverdueFeesByBorrower(Long borrowerId);
 	
-	LendingRecordInfo updateLendingRecordStatus(Long lendingRecordId, LendingRecordInfo.LendingStatus newStatus);
+	LendingRecordInfo updateLendingRecordStatus(Long lendingRecordId);
 }
