@@ -53,6 +53,7 @@ public class User extends BaseTimeEntity {
         this.password = userDto.getPassword();
         this.phone = userDto.getPhone();
         this.userClass = userDto.getUserClass();
+        this.setUpdatedAt(LocalDateTime.now());
         return this;
     }
 }

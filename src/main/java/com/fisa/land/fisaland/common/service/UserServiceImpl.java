@@ -93,6 +93,7 @@ public class UserServiceImpl implements UserService{
             throw new BusinessLoginException(ExceptionList.USER_NOT_ACTIVATED);
         }
 
+        //업데이트 시간만 업데이트
         user.update(userDto);
         userRepository.save(user);
 
