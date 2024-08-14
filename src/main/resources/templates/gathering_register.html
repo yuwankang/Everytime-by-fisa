@@ -37,19 +37,19 @@
             <!-- Register -->
             <article id="register">
                 <h2 class="major">게시글 등록</h2>
-                <form method="post" action="#">
+                <form id="gatheringForm" method="post" action="#">
                     <div class="fields">
                         <div class="field half">
                             <label for="title">게시글 제목</label>
-                            <input type="text" name="title" id="title" placeholder="게시글 제목 입력" />
+                            <input type="text" name="title" id="title" placeholder="게시글 제목 입력" required />
                         </div>
                         <div class="field half">
                             <label for="time">모임 시간</label>
-                            <input type="text" name="time" id="time" placeholder="모임 시간 입력" />
+                            <input type="datetime-local" name="time" id="time" placeholder="모임 시간 입력" required />
                         </div>
                         <div class="field">
                             <label for="restaurant">음식점 선택</label>
-                            <select name="restaurant" id="restaurant">
+                            <select name="restaurant" id="restaurant" required>
                                 <!-- 옵션이 JavaScript로 동적으로 추가될 것입니다 -->
                             </select>
                         </div>
@@ -89,7 +89,6 @@
                 url: 'http://127.0.0.1:8080/getSessionData',
                 method: 'GET',
                 success: function(data) {
-                    // JSON 응답에서 userId를 가져와서 h2 태그에 추가
                     var userId = data.userId;
                     $('#user-id-display').text("User ID: " + userId);
                 },
@@ -103,7 +102,7 @@
                 url: 'http://127.0.0.1:8080/markets',
                 method: 'GET',
                 success: function(data) {
-                    console.log("Data fetched:", data);  // 서버에서 가져온 데이터 콘솔에 출력
+                    console.log("Data fetched:", data);
                     var $restaurantSelect = $('#restaurant');
                     data.forEach(function(market) {
                         var option = $('<option></option>').attr('value', market.marketId).text(market.name);
@@ -113,6 +112,39 @@
                 error: function(err) {
                     console.error("Error fetching market data:", err);
                 }
+            });
+
+            // 폼 제출 처리
+            $('#gatheringForm').submit(function(event) {
+                event.preventDefault(); // 기본 폼 제출 방지
+
+                var userId = JSON.parse(localStorage.getItem('userData')).userId;
+                var marketId = $('#restaurant').val();
+                var title = $('#title').val();
+                var meetingTime = $('#time').val();
+
+                var requestData = {
+                    userId: userId,
+                    marketId: marketId,
+                    title: title,
+                    status: "BEFORE",
+                    meetingTime: meetingTime
+                };
+
+                $.ajax({
+                    url: 'http://127.0.0.1:8080/market/gathering',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(requestData),
+                    success: function(response) {
+                        alert("모임이 성공적으로 등록되었습니다!");
+                        window.location.href = '/main';
+                    },
+                    error: function(err) {
+                        console.error("모임 등록 실패:", err);
+                        alert("모임 등록에 실패했습니다. 다시 시도해주세요.");
+                    }
+                });
             });
         });
     </script>
