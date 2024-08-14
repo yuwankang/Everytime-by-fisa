@@ -54,7 +54,7 @@ public class GatheringRecordServiceImpl implements GatheringRecordService {
 
     @Override
     public List<GatheringRecordDTO> getGatheringRecordsByUserId(Long userId) {
-        List<GatheringRecord> gatheringRecords = gatheringRecordRepository.findByUserId(userId);
+        List<GatheringRecord> gatheringRecords = gatheringRecordRepository.findByUser_UserId(userId);
         return gatheringRecords.stream()
             .map(record -> modelMapper.map(record, GatheringRecordDTO.class))
             .collect(Collectors.toList());
