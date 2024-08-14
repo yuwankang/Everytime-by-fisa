@@ -1,22 +1,27 @@
 package com.fisa.land.fisaland.market.dto;
 
-import java.time.LocalDateTime;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class GatheringRecordDTO {
-    private Long id;
-    private Long userId;
-    private Long gatheringRecordInfoId;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+
+    public static class JoinRequest {
+        private Long userId;
+        private Long gatheringRecordInfoId;
+
+        // Getters and Setters
+        public Long getUserId() {
+            return userId;
+        }
+
+        public void setUserId(Long userId) {
+            this.userId = userId;
+        }
+
+        public Long getGatheringRecordInfoId() {
+            return gatheringRecordInfoId;
+        }
+
+        public void setGatheringRecordInfoId(Long gatheringRecordInfoId) {
+            this.gatheringRecordInfoId = gatheringRecordInfoId;
+        }
+    }
+
 }
