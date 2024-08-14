@@ -10,4 +10,5 @@ public interface LendingReviewsService {
     LendingReviewsDto createReview(LendingReviewsDto reviewDto); // 리뷰 생성
     LendingReviewsDto updateReview(Long reviewId, LendingReviewsDto reviewDto); // 리뷰 수정
     void deleteReview(Long reviewId); // 리뷰 삭제
+    Double getAverageRateByProductId(Long productId);// 평점 평균
 }

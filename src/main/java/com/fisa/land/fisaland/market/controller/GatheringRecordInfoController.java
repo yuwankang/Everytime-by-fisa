@@ -46,4 +46,9 @@ public class GatheringRecordInfoController {
 	public Long deleteGatheringById(@PathVariable("gatheringId") Long gatheringId) {
 		return gatheringRecordInfoService.deleteGatheringRecordInfo(gatheringId);
 	}
+	
+	@GetMapping("/{userId}/gatherings")
+	public GatheringRecordInfoDTO.getMyGatheringList getMyList(@PathVariable("userId")Long userId){
+		return gatheringRecordInfoService.getMyGatheringList(userId);
+	}
 }
