@@ -20,4 +20,14 @@ public class MainPageController {
 	    public String loginPage() {
 	        return "login"; 
 	    }
+
+	   @GetMapping("village")
+	   public String getVillagePage() {
+		   return "villageMain";
+	   }
+	   
+	   @GetMapping("market")
+	   public String getMarketPage() {
+		   return "marketMain";
+	   }
 }
