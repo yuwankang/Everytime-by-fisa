@@ -54,31 +54,6 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
     }
 	@Override
 	public Long saveGatheringRecordInfo(GatheringRecordInfoDTO.setGatheringRecordInfo gatheringRecord) {
-		// TODO Auto-generated method stub
-		/*
-		 * 
-		 * @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long gatheringRecordInfoId;
-	
-	@JoinColumn(name="userId")
-	@ManyToOne(fetch=FetchType.EAGER)
-	private User user;
-	
-	@JoinColumn(name="marketId")
-	@ManyToOne(fetch=FetchType.EAGER)
-	private Market market;
-	
-	@Enumerated(EnumType.STRING)
-	@Column(nullable=false)
-	private Status status;
-	
-	@Column(nullable=false)
-	private LocalDateTime meetingTime;
-	
-	@Column(nullable=false)
-	private String title;
-		 */
 		User user = userRepository.findById(gatheringRecord.getUserId()).orElseThrow();
 		Market market = marketRepository.findById(gatheringRecord.getMarketId()).orElseThrow();
 		
@@ -93,14 +68,7 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
 		return gatheringRecordInfoRepository.save(gatheringRecordInfo).getGatheringRecordInfoId();
 		
 	}
-	/*
-	 *
-	 * private String userName;
-		private String marketName;
-		private Status status;
-		private String meetingTime;
-		private String title;
-	 */
+	
 	@Override
 	public List<GatheringRecordInfoDTO.getGatheringRecordInfo> getGatheringRecordInfo() {
 		// TODO Auto-generated method stub
@@ -171,9 +139,9 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
 				);
 		return gatheringRecordInfoRepository.save(gri).getGatheringRecordInfoId();
 	}
-
+	
 	@Override
-	public Long deleteGathringRecordInfo(Long gatheringRecordInfoId) {
+	public Long deleteGatheringRecordInfo(Long gatheringRecordInfoId) {
 		// TODO Auto-generated method stub
 		gatheringRecordRepository.deleteById(gatheringRecordInfoId);
 		return gatheringRecordInfoId;
