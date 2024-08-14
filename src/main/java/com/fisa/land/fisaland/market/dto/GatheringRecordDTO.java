@@ -1,22 +1,18 @@
 package com.fisa.land.fisaland.market.dto;
 
-import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@ToString
 public class GatheringRecordDTO {
-    private Long id;
+    private Long gatheringRecordId;
     private Long userId;
     private Long gatheringRecordInfoId;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 }

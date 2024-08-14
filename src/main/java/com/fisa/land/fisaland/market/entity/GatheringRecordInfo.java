@@ -38,11 +38,11 @@ public class GatheringRecordInfo extends BaseTimeEntity{
 	private Long gatheringRecordInfoId;
 	
 	@JoinColumn(name="userId")
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	private User user;
 	
 	@JoinColumn(name="marketId")
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	private Market market;
 	
 	@Enumerated(EnumType.STRING)

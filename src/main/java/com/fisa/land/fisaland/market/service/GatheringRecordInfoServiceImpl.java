@@ -18,6 +18,16 @@ import com.fisa.land.fisaland.market.repository.GatheringRecordInfoRepository;
 import com.fisa.land.fisaland.market.repository.GatheringRecordRepository;
 import com.fisa.land.fisaland.market.repository.MarketRepository;
 import com.fisa.land.fisaland.market.type.Status;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 @Service
 public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoService{
 	
@@ -44,32 +54,25 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
     }
 	@Override
 	public Long saveGatheringRecordInfo(GatheringRecordInfoDTO.setGatheringRecordInfo gatheringRecord) {
-		// TODO Auto-generated method stub
-		
+
 		User user = userRepository.findById(gatheringRecord.getUserId()).orElseThrow();
 		Market market = marketRepository.findById(gatheringRecord.getMarketId()).orElseThrow();
-		GatheringRecordInfoDTO.saveGatheringRecordInfo saveGatheringRecord = GatheringRecordInfoDTO.saveGatheringRecordInfo.builder()
-				.marketId(market)
-				.userId(user)
-				.meetingTime(LocalDateTime.parse(gatheringRecord.getMeetingTime()))
-				.status(gatheringRecord.getStatus())
-				.title(gatheringRecord.getTitle())
-				.build();
-		GatheringRecordInfo gatheringRecordInfo = modelMapper.map(saveGatheringRecord, GatheringRecordInfo.class);
+		
+		GatheringRecordInfo gatheringRecordInfo = GatheringRecordInfo.builder()
+		.user(user)
+		.market(market)
+		.title(gatheringRecord.getTitle())
+		.meetingTime(LocalDateTime.parse(gatheringRecord.getMeetingTime()))
+		.status(gatheringRecord.getStatus())
+		.build();
+		
 		return gatheringRecordInfoRepository.save(gatheringRecordInfo).getGatheringRecordInfoId();
 		
 	}
-	/*
-	 *
-	 * private String userName;
-		private String marketName;
-		private Status status;
-		private String meetingTime;
-		private String title;
-	 */
+	
 	@Override
 	public List<GatheringRecordInfoDTO.getGatheringRecordInfo> getGatheringRecordInfo() {
-		// TODO Auto-generated method stub
+
 		List<GatheringRecordInfo> list = gatheringRecordInfoRepository.findAllByStatus(Status.BEFORE);
 		return list.stream().map(m ->{
 			return GatheringRecordInfoDTO.getGatheringRecordInfo.builder()
@@ -94,7 +97,6 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
 	@Override
 	public GatheringRecordInfoDTO.getGatheringRecordInfoDetail getGatheringRecordInfoDetail(
 			Long gatheringRecordId) {
-		// TODO Auto-generated method stub
 		
 		GatheringRecordInfo gatheringRecordInfo = gatheringRecordInfoRepository.findById(gatheringRecordId).orElseThrow(()-> new IllegalArgumentException("존재하지 않는 모임입니다"));
 		GatheringRecordInfoDTO.getGatheringRecordInfo gatheringRecord = GatheringRecordInfoDTO.getGatheringRecordInfo.builder()
@@ -118,7 +120,6 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
 
 	@Override
 	public Long updateGatheringRecordInfo(Long gatheringRecordInfoId, GatheringRecordInfoDTO.updateGatheringRecordInfo updateGatheringRecordInfo) {
-		// TODO Auto-generated method stub
 		
 		/*this.market = market;
 		this.status = status;
@@ -133,15 +134,15 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
 				market,
 				updateGatheringRecordInfo.getStatus(),
 				LocalDateTime.parse(updateGatheringRecordInfo.getMeetingTime()),
-				updateGatheringRecordInfo.getMeetingTime()
+				updateGatheringRecordInfo.getTitle()
 				);
 		return gatheringRecordInfoRepository.save(gri).getGatheringRecordInfoId();
 	}
-
+	
 	@Override
-	public Long deleteGathringRecordInfo(Long gatheringRecordInfoId) {
+	public Long deleteGatheringRecordInfo(Long gatheringRecordInfoId) {
 		// TODO Auto-generated method stub
-		gatheringRecordRepository.deleteById(gatheringRecordInfoId);
+		gatheringRecordInfoRepository.deleteById(gatheringRecordInfoId);
 		return gatheringRecordInfoId;
 	}
 

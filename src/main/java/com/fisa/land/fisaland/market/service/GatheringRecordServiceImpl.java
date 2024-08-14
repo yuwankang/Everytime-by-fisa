@@ -44,7 +44,7 @@ public class GatheringRecordServiceImpl implements GatheringRecordService {
             .build();
 
         GatheringRecord savedRecord = gatheringRecordRepository.save(gatheringRecord);
-        return savedRecord.getId();
+        return savedRecord.getGatheringRecordId();
     }
 
     @Override

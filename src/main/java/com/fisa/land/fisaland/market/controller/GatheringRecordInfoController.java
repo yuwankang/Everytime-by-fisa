@@ -32,18 +32,18 @@ public class GatheringRecordInfoController {
 		return gatheringRecordInfoService.getGatheringRecordInfo();
 	}
 	
-	@GetMapping("/gathering/{gathering_id}")
-	public GatheringRecordInfoDTO.getGatheringRecordInfoDetail getGatheringById(@PathVariable Long gatheringId) {
+	@GetMapping("/gathering/{gatheringId}")
+	public GatheringRecordInfoDTO.getGatheringRecordInfoDetail getGatheringById(@PathVariable("gatheringId") Long gatheringId) {
 		return gatheringRecordInfoService.getGatheringRecordInfoDetail(gatheringId);
 	}
 	
-	@PutMapping("/gathering/{gathering_id}")
-	public Long updateGatheringById(@PathVariable Long gatheringId, GatheringRecordInfoDTO.updateGatheringRecordInfo updateGatheringRecordInfo) {
+	@PutMapping("/gathering/{gatheringId}")
+	public Long updateGatheringById(@PathVariable("gatheringId") Long gatheringId, @RequestBody GatheringRecordInfoDTO.updateGatheringRecordInfo updateGatheringRecordInfo) {
 		return gatheringRecordInfoService.updateGatheringRecordInfo(gatheringId, updateGatheringRecordInfo);
 	}
 	
-	@DeleteMapping("/gathering/{gathering_id}")
-	public Long deleteGatheringById(@PathVariable Long gatheringId) {
-		return gatheringRecordInfoService.deleteGathringRecordInfo(gatheringId);
+	@DeleteMapping("/gathering/{gatheringId}")
+	public Long deleteGatheringById(@PathVariable("gatheringId") Long gatheringId) {
+		return gatheringRecordInfoService.deleteGatheringRecordInfo(gatheringId);
 	}
 }
