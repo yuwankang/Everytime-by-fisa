@@ -13,5 +13,7 @@ import com.fisa.land.fisaland.market.type.Status;
 @Repository
 public interface GatheringRecordInfoRepository extends JpaRepository<GatheringRecordInfo, Long>{
 
-	 List<GatheringRecordInfo> findAllByStatus(Status before);
+	 List<GatheringRecordInfo> findAllByStatus(Status status);
+	 
+	 List<GatheringRecordInfo> findAllByUserUserIdAndStatus(Long userId, Status status);
 }
