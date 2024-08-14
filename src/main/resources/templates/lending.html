@@ -9,81 +9,116 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f4f4f4;
+      background-color: #343a40; /* 어두운 배경색 */
+      color: #f8f9fa; /* 글자색 흰색 */
     }
     .container {
       width: 80%;
       margin: 30px auto;
-      background-color: #ffffff;
+      background-color: #495057; /* 컨테이너 배경색 */
       padding: 20px;
       border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
       position: relative;
     }
-    .header, .product-info, .rental-dates, .footer {
-      margin-bottom: 20px;
-    }
     .header {
-      border-bottom: 2px solid #ddd;
+      border-bottom: 2px solid #6c757d;
       padding-bottom: 10px;
-      display: flex;
-      flex-direction: column;
+      margin-bottom: 20px;
+      text-align: center;
     }
     .header h1 {
       margin: 0;
-      font-size: 24px;
+      font-size: 28px;
+      color: #f8f9fa;
     }
     .header .buttons {
-      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+      gap: 10px;
     }
-    .buttons button {
+    .header .buttons button {
       background-color: #007bff;
       border: none;
       color: #ffffff;
-      padding: 8px 15px;
+      padding: 10px 20px;
       border-radius: 5px;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 16px;
       transition: background-color 0.3s ease;
+      height: 40px; /* 버튼 높이 조정 */
     }
-    .buttons button:hover {
+    .header .buttons button:hover {
       background-color: #0056b3;
     }
-    .user-info {
-      background-color: #f8f9fa;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #dee2e6;
-      margin-top: 10px;
+    .user-info button {
+      background-color: #28a745;
+      border: none;
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+      margin: 0 10px;
+      height: 40px; /* 버튼 높이 조정 */
     }
-    .product-info h2, .rental-dates h2 {
+    .user-info button:hover {
+      background-color: #218838;
+    }
+    .product-info {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .product-info h2 {
       margin: 0;
-      font-size: 20px;
+      font-size: 22px;
+      color: #f8f9fa;
+      border-bottom: 2px solid #6c757d;
+      padding-bottom: 5px;
     }
-    .info, .rental-dates {
-      margin-top: 10px;
+    .product-info .info {
+      margin-top: 15px;
     }
-    .info div, .rental-dates label {
-      margin-bottom: 5px;
+    .product-info .info div {
+      margin-bottom: 10px;
+      color: #f8f9fa;
+    }
+    .rental-dates {
+      text-align: center; /* 중앙 정렬 */
+    }
+    .rental-dates label {
+      display: block;
+      margin: 8px 0; /* 간격 조정 */
+      color: #f8f9fa;
     }
     .rental-dates input {
-      padding: 10px;
+      padding: 8px;
       width: 100%;
+      max-width: 250px; /* 크기 조정 */
       box-sizing: border-box;
       margin-bottom: 10px;
-      cursor: not-allowed;
+      border: 1px solid #6c757d;
+      border-radius: 5px;
+      background-color: #6c757d;
+      color: #ffffff;
+      text-align: center;
     }
     .footer {
       text-align: center;
     }
     .footer button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #007BFF;
+      padding: 12px 24px;
+      font-size: 18px;
+      background-color: #007bff;
       color: #fff;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      transition: background-color 0.3s ease;
+      height: 40px; /* 버튼 높이 조정 */
     }
     .footer button:hover {
       background-color: #0056b3;
@@ -96,12 +131,17 @@
   <div class="header">
     <h1>상품 대여</h1>
     <div class="buttons">
-      <button id="view-products-btn">상품 목록 보기</button>
-      <button id="logout-btn">로그아웃</button>
+      <div class="user-info">
+        <button id="user-class">반: [반]</button>
+        <button id="user-name">[이름]</button>
+        <button id="logout-btn">로그아웃</button>
+      </div>
     </div>
-    <div class="user-info" id="user-info">
-      <!-- 사용자 정보가 삽입됩니다 -->
-    </div>
+  </div>
+
+  <!-- 상품 목록 보기 버튼 -->
+  <div class="footer">
+    <button id="view-products-btn">상품 목록 보기</button>
   </div>
 
   <!-- 상품 정보 -->
@@ -110,7 +150,8 @@
     <div class="info">
       <div><strong>상품명:</strong> <span id="product-name">[상품명]</span></div>
       <div><strong>상품 설명:</strong> <span id="product-description">[상품 설명]</span></div>
-      <div><strong>가격:</strong> <span id="product-price">[가격]</span></div>
+      <div><strong>등록일:</strong> <span id="product-created-at">[등록일]</span></div>
+      <div><strong>상품 카테고리:</strong> <span id="product-category">[상품 카테고리]</span></div>
     </div>
   </div>
 
@@ -135,7 +176,6 @@
 <script>
   $(document).ready(function() {
     function loadUserInfo() {
-      // localStorage에서 사용자 데이터 가져오기
       var userData = localStorage.getItem('userData');
       if (userData) {
         userData = JSON.parse(userData);
@@ -147,20 +187,13 @@
         var averageRating = userData.averageRating;
         var totalReviews = userData.totalReviews;
 
-        // 사용자 정보 표시
-        $('#user-info').html(`
-          <div>
-            반: ${userClass} | 이름: ${username}
-          </div>
-          <div>
-            상품 제공자 이름: ${providerName} | 전화번호: ${providerPhone} | 이메일: ${providerEmail}
-          </div>
-          <div>
-            상품 리뷰 평균: ${averageRating} | 총 상품 리뷰 개수: ${totalReviews}
-          </div>
-        `);
+        $('#user-class').text(`반: ${userClass}`);
+        $('#user-name').text(username);
 
-        // 로그아웃 버튼 이벤트 핸들러
+        $('#user-name').on('click', function() {
+          window.location.href = 'http://127.0.0.1:8080/myLend';
+        });
+
         $('#logout-btn').on('click', function() {
           $.ajax({
             url: 'http://127.0.0.1:8080/common/user/logout',
@@ -184,14 +217,15 @@
 
     function setRentalDates() {
       var today = new Date();
-      var endDate = new Date();
-      endDate.setDate(today.getDate() + 7);
+      var koreaOffset = 9 * 60; // 한국 표준시(KST)는 UTC+9
+      var koreaTime = new Date(today.getTime() + koreaOffset * 60 * 1000);
+      var endDate = new Date(koreaTime);
+      endDate.setDate(koreaTime.getDate() + 7);
 
-      $('#start-date').val(today.toISOString().split('T')[0]);
+      $('#start-date').val(koreaTime.toISOString().split('T')[0]);
       $('#end-date').val(endDate.toISOString().split('T')[0]);
     }
 
-    // 빌리기 버튼 클릭 시 대여 요청 처리
     $('#rent-button').on('click', function() {
       var startDate = $('#start-date').val();
       var endDate = $('#end-date').val();
@@ -214,7 +248,6 @@
         data: JSON.stringify(lendingRecordInfo),
         success: function(response) {
           alert('상품 대여가 완료되었습니다!');
-          // 추가적인 작업 (예: 페이지 이동)
         },
         error: function(xhr, status, error) {
           console.error('대여 요청 오류:', error);
@@ -223,26 +256,27 @@
       });
     });
 
-    // 상품 목록 보기 버튼 클릭 시 처리
     $('#view-products-btn').on('click', function() {
-      window.location.href = '/products'; // 상품 목록 페이지로 이동
+      window.location.href = 'http://127.0.0.1:8080/village';
     });
 
-    // 페이지 로드 시 사용자 정보 및 대여 기간 설정
     loadUserInfo();
     setRentalDates();
 
-    // 예시 상품 데이터 (실제 데이터로 교체 필요)
-    var exampleData = {
-      productName: '멋진 상품',
-      productDescription: '이 상품은 정말 멋집니다.',
-      productPrice: '₩100,000'
-    };
-
-    // 상품 정보 HTML에 적용
-    $('#product-name').text(exampleData.productName);
-    $('#product-description').text(exampleData.productDescription);
-    $('#product-price').text(exampleData.productPrice);
+    $.ajax({
+      url: '/api/product',
+      method: 'GET',
+      success: function(response) {
+        $('#product-name').text(response.product.name);
+        $('#product-description').text(response.product.description);
+        $('#product-created-at').text(new Date(response.product.created_at).toLocaleDateString());
+        $('#product-category').text(response.product.category);
+      },
+      error: function(xhr, status, error) {
+        console.error('상품 데이터 로드 오류:', error);
+        alert('상품 정보를 가져오는 데 오류가 발생했습니다.');
+      }
+    });
   });
 </script>
 </body>
