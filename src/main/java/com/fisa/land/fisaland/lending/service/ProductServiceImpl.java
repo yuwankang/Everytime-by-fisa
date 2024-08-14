@@ -64,6 +64,11 @@ public class ProductServiceImpl implements ProductService{
     public void updateProductStatus(Long productId, Product.Status status) {
         Product product = productRepository.findById(productId)
             .orElseThrow(() -> new RuntimeException("Product not found"));
+        
+        if (product.getStatus().equals(Product.Status.RENTED)) {
+            throw new IllegalStateException("이미 대여 중인 물건입니다.");
+        }
+        
         product.setStatus(status);
         productRepository.save(product);
     }
