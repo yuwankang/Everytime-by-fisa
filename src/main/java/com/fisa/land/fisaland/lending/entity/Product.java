@@ -8,42 +8,47 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.CascadeType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Setter
-@Getter
-@ToString
-@Entity
-public class Product extends BaseTimeEntity{
+import java.util.List;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long productId;
-	
-	private Long user_id;
-	private String product_name;
-	private String description;
-	
-	@Enumerated(EnumType.STRING)
-	private Status status;  // enum 타입으로 선언해야 합니다.
-	
-	private int price;	
-	
-	@Enumerated(EnumType.STRING)
-	private Category category;  // enum 타입으로 선언해야 합니다.
-    
-    
-    // enum 정의는 클래스 내부에 위치시킵니다.
+@Entity
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "product")  // 테이블 이름 확인
+public class Product extends BaseTimeEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long productId;
+
+    private Long user_id;
+    private String product_name;
+    private String description;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    private int price;
+
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
+    // Enum 정의는 클래스 내부에 위치시킵니다.
     public enum Status {
         AVAILABLE,
         RENTED
-    } 
+    }
 
     public enum Category {
         CLOTHING,
@@ -53,4 +58,7 @@ public class Product extends BaseTimeEntity{
         TOYS,
         OTHERS
     }
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LendingReviews> reviews;
 }
