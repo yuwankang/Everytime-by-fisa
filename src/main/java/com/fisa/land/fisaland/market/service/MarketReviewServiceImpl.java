@@ -83,4 +83,13 @@ public class MarketReviewServiceImpl implements MarketReviewService {
     public void deleteReview(Long id) {
         marketReviewRepository.deleteById(id);
     }
+    
+    
+    @Override
+    public List<MarketReviewDTO> getReviewsByUserId(Long userId) {
+        return marketReviewRepository.findByUser_UserId(userId).stream()
+            .map(review -> modelMapper.map(review, MarketReviewDTO.class))
+            .collect(Collectors.toList());
+    }
+    
 }
