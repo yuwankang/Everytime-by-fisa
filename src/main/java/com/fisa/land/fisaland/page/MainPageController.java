@@ -11,9 +11,9 @@ public class MainPageController {
 	    	return "index";
 	    }
 	   
-	    @GetMapping("/gathering_register")
+	    @GetMapping("/create_gathering")
 	    public String gatheringRegisterPage() {
-	        return "gathering_register"; 
+	        return "create_gathering"; 
 	    }
 	    
 	    @GetMapping("/login")
@@ -35,10 +35,14 @@ public class MainPageController {
 	   public String getmyGathering() {
 		   return "myGathering";
 		}
+	   
+	   @GetMapping("joinedGathering")
+	   public String getJoinedGathering() {
+		   return "joinedGathering";
+		}
 
 	   @GetMapping("marketJoin")
 	   public String getMarketJoinPage() {
 		   return "marketJoinGathering";
-
 	   }
 }

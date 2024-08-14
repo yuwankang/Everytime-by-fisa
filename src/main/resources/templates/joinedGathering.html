@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내가 참여한 모임 페이지</title>
+    <style>
+        /* 스타일 설정 부분은 기존 코드와 동일 */
+        body {
+            background: linear-gradient(to bottom, #000000, #434343); /* 검정색 그라데이션 배경 */
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #333333;
+            color: #ffffff;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid #555555;
+            position: relative; /* 우측 상단 텍스트 위치를 위해 position을 relative로 설정 */
+        }
+        .header .info {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #cccccc;
+        }
+        .header .user-info { /* 우측 상단 텍스트 스타일 */
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 12px;
+            color: #cccccc;
+            text-align: right;
+            display: flex;
+            align-items: center;
+            gap: 10px; /* 요소 간의 간격 */
+        }
+        .header .user-info .buttons {
+            display: flex;
+            gap: 10px; /* 버튼 간의 간격 */
+        }
+        .header .user-info button {
+            background-color: #555555;
+            border: none;
+            color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .header .user-info button:hover {
+            background-color: #777777;
+        }
+        .container {
+            padding: 20px;
+        }
+        .section-title {
+            background-color: #444444;
+            padding: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+        }
+        .gathering-info {
+            background-color: #555555;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+        .gathering-info .title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+        .gathering-info .info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .gathering-info .info div {
+            background-color: #666666;
+            border-radius: 10px;
+            padding: 5px 10px;
+            font-size: 14px;
+            color: #ffffff;
+        }
+        .gathering-info .status {
+            text-align: right;
+            margin-top: 10px;
+        }
+        .gathering-info .status .btn {
+            background-color: #777777;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #ffffff;
+        }
+        .gathering-info .status .btn:hover {
+            background-color: #999999;
+        }
+        .gathering-info .cancel-btn {
+            background-color: #ff5555;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #ffffff;
+            margin-right: 10px;
+        }
+        .gathering-info .cancel-btn:hover {
+            background-color: #ff7777;
+        }
+        .gathering-info .review-btn {
+            background-color: #55ff55;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #ffffff;
+            margin-right: 10px;
+        }
+        .gathering-info .review-btn:hover {
+            background-color: #77ff77;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>내가 참여한 모임 페이지</h1>
+        <div class="user-info" id="user-info">
+            <!-- 여기에 className과 userName이 표시됩니다 -->
+        </div>
+    </div>
+    <div class="container">
+        <div class="section-title">내가 참여한 모임</div>
+        <div id="gathering-records">
+            <!-- 모임 정보가 여기에 삽입됩니다 -->
+        </div>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            function loadGatherings() {
+                var userData = localStorage.getItem('userData'); 
+
+                if (userData) {
+                    userData = JSON.parse(userData); 
+                    var userId = userData.userId;
+                    var username = userData.username;
+                    var userClass = userData.userClass;
+
+                    if (!userId) {
+                        console.error('User ID가 없습니다. 로그인이 필요합니다.');
+                        return;
+                    }
+
+                    $('#user-info').html(`
+                        <div>반: ${userClass} | 이름: ${username}</div>
+                        <div class="buttons">
+                            <button onclick="window.location.href='/userinfo';">회원정보</button>
+                            <button id="logout-btn">로그아웃</button>
+                        </div>
+                    `);
+
+                    $('#logout-btn').on('click', function() {
+                        $.ajax({
+                            url: 'http://127.0.0.1:8080/common/user/logout',
+                            method: 'POST',
+                            success: function() {
+                                localStorage.clear();
+                                alert('로그아웃 되었습니다.');
+                                window.location.href = '/main';
+                            },
+                            error: function(err) {
+                                console.error('로그아웃 실패:', err);
+                                alert('로그아웃에 실패했습니다. 다시 시도해주세요.');
+                            }
+                        });
+                    });
+
+                    var url = 'http://127.0.0.1:8080/market/gathering/user/' + userId;
+
+                    $.ajax({
+                        url: url,
+                        method: 'GET',
+                        contentType: 'application/json',
+                        success: function(response) {
+                            if (!response || !response.length) {
+                                console.error('참여한 모임이 없습니다.');
+                                return;
+                            }
+
+                            var gatheringHtml = '';
+                            response.forEach(function(record) {
+                                var gatheringDetailUrl = 'http://127.0.0.1:8080/market/gathering/' + record.gatheringRecordInfoId;
+
+                                $.ajax({
+                                    url: gatheringDetailUrl,
+                                    method: 'GET',
+                                    contentType: 'application/json',
+                                    async: false,  // 동기화 호출로 설정하여 순차적으로 데이터를 로드합니다.
+                                    success: function(gatheringDetail) {
+                                        var info = gatheringDetail.getGatheringRecordInfos;
+                                        var participants = gatheringDetail.participants.join(', ');
+
+                                        gatheringHtml += '<div class="gathering-info">';
+                                        
+                                        // 모임 상태가 BEFORE인 경우 "모임 참가 취소" 버튼 추가
+                                        if (info.status === 'BEFORE') {
+                                            gatheringHtml += '<button class="cancel-btn" onclick="cancelGathering(' + record.gatheringRecordId + ')">모임 참가 취소</button>';
+                                        }
+
+                                        // 모임 상태가 AFTER인 경우 "맛집 리뷰 작성" 버튼 추가
+                                        if (info.status === 'AFTER') {
+                                            gatheringHtml += '<button class="review-btn" onclick="window.location.href=\'/create_market_review\';">맛집 리뷰 작성</button>';
+                                        }
+
+                                        gatheringHtml += '<div class="title">' + info.title + '</div>';
+                                        gatheringHtml += '<div class="info">';
+                                        gatheringHtml += '<div>작성자: ' + info.userName + '</div>';
+                                        gatheringHtml += '<div>위치: ' + info.marketName + '</div>';
+                                        gatheringHtml += '</div>';
+                                        gatheringHtml += '<div class="info">';
+                                        gatheringHtml += '<div>모임 시간: ' + new Date(info.meetingTime).toLocaleString() + '</div>';
+                                        gatheringHtml += '</div>';
+                                        gatheringHtml += '<div class="info">';
+                                        gatheringHtml += '<div>참여자: ' + participants + '</div>';
+                                        gatheringHtml += '</div>';
+                                        gatheringHtml += '<div class="status">모임 상태: <span class="btn">' + info.status + '</span></div>';
+                                        gatheringHtml += '</div>';
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.error('모임 세부 정보를 불러오는데 실패했습니다:', status, error);
+                                    }
+                                });
+                            });
+
+                            $('#gathering-records').html(gatheringHtml);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('참여한 모임 정보를 불러오는데 실패했습니다:', status, error);
+                        }
+                    });
+
+                } else {
+                    console.error('User 데이터가 없습니다. 로그인이 필요합니다.');
+                }
+            }
+
+            loadGatherings();
+        });
+
+        function cancelGathering(gatheringRecordId) {
+            $.ajax({
+                url: 'http://127.0.0.1:8080/market/gathering/cancel/' + gatheringRecordId,
+                method: 'DELETE',
+                success: function() {
+                    alert('모임 참가가 취소되었습니다.');
+                    location.reload();  // 페이지 새로고침하여 변경사항 반영
+                },
+                error: function(xhr, status, error) {
+                    console.error('모임 참가 취소 실패:', status, error);
+                    alert('모임 취소에 실패했습니다. 다시 시도해주세요.');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
