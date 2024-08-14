@@ -134,7 +134,7 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
 				market,
 				updateGatheringRecordInfo.getStatus(),
 				LocalDateTime.parse(updateGatheringRecordInfo.getMeetingTime()),
-				updateGatheringRecordInfo.getMeetingTime()
+				updateGatheringRecordInfo.getTitle()
 				);
 		return gatheringRecordInfoRepository.save(gri).getGatheringRecordInfoId();
 	}
