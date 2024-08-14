@@ -2,10 +2,15 @@ package com.fisa.land.fisaland.market.entity;
 
 import java.time.LocalDateTime;
 
+<<<<<<< Updated upstream
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fisa.land.fisaland.common.entity.BaseTimeEntity;
 import com.fisa.land.fisaland.common.entity.User;
+=======
+import com.fisa.land.fisaland.common.BaseTimeEntity;
+import com.fisa.land.fisaland.common.User;
+>>>>>>> Stashed changes
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -28,7 +33,10 @@ import lombok.ToString;
 
 @ToString
 @Entity
+<<<<<<< Updated upstream
 @EntityListeners(AuditingEntityListener.class)
+=======
+>>>>>>> Stashed changes
 public class MarketReview extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,4 +54,8 @@ public class MarketReview extends BaseTimeEntity{
 
     private double rate;
 
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes

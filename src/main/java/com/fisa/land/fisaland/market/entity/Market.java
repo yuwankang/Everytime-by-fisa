@@ -1,6 +1,10 @@
 package com.fisa.land.fisaland.market.entity;
 
+<<<<<<< Updated upstream
 import com.fisa.land.fisaland.common.entity.BaseTimeEntity;
+=======
+import com.fisa.land.fisaland.common.BaseTimeEntity;
+>>>>>>> Stashed changes
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
