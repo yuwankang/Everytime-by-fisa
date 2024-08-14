@@ -15,18 +15,21 @@ public class LendingReviewsController {
     @Autowired
     private LendingReviewsService lendingReviewsService;
 
-    @GetMapping("{productId}/reviews")
-    public ResponseEntity<List<LendingReviewsDto>> getReviewsByProductId(@PathVariable("productId") Long productId) {
-        List<LendingReviewsDto> reviews = lendingReviewsService.getReviewsByProductId(productId);
-        return ResponseEntity.ok(reviews);
-    }
-
+    //리뷰 등록
     @PostMapping
     public ResponseEntity<LendingReviewsDto> createReview(@RequestBody LendingReviewsDto reviewDto) {
         LendingReviewsDto createdReview = lendingReviewsService.createReview(reviewDto);
         return ResponseEntity.ok(createdReview);
     }
 
+    //상품 리뷰 리스트 조회
+    @GetMapping("{productId}/reviews")
+    public ResponseEntity<List<LendingReviewsDto>> getReviewsByProductId(@PathVariable("productId") Long productId) {
+        List<LendingReviewsDto> reviews = lendingReviewsService.getReviewsByProductId(productId);
+        return ResponseEntity.ok(reviews);
+    }
+    
+    //리뷰 수정
     @PutMapping("/{reviewId}")
     public ResponseEntity<LendingReviewsDto> updateReview(@PathVariable("reviewId") Long reviewId, @RequestBody LendingReviewsDto reviewDto) {
         LendingReviewsDto updatedReview = lendingReviewsService.updateReview(reviewId, reviewDto);
@@ -37,9 +40,11 @@ public class LendingReviewsController {
         }
     }
 
+    //리뷰 삭제
     @DeleteMapping("/{reviewId}")
     public ResponseEntity<Void> deleteReview(@PathVariable("reviewId") Long reviewId) {
         lendingReviewsService.deleteReview(reviewId);
         return ResponseEntity.noContent().build();
     }
+    
 }
