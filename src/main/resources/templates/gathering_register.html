@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>점심 모임 게시글 등록 페이지</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+</head>
+<body class="is-preload">
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <div class="logo">
+                <span class="icon fa-pencil-alt"></span>
+            </div>
+            <div class="content">
+                <div class="inner">
+                    <h1>점심 모임 게시글 등록</h1>
+                    <p>점심 모임을 등록하고 다른 사람들과 함께 즐거운 시간을 보내세요!</p>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#register">게시글 등록</a></li>
+                    <li><a href="/main">메인으로 이동</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Main -->
+        <div id="main">
+
+            <!-- Register -->
+            <article id="register">
+                <h2 class="major">게시글 등록</h2>
+                <form method="post" action="#">
+                    <div class="fields">
+                        <div class="field half">
+                            <label for="title">게시글 제목</label>
+                            <input type="text" name="title" id="title" placeholder="게시글 제목 입력" />
+                        </div>
+                        <div class="field half">
+                            <label for="time">모임 시간</label>
+                            <input type="text" name="time" id="time" placeholder="모임 시간 입력" />
+                        </div>
+                        <div class="field">
+                            <label for="restaurant">음식점 선택</label>
+                            <select name="restaurant" id="restaurant">
+                                <!-- 옵션이 JavaScript로 동적으로 추가될 것입니다 -->
+                            </select>
+                        </div>
+                    </div>
+                    <ul class="actions">
+                        <li><input type="submit" value="등록" class="primary" /></li>
+                        <li><input type="reset" value="취소" /></li>
+                    </ul>
+                </form>
+            </article>
+
+        </div>
+
+        <!-- Footer -->
+        <footer id="footer">
+            <p class="copyright">&copy; FISALAND. Design: backend developer. <br>
+            <a href="#contact">Contact</a>
+            <a href="#elements">Elements</a>
+            <a href="#intro">Intro</a></p>
+        </footer>
+
+    </div>
+
+    <!-- BG -->
+    <div id="bg"></div>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        $(document).ready(function() {
+            // 유저 ID 가져오기
+            $.ajax({
+                url: 'http://127.0.0.1:8080/getSessionData',
+                method: 'GET',
+                success: function(data) {
+                    // JSON 응답에서 userId를 가져와서 h2 태그에 추가
+                    var userId = data.userId;
+                    $('#user-id-display').text("User ID: " + userId);
+                },
+                error: function(err) {
+                    console.error("Error fetching user data:", err);
+                }
+            });
+
+            // 서버로부터 음식점 목록을 가져오는 AJAX 요청
+            $.ajax({
+                url: 'http://127.0.0.1:8080/markets',
+                method: 'GET',
+                success: function(data) {
+                    console.log("Data fetched:", data);  // 서버에서 가져온 데이터 콘솔에 출력
+                    var $restaurantSelect = $('#restaurant');
+                    data.forEach(function(market) {
+                        var option = $('<option></option>').attr('value', market.marketId).text(market.name);
+                        $restaurantSelect.append(option);
+                    });
+                },
+                error: function(err) {
+                    console.error("Error fetching market data:", err);
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
