@@ -18,6 +18,16 @@ import com.fisa.land.fisaland.market.repository.GatheringRecordInfoRepository;
 import com.fisa.land.fisaland.market.repository.GatheringRecordRepository;
 import com.fisa.land.fisaland.market.repository.MarketRepository;
 import com.fisa.land.fisaland.market.type.Status;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 @Service
 public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoService{
 	
@@ -45,17 +55,41 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
 	@Override
 	public Long saveGatheringRecordInfo(GatheringRecordInfoDTO.setGatheringRecordInfo gatheringRecord) {
 		// TODO Auto-generated method stub
-		
+		/*
+		 * 
+		 * @Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long gatheringRecordInfoId;
+	
+	@JoinColumn(name="userId")
+	@ManyToOne(fetch=FetchType.EAGER)
+	private User user;
+	
+	@JoinColumn(name="marketId")
+	@ManyToOne(fetch=FetchType.EAGER)
+	private Market market;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(nullable=false)
+	private Status status;
+	
+	@Column(nullable=false)
+	private LocalDateTime meetingTime;
+	
+	@Column(nullable=false)
+	private String title;
+		 */
 		User user = userRepository.findById(gatheringRecord.getUserId()).orElseThrow();
 		Market market = marketRepository.findById(gatheringRecord.getMarketId()).orElseThrow();
-		GatheringRecordInfoDTO.saveGatheringRecordInfo saveGatheringRecord = GatheringRecordInfoDTO.saveGatheringRecordInfo.builder()
-				.marketId(market)
-				.userId(user)
-				.meetingTime(LocalDateTime.parse(gatheringRecord.getMeetingTime()))
-				.status(gatheringRecord.getStatus())
-				.title(gatheringRecord.getTitle())
-				.build();
-		GatheringRecordInfo gatheringRecordInfo = modelMapper.map(saveGatheringRecord, GatheringRecordInfo.class);
+		
+		GatheringRecordInfo gatheringRecordInfo = GatheringRecordInfo.builder()
+		.user(user)
+		.market(market)
+		.title(gatheringRecord.getTitle())
+		.meetingTime(LocalDateTime.parse(gatheringRecord.getMeetingTime()))
+		.status(gatheringRecord.getStatus())
+		.build();
+		
 		return gatheringRecordInfoRepository.save(gatheringRecordInfo).getGatheringRecordInfoId();
 		
 	}
