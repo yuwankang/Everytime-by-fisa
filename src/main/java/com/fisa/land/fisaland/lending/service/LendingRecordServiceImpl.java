@@ -8,6 +8,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fisa.land.fisaland.common.exception.BusinessLoginException;
+import com.fisa.land.fisaland.common.exception.ExceptionList;
 import com.fisa.land.fisaland.lending.dto.LendingRecordDto;
 import com.fisa.land.fisaland.lending.entity.LendingRecordInfo;
 import com.fisa.land.fisaland.lending.entity.LendingRecordInfo.LendingStatus;
@@ -28,13 +30,28 @@ public class LendingRecordServiceImpl implements LendingRecordService{
 	private ProductRepository productRepository;
 	
 	@Transactional
-	@Override
-	public LendingRecords saveLendingRecord(LendingRecordDto lendingRecordInfoDTO) {
-		// LendingRecords 엔티티 생성 및 설정
-        LendingRecords lendingRecords = LendingRecords.createLendingRecords(lendingRecordInfoDTO);
-        return lendingRecordsRepository.save(lendingRecords);
-	}
+    @Override
+    public LendingRecords saveLendingRecord(LendingRecordDto lendingRecordDto) {
+        // 1. 대여자와 소유자가 동일한지 확인
+        if (lendingRecordDto.getBorrowerId().equals(lendingRecordDto.getOwnerId())) {
+            throw new BusinessLoginException(ExceptionList.BORROWER_SAME_AS_OWNER);
+        }
 
+        // 2. 이미 대여 중이거나 연체 상태인 상품인지 확인
+        Long productId = lendingRecordDto.getProductId();
+        Optional<LendingRecords> existingRecordOptional = lendingRecordsRepository.findByProductIdAndStatusIn(
+                productId,
+                List.of(LendingStatus.RENTED, LendingStatus.OVERDUE)
+        );
+        if (existingRecordOptional.isPresent()) {
+            throw new BusinessLoginException(ExceptionList.PRODUCT_ALREADY_RENTED);
+        }
+
+        // 3. LendingRecords 엔티티 생성 및 설정
+        LendingRecords lendingRecords = LendingRecords.createLendingRecords(lendingRecordDto);
+        return lendingRecordsRepository.save(lendingRecords);
+    }
+     
 	@Override
 	public List<LendingRecords> getLendingRecordsByBorrower(Long borrowerId) {
 		return lendingRecordsRepository.findByBorrowerId(borrowerId);
@@ -56,12 +73,12 @@ public class LendingRecordServiceImpl implements LendingRecordService{
     }
 
 	@Transactional
-	@Override
+    @Override
     public LendingRecordInfo updateLendingRecordStatus(Long lendingRecordId) {
-		// 1. 대여 기록 조회
+        // 1. 대여 기록 조회
         Optional<LendingRecords> lendingRecordOptional = lendingRecordsRepository.findById(lendingRecordId);
         if (!lendingRecordOptional.isPresent()) {
-            throw new RuntimeException("Lending record not found");
+            throw new BusinessLoginException(ExceptionList.LENDING_RECORD_NOT_FOUND);
         }
 
         LendingRecords lendingRecord = lendingRecordOptional.get();
@@ -83,7 +100,7 @@ public class LendingRecordServiceImpl implements LendingRecordService{
             // 상품 가격 조회
             Long productId = lendingRecord.getProductId();
             Product product = productRepository.findById(productId)
-                    .orElseThrow(() -> new RuntimeException("Product not found"));
+                    .orElseThrow(() -> new BusinessLoginException(ExceptionList.PRODUCT_NOT_FOUND));
 
             // 연체료 계산
             long overdueDays = ChronoUnit.DAYS.between(returnDate, now);
@@ -92,7 +109,7 @@ public class LendingRecordServiceImpl implements LendingRecordService{
 
             lendingRecordInfo.setOverdueFee(overdueFee);
         } else {
-            lendingRecordInfo.setOverdueFee(0); // 연체료가 없으면 null로 설정
+            lendingRecordInfo.setOverdueFee(0); // 연체료가 없으면 0으로 설정
         }
 
         // LendingRecords와의 연관관계 업데이트
@@ -101,5 +118,4 @@ public class LendingRecordServiceImpl implements LendingRecordService{
 
         return lendingRecordInfo;
     }
-
 }
