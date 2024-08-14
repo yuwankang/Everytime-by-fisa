@@ -3,6 +3,7 @@ package com.fisa.land.fisaland.market.dto;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -68,5 +69,16 @@ public class GatheringRecordInfoDTO {
 		private Status status;
 		private LocalDateTime meetingTime;
 		private String title;
+	}
+	
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@Getter
+	@Setter
+	@Builder
+	@ToString
+	public static class getGatheringRecordDetail implements Serializable{
+		getGatheringRecord getGatheringRecordInfos;
+		List<String> participants;
 	}
 }

@@ -16,4 +16,6 @@ import com.fisa.land.fisaland.market.entity.GatheringRecordInfo;
 public interface GatheringRecordRepository extends JpaRepository<GatheringRecord, GatheringRecordId>{
 	@Query("SELECT gr.id.user FROM GatheringRecord gr WHERE gr.id.getheringRecordInfo = :gatheringRecordInfo")
 	List<User> findUsersByGatheringRecordInfo(@Param("gatheringRecordInfo") GatheringRecordInfo gatheringRecordInfo);
+
 }
+

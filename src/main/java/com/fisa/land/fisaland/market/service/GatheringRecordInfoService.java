@@ -6,9 +6,11 @@ import com.fisa.land.fisaland.market.dto.GatheringRecordInfoDTO;
 import jakarta.transaction.Transactional;
 
 @Transactional
-public interface GatheringRecordService {
+public interface GatheringRecordInfoService {
 
-	Long saveGatheringRecord(GatheringRecordInfoDTO.setGatheringRecord gethreingRecord);
+	Long saveGatheringRecord(GatheringRecordInfoDTO.setGatheringRecord gatheringRecordInfo);
 	
 	List<GatheringRecordInfoDTO.getGatheringRecord> getGatheringRecord();
+	
+	GatheringRecordInfoDTO.getGatheringRecordDetail getGatheringRecordDetail(Long gatheringRecordId);
 }

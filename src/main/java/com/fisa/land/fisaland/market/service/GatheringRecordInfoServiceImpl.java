@@ -18,11 +18,12 @@ import com.fisa.land.fisaland.market.dto.MarketReviewDTO;
 import com.fisa.land.fisaland.market.entity.GatheringRecordInfo;
 import com.fisa.land.fisaland.market.entity.Market;
 import com.fisa.land.fisaland.market.repository.GatheringRecordInfoRepository;
+import com.fisa.land.fisaland.market.repository.GatheringRecordRepository;
 import com.fisa.land.fisaland.market.repository.MarketRepository;
 import com.fisa.land.fisaland.market.type.Status;
 
 @Service
-public class GatheringRecordServiceImpl implements GatheringRecordService{
+public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoService{
 	
 	@Autowired
 	UserRepository userRepository;
@@ -32,6 +33,9 @@ public class GatheringRecordServiceImpl implements GatheringRecordService{
 	
 	@Autowired
 	GatheringRecordInfoRepository gatheringRecordInfoRepository;
+	
+	@Autowired
+	GatheringRecordRepository gatheringRecordRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -87,6 +91,39 @@ public class GatheringRecordServiceImpl implements GatheringRecordService{
 				.build();
 		}).collect(Collectors.toList());
 	
+	}
+
+	/*
+	 * private Long gatheringRecordInfoId;
+		private String userName;
+		private String marketName;
+		private Status status;
+		private LocalDateTime meetingTime;
+		private String title;
+	 */
+	@Override
+	public GatheringRecordInfoDTO.getGatheringRecordDetail getGatheringRecordDetail(
+			Long gatheringRecordId) {
+		// TODO Auto-generated method stub
+		
+		GatheringRecordInfo gatheringRecordInfo = gatheringRecordInfoRepository.findById(gatheringRecordId).orElseThrow(()-> new IllegalArgumentException("존재하지 않는 모임입니다"));
+		GatheringRecordInfoDTO.getGatheringRecord gatheringRecord = GatheringRecordInfoDTO.getGatheringRecord.builder()
+			.gatheringRecordInfoId(gatheringRecordInfo.getGetherRecordId())
+			.userName(gatheringRecordInfo.getUser().getUsername())
+			.marketName(gatheringRecordInfo.getMarket().getName())
+			.status(gatheringRecordInfo.getStatus())
+			.meetingTime(gatheringRecordInfo.getMeetingTime())
+			.title(gatheringRecordInfo.getTitle())
+			.build();
+		
+		List<String> participants = gatheringRecordRepository.findUsersByGatheringRecordInfo(gatheringRecordInfo)
+			    .stream()                           // 스트림으로 변환
+			    .map(User::getUsername)             // 각 User 객체에서 username 필드만 추출
+			    .collect(Collectors.toList());  
+		return GatheringRecordInfoDTO.getGatheringRecordDetail.builder()
+		.getGatheringRecordInfos(gatheringRecord)
+		.participants(participants)
+		.build();
 	}
 
 }
