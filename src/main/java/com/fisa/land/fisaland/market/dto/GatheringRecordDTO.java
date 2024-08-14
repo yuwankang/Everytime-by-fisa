@@ -1,27 +1,18 @@
 package com.fisa.land.fisaland.market.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class GatheringRecordDTO {
-
-    public static class JoinRequest {
-        private Long userId;
-        private Long gatheringRecordInfoId;
-
-        // Getters and Setters
-        public Long getUserId() {
-            return userId;
-        }
-
-        public void setUserId(Long userId) {
-            this.userId = userId;
-        }
-
-        public Long getGatheringRecordInfoId() {
-            return gatheringRecordInfoId;
-        }
-
-        public void setGatheringRecordInfoId(Long gatheringRecordInfoId) {
-            this.gatheringRecordInfoId = gatheringRecordInfoId;
-        }
-    }
-
+    private Long gatheringRecordId;
+    private Long userId;
+    private Long gatheringRecordInfoId;
 }
