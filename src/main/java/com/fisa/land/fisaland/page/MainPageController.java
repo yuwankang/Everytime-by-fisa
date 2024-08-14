@@ -53,4 +53,10 @@ public class MainPageController {
 	   public String getmyLend() {
 		   return "myLend";
 		}
+	   @GetMapping("lending")
+	   public String lendingJoinPage() {
+		   return "lending";
+
+	}
+
 }
