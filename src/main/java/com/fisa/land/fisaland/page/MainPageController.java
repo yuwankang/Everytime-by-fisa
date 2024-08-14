@@ -9,8 +9,8 @@ public class MainPageController {
 	    public String get() {
 	    	return "index";
 	    }
-	   @GetMapping("about")
-	   public String get2() {
-		   return "about";
+	   @GetMapping("village")
+	   public String getVillagePage() {
+		   return "villageMain";
 	   }
 }
