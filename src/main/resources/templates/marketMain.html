@@ -1,3 +1,4 @@
+
 <!DOCTYPE HTML>
 <!--
 	Dimension by HTML5 UP
@@ -11,53 +12,70 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<style>
+.split section {
+    flex: 1; /* 각 섹션이 균등하게 크기를 차지하도록 */
+    padding: 20px; /* 각 섹션의 안쪽 여백 */
+    max-width: 100%; /* 최대 너비를 전체로 설정 */
+}
+
+</style>
 	</head>
 	<body class="is-preload">
 
 		<!-- Wrapper -->
 			<div id="wrapper">
-
-				<!-- Header -->
-					<header id="header">
-						<div class="logo">
-							<span class="icon fa-gem"></span>
-						</div>
-						<div class="content">
+ <header id="header">
+            <img src="images/LogoMarket.png" alt="Logo"> <!-- 로고 이미지 추가 -->
+           </header>
+				<div class="inner">
 							<div class="inner">
-								<h1>FISALAND</h1>
-								<p>FISALAND는 우리FISA 구성원들을 위해 특별히 제공하는 플랫폼으로, <br>소유 대신 대여하고 즐거운 점심 시간을 함께 나누는 새로운 경험을 제공합니다. </p>
-							</div>
+        <!-- Product Sections will be dynamically added here -->
+        <input type="submit" value="내가 만든 모임" class="primary" style="margin:20px">
+          <input type="submit" value="내가 참여한 모임" class="primary" style="margin:20px">
+            <input type="submit" value="내가 작성한 리뷰" class="primary" style="margin:20px">
+              <input type="submit" value="모임 만들기" class="primary" style="margin:20px">
+        <form id="product-form" method="post" action="/submitProducts">
+            <div id="product-sections"></div>
+            <!-- No submit button required if not needed -->
+        </form>
+    </div>
+    <script>
+        // Fetch product data and create form sections on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('market/gatherings')
+                .then(response => response.json())
+                .then(markets => {
+           
+                    const container = document.getElementById('product-sections');
+                    markets.forEach(market => {
+                        // Create a section for each product
+                        const section = document.createElement('section');
+                        section.className = 'form-section';
+
+                        // Add content to the section
+                        section.innerHTML = `
+                            <div class="contact-method" style="border: 1px solid black; margin:10px; padding:10px">
+               
+                                <h3>제목 : ${market.title}</h3>
+                                <span>주최자 : ${market.userName}
+                                <br>가게 이름 : ${market.marketName}
+                                <br>상태 : ${market.status}
+                                <br>만나는 시간 : ${market.meetingTime}
+                                </span>
+                            </div>
+                        `;
+
+                        // Append the section to the container
+                        container.appendChild(section);
+                    });
+                })
+                .catch(error => console.error('Error fetching products:', error));
+        });
+    </script>
 						</div>
-						<nav>
-							<ul>
-								<li><a href="/village">Village로 이동</a></li>
-								<li><a href="/market">Market으로 이동</a></li>
-							</ul>
-						</nav>
-					</header>
 				<!-- Main -->
 					<div id="main">
-
-						<!-- Intro -->
-							<article id="intro">
-								<h2 class="major">Intro</h2>
-								<span class="image main"><img src="images/fisalandlogo3.png" alt="" /></span>
-								<p style = "font-size:14px;">
-								    <strong>물건빌리지</strong>는 <strong>소유 대신 대여</strong>로 스마트하게 생활하는 방법을 제시합니다.<br> <br>
-								    필요한 순간, 필요한 물건을 함께 나누는 스마트한 대여 플랫폼으로, 당신의 물건을 가치 있게 활용하고 필요한 물건을 쉽게 빌려보세요.<br>
-								    환경을 생각하는 현명한 선택으로 지속 가능한 미래를 함께 만들어 갑니다.<br>
-								    물건빌리지를 통해 소유의 부담 없이 필요한 물건을 대여하며, 모두가 함께 나누는 풍요로운 삶을 경험해 보세요.
-								</p>
-							
-								<p style = "font-size:14px;">
-								    <strong>FISA에탑</strong>은 우리가 만드는 상암 맛집 랭킹, <strong>FISA 점심 모임 플랫폼</strong>입니다.<br> <br>
-								    FISA에탑은 우리 FISA 교육생을 대상으로 점심 모임을 제공하는 것을 목적으로 합니다.<br>
-								    점심시간에 가고 싶은 맛집과 약속 시간, 날짜를 정해 점심 계획을 만들면, 다른 교육생이 함께 참여할 수 있습니다.<br>
-								    식사 후에는 <strong>리뷰와 별점을 남기고</strong>, 이런 과정들을 통해 가장 평점이 높은 음식점을 쉽게 찾을 수 있습니다.<br>
-								    이제 뭘 먹을지 고민할 필요 없이, 점심 계획에 참여하여 함께하는 즐거움을 느껴보세요.
-								</p>
-								
-							</article>
 
 						<!-- Work -->
 							<article id="work">
