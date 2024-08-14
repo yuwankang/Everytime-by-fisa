@@ -15,3 +15,4 @@ public class GatheringRecord {
 	 @EmbeddedId
 	 private GatheringRecordId id;
 }
+	

@@ -126,4 +126,32 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
 		.build();
 	}
 
+	@Override
+	public Long updateGatheringRecordInfo(Long gatheringRecordInfoId, GatheringRecordInfoDTO.updateGatheringRecordInfo updateGatheringRecordInfo) {
+		// TODO Auto-generated method stub
+		
+		/*this.market = market;
+		this.status = status;
+		this.meetingTime = meetingTime;
+		this.title = title;
+		*/
+		GatheringRecordInfo gri = gatheringRecordInfoRepository.findById(gatheringRecordInfoId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 모임입니다."));
+		Market market = marketRepository.findById(gri.getMarket().getMarketId()).orElseThrow();
+		market.setName(updateGatheringRecordInfo.getMarketName());
+		marketRepository.save(market);
+		gri.setGatheringRecordInfo(
+				market,
+				updateGatheringRecordInfo.getStatus(),
+				LocalDateTime.parse(updateGatheringRecordInfo.getMeetingTime()),
+				updateGatheringRecordInfo.getMeetingTime()
+				);
+		return gatheringRecordInfoRepository.save(gri).getGatheringRecordInfoId();
+	}
+
+	@Override
+	public Long deleteGathringRecordInfo(Long gatheringRecordInfoId) {
+		// TODO Auto-generated method stub
+		return gatheringRecordRepository.deleteById(gatheringRecordInfoId);
+	}
+
 }

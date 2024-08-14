@@ -81,4 +81,18 @@ public class GatheringRecordInfoDTO {
 		getGatheringRecordInfo getGatheringRecordInfos;
 		List<String> participants;
 	}
+	
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@Getter
+	@Setter
+	@Builder
+	@ToString
+	public static class updateGatheringRecordInfo implements Serializable{
+		private Long userId;
+		private String marketName;
+		private Status status;
+		private String meetingTime;
+		private String title;
+	}
 }
