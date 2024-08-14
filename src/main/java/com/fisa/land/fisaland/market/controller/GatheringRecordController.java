@@ -30,14 +30,14 @@ public class GatheringRecordController {
 
     // 모임 참가 취소
     @DeleteMapping("/gathering/cancel/{gatheringRecordId}")
-    public ResponseEntity<Void> cancelGathering(@PathVariable Long gatheringRecordId) {
+    public ResponseEntity<Void> cancelGathering(@PathVariable("gatheringRecordId") Long gatheringRecordId) {
         gatheringRecordService.deleteGatheringRecord(gatheringRecordId);
         return ResponseEntity.noContent().build();
     }
 
     // 특정 유저의 모임 리스트 조회
     @GetMapping("/gathering/user/{userId}")
-    public ResponseEntity<List<GatheringRecordDTO>> getUserGatheringList(@PathVariable Long userId) {
+    public ResponseEntity<List<GatheringRecordDTO>> getUserGatheringList(@PathVariable("userId") Long userId) {
         List<GatheringRecordDTO> gatheringList = gatheringRecordService.getGatheringRecordsByUserId(userId);
         return ResponseEntity.ok(gatheringList);
     }
