@@ -51,12 +51,12 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
     }
     
 	@Override
-	public Long saveGatheringRecord(GatheringRecordInfoDTO.setGatheringRecord gatheringRecord) {
+	public Long saveGatheringRecordInfo(GatheringRecordInfoDTO.setGatheringRecordInfo gatheringRecord) {
 		// TODO Auto-generated method stub
 		
 		User user = userRepository.findById(gatheringRecord.getUserId()).orElseThrow();
 		Market market = marketRepository.findById(gatheringRecord.getMarketId()).orElseThrow();
-		GatheringRecordInfoDTO.saveGatheringRecord saveGatheringRecord = GatheringRecordInfoDTO.saveGatheringRecord.builder()
+		GatheringRecordInfoDTO.saveGatheringRecordInfo saveGatheringRecord = GatheringRecordInfoDTO.saveGatheringRecordInfo.builder()
 				.marketId(market)
 				.userId(user)
 				.meetingTime(LocalDateTime.parse(gatheringRecord.getMeetingTime()))
@@ -64,7 +64,7 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
 				.title(gatheringRecord.getTitle())
 				.build();
 		GatheringRecordInfo gatheringRecordInfo = modelMapper.map(saveGatheringRecord, GatheringRecordInfo.class);
-		return gatheringRecordInfoRepository.save(gatheringRecordInfo).getGetherRecordId();
+		return gatheringRecordInfoRepository.save(gatheringRecordInfo).getGatheringRecordInfoId();
 		
 	}
 
@@ -77,12 +77,12 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
 		private String title;
 	 */
 	@Override
-	public List<GatheringRecordInfoDTO.getGatheringRecord> getGatheringRecord() {
+	public List<GatheringRecordInfoDTO.getGatheringRecordInfo> getGatheringRecordInfo() {
 		// TODO Auto-generated method stub
 		List<GatheringRecordInfo> list = gatheringRecordInfoRepository.findAllByStatus(Status.BEFORE);
 		return list.stream().map(m ->{
-			return GatheringRecordInfoDTO.getGatheringRecord.builder()
-				.gatheringRecordInfoId(m.getGetherRecordId())
+			return GatheringRecordInfoDTO.getGatheringRecordInfo.builder()
+				.gatheringRecordInfoId(m.getGatheringRecordInfoId())
 				.userName(m.getUser().getUsername())
 				.marketName(m.getMarket().getName())
 				.title(m.getTitle())
@@ -102,13 +102,13 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
 		private String title;
 	 */
 	@Override
-	public GatheringRecordInfoDTO.getGatheringRecordDetail getGatheringRecordDetail(
+	public GatheringRecordInfoDTO.getGatheringRecordInfoDetail getGatheringRecordInfoDetail(
 			Long gatheringRecordId) {
 		// TODO Auto-generated method stub
 		
 		GatheringRecordInfo gatheringRecordInfo = gatheringRecordInfoRepository.findById(gatheringRecordId).orElseThrow(()-> new IllegalArgumentException("존재하지 않는 모임입니다"));
-		GatheringRecordInfoDTO.getGatheringRecord gatheringRecord = GatheringRecordInfoDTO.getGatheringRecord.builder()
-			.gatheringRecordInfoId(gatheringRecordInfo.getGetherRecordId())
+		GatheringRecordInfoDTO.getGatheringRecordInfo gatheringRecord = GatheringRecordInfoDTO.getGatheringRecordInfo.builder()
+			.gatheringRecordInfoId(gatheringRecordInfo.getGatheringRecordInfoId())
 			.userName(gatheringRecordInfo.getUser().getUsername())
 			.marketName(gatheringRecordInfo.getMarket().getName())
 			.status(gatheringRecordInfo.getStatus())
@@ -120,7 +120,7 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
 			    .stream()                           // 스트림으로 변환
 			    .map(User::getUsername)             // 각 User 객체에서 username 필드만 추출
 			    .collect(Collectors.toList());  
-		return GatheringRecordInfoDTO.getGatheringRecordDetail.builder()
+		return GatheringRecordInfoDTO.getGatheringRecordInfoDetail.builder()
 		.getGatheringRecordInfos(gatheringRecord)
 		.participants(participants)
 		.build();

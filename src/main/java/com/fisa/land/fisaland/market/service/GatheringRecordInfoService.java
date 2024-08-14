@@ -8,9 +8,11 @@ import jakarta.transaction.Transactional;
 @Transactional
 public interface GatheringRecordInfoService {
 
-	Long saveGatheringRecord(GatheringRecordInfoDTO.setGatheringRecord gatheringRecordInfo);
+	Long saveGatheringRecordInfo(GatheringRecordInfoDTO.setGatheringRecordInfo gatheringRecordInfo);
 	
-	List<GatheringRecordInfoDTO.getGatheringRecord> getGatheringRecord();
+	List<GatheringRecordInfoDTO.getGatheringRecordInfo> getGatheringRecordInfo();
 	
-	GatheringRecordInfoDTO.getGatheringRecordDetail getGatheringRecordDetail(Long gatheringRecordId);
+	GatheringRecordInfoDTO.getGatheringRecordInfoDetail getGatheringRecordInfoDetail(Long gatheringRecordId);
+	
+	
 }

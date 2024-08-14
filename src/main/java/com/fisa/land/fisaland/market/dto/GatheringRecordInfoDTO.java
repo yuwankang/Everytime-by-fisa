@@ -34,7 +34,7 @@ public class GatheringRecordInfoDTO {
 	@Getter
 	@Setter
 	@ToString
-	public static class setGatheringRecord{
+	public static class setGatheringRecordInfo{
 		private Long userId;
 		private Long marketId;
 		private Status status;
@@ -48,7 +48,7 @@ public class GatheringRecordInfoDTO {
 	@Setter
 	@Builder
 	@ToString
-	public static class saveGatheringRecord{
+	public static class saveGatheringRecordInfo{
 		private User userId;
 		private Market marketId;
 		private Status status;
@@ -62,7 +62,7 @@ public class GatheringRecordInfoDTO {
 	@Setter
 	@Builder
 	@ToString
-	public static class getGatheringRecord implements Serializable{
+	public static class getGatheringRecordInfo implements Serializable{
 		private Long gatheringRecordInfoId;
 		private String userName;
 		private String marketName;
@@ -77,8 +77,8 @@ public class GatheringRecordInfoDTO {
 	@Setter
 	@Builder
 	@ToString
-	public static class getGatheringRecordDetail implements Serializable{
-		getGatheringRecord getGatheringRecordInfos;
+	public static class getGatheringRecordInfoDetail implements Serializable{
+		getGatheringRecordInfo getGatheringRecordInfos;
 		List<String> participants;
 	}
 }

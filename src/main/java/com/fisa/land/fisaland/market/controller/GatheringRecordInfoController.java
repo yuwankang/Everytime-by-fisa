@@ -21,17 +21,17 @@ public class GatheringRecordInfoController {
 	GatheringRecordInfoService gatheringRecordInfoService;
 	
 	@PostMapping("/gathering")
-	public Long saveGatheringRecord(@RequestBody GatheringRecordInfoDTO.setGatheringRecord gatheringRecordInfoDto) {
-		return gatheringRecordInfoService.saveGatheringRecord(gatheringRecordInfoDto);
+	public Long saveGatheringRecord(@RequestBody GatheringRecordInfoDTO.setGatheringRecordInfo gatheringRecordInfoDto) {
+		return gatheringRecordInfoService.saveGatheringRecordInfo(gatheringRecordInfoDto);
 	}
 
 	@GetMapping("/gatherings")
-	public List<GatheringRecordInfoDTO.getGatheringRecord> getGatherings() {
-		return gatheringRecordInfoService.getGatheringRecord();
+	public List<GatheringRecordInfoDTO.getGatheringRecordInfo> getGatherings() {
+		return gatheringRecordInfoService.getGatheringRecordInfo();
 	}
 	
 	@GetMapping("/gathering/{gathering_id}")
-	public GatheringRecordInfoDTO.getGatheringRecordDetail getGatheringById(@PathVariable Long gatheringId) {
-		return gatheringRecordInfoService.getGatheringRecordDetail(gatheringId);
+	public GatheringRecordInfoDTO.getGatheringRecordInfoDetail getGatheringById(@PathVariable Long gatheringId) {
+		return gatheringRecordInfoService.getGatheringRecordInfoDetail(gatheringId);
 	}
 }
