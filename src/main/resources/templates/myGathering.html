@@ -111,6 +111,20 @@
         .gathering-info .status .btn:hover {
             background-color: #999999;
         }
+        .gathering-info .delete-btn {
+            background-color: #ff5555;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #ffffff;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .gathering-info .delete-btn:hover {
+            background-color: #ff7777;
+        }
     </style>
 </head>
 <body>
@@ -134,8 +148,25 @@
     </div>
     <script src="assets/js/jquery.min.js"></script>
     <script>
-    
+    // 모임 삭제 함수
+    function deleteGathering(gatheringRecordInfoId) {
+        $.ajax({
+            url: 'http://127.0.0.1:8080/market/gathering/' + gatheringRecordInfoId,
+            method: 'DELETE',
+            success: function() {
+                alert('모임이 성공적으로 삭제되었습니다.');
+                location.reload(); // 페이지 새로고침
+            },
+            error: function(xhr, status, error) {
+                console.error('모임 삭제 실패:', status, error);
+                alert('모임 삭제에 실패했습니다. 다시 시도해주세요.');
+            }
+        });
+    }
+	
     $(document).ready(function() {
+
+
         function loadGatherings() {
 
             // localStorage에서 전체 userData 객체를 가져오기
@@ -202,6 +233,12 @@
                     var gatheringHtml = '';
                     gatheringRecords.forEach(function(record) {
                         gatheringHtml += '<div class="gathering-info">';
+                        
+                        // 모임 상태가 BEFORE인 경우 "모임 삭제" 버튼 추가
+                        if (record.status === 'BEFORE') {
+                            gatheringHtml += '<button class="delete-btn" onclick="deleteGathering(' + record.gatheringRecordInfoId + ')">모임 삭제</button>';
+                        }
+
                         gatheringHtml += '<div class="title">' + record.title + '</div>';
                         gatheringHtml += '<div class="info">';
                         gatheringHtml += '<div>작성자: ' + record.userName + '</div>';
@@ -239,6 +276,7 @@
                 }
             });
         }
+
 
         // 페이지 로드 시 자동으로 모임 정보 가져오기
         loadGatherings();
