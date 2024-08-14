@@ -19,7 +19,7 @@ public interface GatheringRecordRepository extends JpaRepository<GatheringRecord
 
 	void deleteById(Long gatheringRecordInfoId);
 	
-	List<GatheringRecord> findByUser_UserId(Long userId);
+	List<GatheringRecord> findByUserUserId(Long userId);
 
 }
 

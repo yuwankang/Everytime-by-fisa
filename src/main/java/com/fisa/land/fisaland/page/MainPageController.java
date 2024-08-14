@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MainPageController {
 	   @GetMapping("main")
 	    public String get() {
-	    	return "index.html";
+	    	return "index";
 	    }
+	   @GetMapping("about")
+	   public String get2() {
+		   return "about";
+	   }
 }
