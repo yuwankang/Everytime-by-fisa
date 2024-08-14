@@ -19,7 +19,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
+@Setter 
 @Builder
 @Entity
 @Table(name = "gathering_record")
