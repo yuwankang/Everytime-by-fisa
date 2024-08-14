@@ -1,6 +1,7 @@
 package com.fisa.land.fisaland.lending.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -91,5 +92,38 @@ public class ProductServiceImpl implements ProductService{
         product.setStatus(Product.Status.AVAILABLE);
         productRepository.save(product);
     }
-  
+	
+	@Override
+    public List<ProductDTO.getMyProduct> getProductsByUserId(Long userId) {
+        List<Product> products = productRepository.findByUserId(userId); // 사용자 ID로 제품 조회
+        return products.stream()
+                       .map(this::convertToDTO)
+                       .collect(Collectors.toList());
+    }
+
+    private ProductDTO.getMyProduct convertToDTO(Product product) {
+        ProductDTO.getMyProduct dto = new ProductDTO.getMyProduct();
+        dto.setProductId(product.getProductId());
+        dto.setProductName(product.getProduct_name()); // `product_name`이 아니라 `getProductName`으로 수정
+        dto.setDescription(product.getDescription());
+        dto.setStatus(product.getStatus());
+        dto.setPrice(product.getPrice());
+        dto.setCategory(product.getCategory());
+        dto.setCreatedAt(product.getCreatedAt());  // 추가된 필드
+        return dto;
+    }
+    
+    @Override
+    public boolean deleteProduct(Long productId, Long userId) {
+        Product product = productRepository.findById(productId)
+            .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        // 확인: 사용자가 이 상품의 소유자인지 체크
+        if (!product.getUser_id().equals(userId)) {
+            return false; 
+        }
+
+        productRepository.delete(product); // 상품 삭제
+        return true;
+    }
 }
