@@ -47,6 +47,7 @@ public class GatheringRecordServiceImpl implements GatheringRecordService {
         return savedRecord.getGatheringRecordId();
     }
 
+
     @Override
     public void deleteGatheringRecord(Long gatheringRecordId) {
         gatheringRecordRepository.deleteById(gatheringRecordId);

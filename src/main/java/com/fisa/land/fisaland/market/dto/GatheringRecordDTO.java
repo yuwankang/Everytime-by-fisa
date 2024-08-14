@@ -15,4 +15,16 @@ public class GatheringRecordDTO {
     private Long gatheringRecordId;
     private Long userId;
     private Long gatheringRecordInfoId;
+    
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @ToString
+    public static class JoinRequest {
+        private Long userId;
+        private Long gatheringRecordInfoId;
+    }
 }
+
+
