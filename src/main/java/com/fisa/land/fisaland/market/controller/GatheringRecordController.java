@@ -31,7 +31,7 @@ public class GatheringRecordController {
 	}
 	
 	@GetMapping("/gathering/{gathering_id}")
-	public List<GatheringRecordInfoDTO.getGatheringRecord> getGatheringById(@PathVariable Long gatheringId) {
-		return gatheringRecordService.getGatheringRecord();
+	public GatheringRecordInfoDTO.getGatheringRecordDetail getGatheringById(@PathVariable Long gatheringId) {
+		return gatheringRecordService.getGatheringRecordDetail(gatheringId);
 	}
 }

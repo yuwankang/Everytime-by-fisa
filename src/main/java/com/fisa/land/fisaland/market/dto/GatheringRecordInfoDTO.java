@@ -71,8 +71,14 @@ public class GatheringRecordInfoDTO {
 		private String title;
 	}
 	
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@Getter
+	@Setter
+	@Builder
+	@ToString
 	public static class getGatheringRecordDetail implements Serializable{
-		List<getGatheringRecord> getGatheringRecordInfos;
+		getGatheringRecord getGatheringRecordInfos;
 		List<String> participants;
 	}
 }
