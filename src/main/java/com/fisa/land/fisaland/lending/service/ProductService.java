@@ -16,4 +16,6 @@ public interface ProductService {
     
 	void updateProductStatus(Long productId, Product.Status status);
 	
+	void approveReturn(Long productId, Long userId);
+	
 }

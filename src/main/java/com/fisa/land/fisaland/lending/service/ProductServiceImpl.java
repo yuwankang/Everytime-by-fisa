@@ -38,11 +38,11 @@ public class ProductServiceImpl implements ProductService{
 		        product.setPrice(createProduct.getPrice());
 		        product.setCategory(createProduct.getCategory());
 		        product.setStatus(Product.Status.AVAILABLE);
-		        product.setUserId(userId);
+		        product.setUser_id(userId);
 		
 		        Product savedProduct = productRepository.save(product);
 		        
-		        return savedProduct.getUserId();
+		        return savedProduct.getUser_id();
 		    }
 
 	@Override
@@ -68,6 +68,23 @@ public class ProductServiceImpl implements ProductService{
         productRepository.save(product);
     }
 	
-	
+	@Override
+    public void approveReturn(Long productId, Long user_id) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid product ID"));
+
+        // 유저 ID 비교
+        if (!product.getUser_id().equals(user_id)) {
+            throw new IllegalStateException("물건의 주인이 아닙니다");
+        }
+        // 물건의 상태가 RENTED가 아니면 반납 승인 불가
+        if (!product.getStatus().equals(Product.Status.RENTED)) {
+            throw new IllegalStateException("반납할 수 없는 상태입니다.");
+        }
+
+        // 주인이 맞다면 상태를 AVAILABLE로 변경
+        product.setStatus(Product.Status.AVAILABLE);
+        productRepository.save(product);
+    }
   
 }
