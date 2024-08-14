@@ -1,5 +1,7 @@
 package com.fisa.land.fisaland.lending.dto;
 
+import java.time.LocalDateTime;
+
 import com.fisa.land.fisaland.lending.entity.Product.Category;
 import com.fisa.land.fisaland.lending.entity.Product.Status;
 
@@ -36,6 +38,22 @@ public class ProductDTO {
 		private Status status;  
 		private int price;	
 		private Category category;  
+	    
+	}
+	
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@Getter
+	@Setter
+	@ToString
+	public static class getMyProduct{
+		private long productId;
+		private String productName;
+		private String description;
+		private Status status;  
+		private int price;	
+		private Category category;  
+		private LocalDateTime createdAt;
 	    
 	}
 } 
