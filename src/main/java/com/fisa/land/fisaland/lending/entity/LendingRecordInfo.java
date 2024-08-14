@@ -79,7 +79,6 @@ public class LendingRecordInfo {
     // 대여 상태 Enum 정의
     public enum LendingStatus {
         RENTED,
-        RETURN_REQUESTED,
         RETURN_COMPLETED,
         OVERDUE
     }
