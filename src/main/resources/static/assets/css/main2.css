@@ -1,5 +1,7 @@
 @import url("fontawesome-all.min.css");
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,700,900");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
 
 /*
 	Escape Velocity by HTML5 UP
@@ -2983,3 +2985,92 @@ input, select, textarea {
 						}
 
 	}
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7); /* Darker semi-transparent background */
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 30px; /* Increased padding for wider spacing */
+            border-radius: 8px;
+            width: 50%; /* Increased width for a longer modal */
+            max-width: 800px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Stronger shadow for depth */
+            overflow: hidden;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Modal Header */
+        .modal-header {
+            text-align: center;
+            margin-bottom: 25px; /* Increased margin for more space between sections */
+        }
+
+        .modal-header h2 {
+            font-size: 1.5em; /* Reduced font size */
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: 600; /* Use bold weight from Poppins */
+        }
+
+        .modal-header p {
+            font-size: 1.1em;
+            color: #777;
+        }
+
+        /* Modal Body */
+        .modal-body {
+            margin-bottom: 25px; /* Increased margin for more space between sections */
+        }
+
+        .modal-body p {
+            font-size: 1.1em;
+            color: #444;
+            line-height: 1.8; /* Increased line height for better readability */
+        }
+
+        /* Modal Footer */
+        .modal-footer {
+            text-align: center;
+        }
+
+        .modal-footer .small-button {
+            padding: 10px 20px; /* Slightly increased button padding */
+            background-color: #3498db;
+            color: #fff;
+            font-size: 0.9em;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .modal-footer .small-button:hover {
+            background-color: #2980b9;
+        }

@@ -61,6 +61,64 @@ public class MainPageController {
 	   public String productReviewPage(){
 		   return "productReview";
 
+	@GetMapping("main")
+	public String get() {
+		return "index";
+	}
+
+	@GetMapping("/create_gathering")
+	public String gatheringRegisterPage() {
+		return "create_gathering";
+	}
+
+	@GetMapping("/login")
+	public String loginPage() {
+		return "login";
+	}
+
+	@GetMapping("village")
+	public String getVillagePage() {
+		return "villageMain";
+	}
+
+	@GetMapping("market")
+	public String getMarketPage() {
+		return "marketMain";
+	}
+
+	@GetMapping("myGathering")
+	public String getmyGathering() {
+		return "myGathering";
+	}
+
+	@GetMapping("joinedGathering")
+	public String getJoinedGathering() {
+		return "joinedGathering";
+	}
+
+	@GetMapping("marketJoin")
+	public String getMarketJoinPage() {
+		return "marketJoinGathering";
+	}
+
+	@GetMapping("myBorrow")
+	public String getmyBorrow() {
+		return "myBorrow";
+	}
+
+	@GetMapping("myLend")
+	public String getmyLend() {
+		return "myLend";
+	}
+
+	@GetMapping("lending")
+	public String lendingJoinPage() {
+		return "lending";
+	}
+
+	@GetMapping("marketReview")
+	public String marketReview() {
+		return "marketReview";
 	}
 
 }
