@@ -65,5 +65,10 @@ public class MainPageController {
 	public String marketReview() {
 		return "marketReview";
 	}
+	
+    @GetMapping("productReview")
+    public String productReviewPage(){
+	    return "productReview";
+    }
 
 }
