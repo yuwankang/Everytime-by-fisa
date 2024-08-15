@@ -1,4 +1,4 @@
-package com.fisa.land.fisaland.config;
+package com.fisa.land.fisaland.common.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;

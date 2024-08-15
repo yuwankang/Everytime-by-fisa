@@ -1,4 +1,4 @@
-package com.fisa.land.fisaland.config;
+package com.fisa.land.fisaland.common.config;
 import org.springframework.format.Formatter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
