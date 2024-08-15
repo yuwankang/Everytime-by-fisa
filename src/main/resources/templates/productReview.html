@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>물건 리뷰 작성 페이지</title>
+    <link rel="stylesheet" href="assets/css/main2.css">
+    <style>
+        /* Styles specific to the review page */
+        body {
+            background: linear-gradient(to bottom, #2c3e50, #34495e);
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 30px auto;
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border: 1px solid #ced6e0;
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 26px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .review-section {
+            margin-top: 30px;
+        }
+
+        .review-title {
+            font-size: 22px;
+            color: #34495e;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .review-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .review-form textarea {
+            width: 80%;
+            height: 150px;
+            padding: 10px;
+            border: 1px solid #ced6e0;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            resize: none;
+        }
+
+        .review-form button {
+            background-color: #3498db;
+            border: none;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .review-form button:hover {
+            background-color: #2980b9;
+        }
+
+        .product-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .product-info h2 {
+            margin: 0;
+            font-size: 22px;
+            color: #2c3e50;
+            border-bottom: 2px solid #ced6e0;
+            padding-bottom: 5px;
+        }
+
+        .product-info .info {
+            margin-top: 15px;
+        }
+
+        .product-info .info div {
+            margin-bottom: 10px;
+            color: #34495e;
+        }
+    </style>
+</head>
+
+<body>
+<div id="page-wrapper">
+    <!-- Header -->
+    <section id="header" class="wrapper">
+        <!-- Logo -->
+        <div id="logo">
+            <h1><a href="/main">FISALAND</a></h1>
+            <p>FISA 인들의 솔직한 맛집 리뷰 작성 페이지</p>
+        </div>
+
+        <!-- Nav -->
+        <nav id="nav">
+            <ul>
+                <li><a href="/main">Home</a></li>
+                <li><a href="/myBorrow">My Borrow</a></li>
+                <li><a href="/myLend">My Lend</a></li>
+            </ul>
+        </nav>
+    </section>
+
+    <!-- Main -->
+    <section id="main" class="wrapper style2">
+        <div class="container">
+            <h1>Review Your Borrowed Item</h1>
+
+            <!-- 상품 정보 -->
+            <div class="product-info">
+                <h2>상품 정보</h2>
+                <div class="info">
+                    <div><strong>상품명:</strong> <span id="product-name">[상품명]</span></div>
+                    <div><strong>상품 설명:</strong> <span id="product-description">[상품 설명]</span></div>
+                    <div><strong>등록일:</strong> <span id="product-created-at">[등록일]</span></div>
+                    <div><strong>상품 카테고리:</strong> <span id="product-category">[상품 카테고리]</span></div>
+                </div>
+            </div>
+
+            <div class="review-section">
+                <h2 class="review-title">Product Name: <span id="product-name-display">Sample Product</span></h2>
+                <div class="review-form">
+                    <textarea id="review-content" placeholder="Write your review here..."></textarea>
+                    <button id="submit-review-btn">Submit Review</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Load user and product data
+        var userData = JSON.parse(localStorage.getItem('userData'));
+        var productData = JSON.parse(localStorage.getItem('productData'));
+
+        // Load product information
+        $.ajax({
+            url: '/api/product',
+            method: 'GET',
+            success: function (response) {
+                $('#product-name').text(response.product.name);
+                $('#product-description').text(response.product.description);
+                $('#product-created-at').text(new Date(response.product.created_at).toLocaleDateString());
+                $('#product-category').text(response.product.category);
+
+                // Set product name for review section
+                $('#product-name-display').text(response.product.name);
+            },
+            error: function (xhr, status, error) {
+                console.error('상품 데이터 로드 오류:', error);
+                alert('상품 정보를 가져오는 데 오류가 발생했습니다.');
+            }
+        });
+
+        // Submit review
+        $('#submit-review-btn').click(function () {
+            var reviewContent = $('#review-content').val().trim();
+
+            if (reviewContent === "") {
+                alert('Please write a review before submitting.');
+                return;
+            }
+
+            var reviewData = {
+                content: reviewContent,
+                productId: productData.product_id,
+                rate: 5.0, // Example rate, should be dynamic
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+
+            $.ajax({
+                url: `/village/products/${productData.product_id}/review`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(reviewData),
+                success: function (response) {
+                    alert('Review submitted successfully.');
+                    window.location.href = '/main';
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error submitting review:', status, error);
+                    alert('There was an error submitting your review. Please try again later.');
+                }
+            });
+        });
+    });
+</script>
+</body>
+
+</html>
