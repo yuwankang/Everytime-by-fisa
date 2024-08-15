@@ -56,6 +56,10 @@ public class MainPageController {
 	   @GetMapping("lending")
 	   public String lendingJoinPage() {
 		   return "lending";
+	   }
+	   @GetMapping("productReview")
+	   public String productReviewPage(){
+		   return "productReview";
 
 	}
 
