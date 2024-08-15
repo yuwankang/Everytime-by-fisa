@@ -16,46 +16,49 @@ import com.fisa.land.fisaland.lending.entity.LendingRecordInfo;
 import com.fisa.land.fisaland.lending.entity.LendingRecords;
 import com.fisa.land.fisaland.lending.service.LendingRecordService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("village/products")
+@Tag(name = "대여 기록 API", description = "대여 기록을 등록, 조회, 수정하는 API")
 public class LendingRecordController {
 
-	@Autowired
-	LendingRecordService lendingRecordService;
-	
-	//대여 등록
-	@PostMapping("lendingRecord")
-	public LendingRecords saveLendingRecord(@RequestBody LendingRecordDto lendingRecordDto) {
+    @Autowired
+    LendingRecordService lendingRecordService;
+
+    @Operation(summary = "대여 기록 등록", description = "새로운 대여 기록을 등록하는 API")
+    @PostMapping("lendingRecord")
+    public LendingRecords saveLendingRecord(@RequestBody LendingRecordDto lendingRecordDto) {
         return lendingRecordService.saveLendingRecord(lendingRecordDto);
-    
-	}
-	
-	//내가 빌린 대여 리스트 조회
+    }
+
+    @Operation(summary = "내가 빌린 대여 목록 조회", description = "특정 대여자가 빌린 모든 대여 기록을 조회하는 API")
     @GetMapping("/borrower/{borrowerId}")
-    public List<LendingRecords> getLendingRecordsByBorrower(@PathVariable("borrowerId") Long borrowerId) {
+    public List<LendingRecords> getLendingRecordsByBorrower(
+            @Parameter(description = "대여자 ID", example = "1") @PathVariable("borrowerId") Long borrowerId) {
         return lendingRecordService.getLendingRecordsByBorrower(borrowerId);
     }
 
-	//내가 빌려준 대여 리스트 조회
+    @Operation(summary = "내가 빌려준 대여 목록 조회", description = "특정 소유자가 빌려준 모든 대여 기록을 조회하는 API")
     @GetMapping("/owner/{ownerId}")
-    public List<LendingRecords> getLendingRecordsByOwner(@PathVariable("ownerId") Long ownerId) {
+    public List<LendingRecords> getLendingRecordsByOwner(
+            @Parameter(description = "소유자 ID", example = "1") @PathVariable("ownerId") Long ownerId) {
         return lendingRecordService.getLendingRecordsByOwner(ownerId);
     }
 
-    // 대여자의 총 연체료를 조회
+    @Operation(summary = "대여자의 총 연체료 조회", description = "특정 대여자가 현재까지 발생한 총 연체료를 조회하는 API")
     @GetMapping("/borrower/{borrowerId}/totalOverdueFee")
-    public Integer getTotalOverdueFeeByBorrower(@PathVariable("borrowerId") Long borrowerId) {
+    public Integer getTotalOverdueFeeByBorrower(
+            @Parameter(description = "대여자 ID", example = "1") @PathVariable("borrowerId") Long borrowerId) {
         return lendingRecordService.getTotalOverdueFeesByBorrower(borrowerId);
     }
-	
-	/* 반납 시 연체료 세팅 
-	 * 밀린 날짜 * 2 * 대여료 
-	 * */
-	
-	//대여 상태 수정
+
+    @Operation(summary = "대여 상태 수정", description = "특정 대여 기록의 상태를 수정하는 API")
     @PutMapping("/{lendingRecordId}/status")
     public LendingRecordInfo updateLendingRecordStatus(
-            @PathVariable("lendingRecordId") Long lendingRecordId) {
+            @Parameter(description = "대여 기록 ID", example = "1") @PathVariable("lendingRecordId") Long lendingRecordId) {
         return lendingRecordService.updateLendingRecordStatus(lendingRecordId);
     }
 }

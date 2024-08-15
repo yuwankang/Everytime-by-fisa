@@ -18,44 +18,50 @@ import com.fisa.land.fisaland.lending.dto.ProductDTO;
 import com.fisa.land.fisaland.lending.entity.Product;
 import com.fisa.land.fisaland.lending.service.ProductService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 
-
-
 @RestController
-@RequestMapping("village")
+@RequestMapping("/village")
+@Tag(name = "대여 물품 API", description = "물품 등록, 조회, 대여 및 반납 API")
 public class ProductController {
 
     @Autowired
     private ProductService productService;
-    
-    //물건 등록
-    @PostMapping("addProduct")
-    public Long addProduct(@RequestBody ProductDTO.CreateProduct createProduct) {
-        Long userId = productService.saveProduct(createProduct);
-		return userId;
 
+    @Operation(summary = "물품 등록", description = "새로운 물품을 등록하는 API")
+    @PostMapping("/addProduct")
+    public Long addProduct(@RequestBody ProductDTO.CreateProduct createProduct) {
+        return productService.saveProduct(createProduct);
     }
-    //등록된 모든 물건 검색
-    @GetMapping("products")
+
+    @Operation(summary = "모든 물품 조회", description = "등록된 모든 물품을 조회하는 API")
+    @GetMapping("/products")
     public List<ProductDTO.getProduct> getProducts() {
-    	return productService.getProductList();
-        
+        return productService.getProductList();
     }
-    // 물건 id 로 검색
-    @GetMapping("/{productId}")
-    public ProductDTO.getProduct getProduct(@PathVariable("productId") Long productId) {
-    	return productService.getProduct(productId);
+
+    @Operation(summary = "물품 상세 조회", description = "물품 ID로 특정 물품을 조회하는 API")
+    @GetMapping("/products/{productId}")
+    public ProductDTO.getProduct getProduct(
+            @Parameter(description = "물품 ID", example = "1") @PathVariable("productId") Long productId) {
+        return productService.getProduct(productId);
     }
-    //대여 신청
+
+    @Operation(summary = "대여 신청", description = "특정 물품을 대여 신청하는 API")
     @PatchMapping("/products/{productId}/rent")
-    public void rentProduct(@PathVariable("productId") Long productId) {
+    public void rentProduct(
+            @Parameter(description = "물품 ID", example = "1") @PathVariable("productId") Long productId) {
         productService.updateProductStatus(productId, Product.Status.RENTED);
     }
-    //반납 신청
-    @PatchMapping("products/{productId}/return")
-    public ResponseEntity<String> returnProduct(@PathVariable("productId") Long productId, HttpSession session) {
-        // 세션에서 유저 ID를 가져옵니다.
+
+    @Operation(summary = "반납 신청", description = "대여한 물품을 반납 신청하는 API")
+    @PatchMapping("/products/{productId}/return")
+    public ResponseEntity<String> returnProduct(
+            @Parameter(description = "물품 ID", example = "1") @PathVariable("productId") Long productId,
+            HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
 
         try {
@@ -65,25 +71,26 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
     }
-    
-    //유저ID로 내가 올린 물건들 검색
-    @GetMapping("myProducts")
+
+    @Operation(summary = "내가 등록한 물품 조회", description = "세션에 저장된 유저 ID로 내가 등록한 물품을 조회하는 API")
+    @GetMapping("/myProducts")
     public List<ProductDTO.getMyProduct> myProducts(HttpSession session) {
-    	Long userId = (Long) session.getAttribute("userId");
-    	
-    	return productService.getProductsByUserId(userId);
+        Long userId = (Long) session.getAttribute("userId");
+        return productService.getProductsByUserId(userId);
     }
-    
-    @DeleteMapping("products/{productId}/delete")
-    public ResponseEntity<String> cancelProduct(@PathVariable("productId") Long productId, HttpSession session) {
+
+    @Operation(summary = "물품 삭제", description = "특정 물품을 삭제하는 API")
+    @DeleteMapping("/products/{productId}/delete")
+    public ResponseEntity<String> cancelProduct(
+            @Parameter(description = "물품 ID", example = "1") @PathVariable("productId") Long productId,
+            HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
         boolean isCancelled = productService.deleteProduct(productId, userId);
-        
+
         if (isCancelled) {
-            return ResponseEntity.ok("Product cancelled successfully.");
+            return ResponseEntity.ok("물품이 성공적으로 삭제되었습니다.");
         } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to cancel this product.");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("이 물품을 삭제할 권한이 없습니다.");
         }
     }
-    
 }
