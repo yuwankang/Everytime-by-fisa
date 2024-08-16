@@ -218,58 +218,58 @@ body {
             });
         });
     </script>
-	<script>
-    $(document).ready(function() {
-        function loadGatherings() {
-            // localStorage에서 전체 userData 객체를 가져오기
-            var userData = localStorage.getItem('userData'); 
-            if (userData) {
-                // 문자열로 저장된 JSON을 객체로 변환
-                userData = JSON.parse(userData); 
-                var userId = userData.userId;
-                var username = userData.username;
-                var userClass = userData.userClass;
-                
-                if (!userId) {
-                    console.error('User ID가 없습니다. 로그인이 필요합니다.');
-                    return;
-                }
-
-                // 우측 상단에 사용자 정보 표시
-                $('#user-info').html(`
-                    <div>반: ${userClass} | 이름: ${username}</div>
-                    <div class="buttons">
-                        <button onclick="window.location.href='/village';">Village Home</button>
-                        <button id="logout-btn">로그아웃</button>
-                    </div>
-                `);
-                
-                // 로그아웃 버튼 클릭 시 이벤트 처리
-                $('#logout-btn').on('click', function() {
-                    $.ajax({
-                        url: 'http://127.0.0.1:8080/common/user/logout',
-                        method: 'POST',
-                        success: function() {
-                            // localStorage 데이터 삭제
-                            localStorage.clear();
-                            alert('로그아웃 되었습니다.');
-                            window.location.href = '/main'; // 로그아웃 후 메인 페이지로 리디렉션
-                        },
-                        error: function(err) {
-                            console.error('로그아웃 실패:', err);
-                            alert('로그아웃에 실패했습니다. 다시 시도해주세요.');
-                        }
-                    });
-                });
-            } else {
-                console.error('User data가 없습니다. 로그인이 필요합니다.');
-                window.location.href = '/login'; // 로그인 페이지로 리디렉션
-            }
-        }
-
-        // 페이지 로드 시 loadGatherings 함수 호출
-        loadGatherings();
-    });
-    </script>
+		<script>
+	    $(document).ready(function() {
+	        function loadGatherings() {
+	            // localStorage에서 전체 userData 객체를 가져오기
+	            var userData = localStorage.getItem('userData'); 
+	            if (userData) {
+	                // 문자열로 저장된 JSON을 객체로 변환
+	                userData = JSON.parse(userData); 
+	                var userId = userData.userId;
+	                var username = userData.username;
+	                var userClass = userData.userClass;
+	                
+	                if (!userId) {
+	                    console.error('User ID가 없습니다. 로그인이 필요합니다.');
+	                    return;
+	                }
+	
+	                // 우측 상단에 사용자 정보 표시
+	                $('#user-info').html(`
+	                    <div>반: ${userClass} | 이름: ${username}</div>
+	                    <div class="buttons">
+	                        <button onclick="window.location.href='/village';">Village Home</button>
+	                        <button id="logout-btn">로그아웃</button>
+	                    </div>
+	                `);
+	                
+	                // 로그아웃 버튼 클릭 시 이벤트 처리
+	                $('#logout-btn').on('click', function() {
+	                    $.ajax({
+	                        url: 'http://127.0.0.1:8080/common/user/logout',
+	                        method: 'POST',
+	                        success: function() {
+	                            // localStorage 데이터 삭제
+	                            localStorage.clear();
+	                            alert('로그아웃 되었습니다.');
+	                            window.location.href = '/main'; // 로그아웃 후 메인 페이지로 리디렉션
+	                        },
+	                        error: function(err) {
+	                            console.error('로그아웃 실패:', err);
+	                            alert('로그아웃에 실패했습니다. 다시 시도해주세요.');
+	                        }
+	                    });
+	                });
+	            } else {
+	                console.error('User data가 없습니다. 로그인이 필요합니다.');
+	                window.location.href = '/login'; // 로그인 페이지로 리디렉션
+	            }
+	        }
+	
+	        // 페이지 로드 시 loadGatherings 함수 호출
+	        loadGatherings();
+	    });
+	    </script>
 </body>
 </html>
