@@ -115,7 +115,7 @@
                         .then(response => response.json()) // Parse JSON response
                         .then(data => {
                             alert('Product rental completed successfully.');
-                            console.log(data); // Optionally log the response data
+                            window.location.reload();
                         })
                         .catch(error => {
                             console.error('Error:', error);
@@ -123,6 +123,7 @@
                         });
                     } else {
                         console.error('User data not found.');
+                        window.location.reload()
                     }
                 }
             </script>
