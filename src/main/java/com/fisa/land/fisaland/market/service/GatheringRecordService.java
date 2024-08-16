@@ -8,7 +8,7 @@ public interface GatheringRecordService {
 	
     Long joinGathering(Long userId, Long gatheringRecordInfoId);
     
-    void deleteGatheringRecord(Long gatheringRecordId);
+    void deleteGatheringRecord(GatheringRecordDTO.JoinRequest gatheringRecordId);
 
     List<GatheringRecordDTO> getGatheringRecordsByUserId(Long userId);
     

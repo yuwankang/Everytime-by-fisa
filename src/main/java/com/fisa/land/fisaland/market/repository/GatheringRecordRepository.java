@@ -17,7 +17,7 @@ public interface GatheringRecordRepository extends JpaRepository<GatheringRecord
 	@Query("SELECT gr.user FROM GatheringRecord gr WHERE gr.gatheringRecordInfo = :gatheringRecordInfo")
 	List<User> findUsersByGatheringRecordInfo(@Param("gatheringRecordInfo") GatheringRecordInfo gatheringRecordInfo);
 
-	void deleteById(Long gatheringRecordInfoId);
+	void deleteByUserUserIdAndGatheringRecordInfoGatheringRecordInfoId(Long userId, Long gatheringRecordInfoId);
 	
 	List<GatheringRecord> findByUserUserId(Long userId);
 

@@ -39,43 +39,111 @@
 </button>
 
 
-        <form id="product-form" method="post" action="/submitProducts">
-            <div id="product-sections"></div>
-            <!-- No submit button required if not needed -->
-        </form>
+    <form id="product-form" action="none">
+   		 <div id="product-sections"></div>
+    <button type="submit">Submit</button> <!-- Optional submit button -->
+</form>
+
     </div>
     <script>
-        // Fetch product data and create form sections on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            fetch('market/gatherings')
-                .then(response => response.json())
-                .then(markets => {
-           
-                    const container = document.getElementById('product-sections');
-                    markets.forEach(market => {
-                        // Create a section for each product
-                        const section = document.createElement('section');
-                        section.className = 'form-section';
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch('market/gatherings')
+            .then(response => response.json())
+            .then(markets => {
+                const container = document.getElementById('product-sections');
 
-                        // Add content to the section
-                        section.innerHTML = `
-                            <div class="contact-method" style="border: 1px solid black; margin:10px; padding:10px">
-               
-                                <h3>제목 : ${market.title}</h3>
-                                <span>주최자 : ${market.userName}
-                                <br>가게 이름 : ${market.marketName}
-                                <br>상태 : ${market.status}
-                                <br>만나는 시간 : ${market.meetingTime}
-                                </span>
-                            </div>
-                        `;
+            	console.log(markets)
+                markets.forEach(market => {
+                    // Create a section for each market
+                    const section = document.createElement('section');
+                    section.className = 'form-section';
 
-                        // Append the section to the container
-                        container.appendChild(section);
-                    });
-                })
-                .catch(error => console.error('Error fetching products:', error));
-        });
+                    // Add content to the section
+                    section.innerHTML = `
+                        <div class="contact-method" style="border: 1px solid black; margin:10px; padding:10px">
+                            <h3>제목 : ${market.title}</h3>
+                            <span>주최자 : ${market.userName}
+                            <br>가게 이름 : ${market.marketName}
+                            <br>상태 : ${market.status}
+                            <br>만나는 시간 : ${market.meetingTime}
+                            </span>
+                            <button id="participation-button-${market.gatheringRecordInfoId}" style="margin-top: 10px;">Loading...</button>
+                        </div>
+                    `;
+
+                    // Append the section to the container
+                    container.appendChild(section);
+
+                    // Check participation status for this market and set button text
+                    checkParticipationStatus(market.gatheringRecordInfoId, market.userId);
+                });
+            })
+            .catch(error => console.error('Error fetching products:', error));
+    });
+    
+    
+    function checkParticipationStatus(marketGatheringRecordInfoId, userId) {
+        fetch(`/market/gathering/user/${userId}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.gatheringRecordId);
+                
+                // Find if the current marketGatheringRecordInfoId exists in the user's gatherings
+                const isParticipating = data.some(record => record.gatheringRecordInfoId === marketGatheringRecordInfoId);
+                const participationButton = document.getElementById(`participation-button-${marketGatheringRecordInfoId}`);
+
+                if (isParticipating) {
+                    participationButton.textContent = '참여 취소';
+                    participationButton.onclick = () => cancelParticipation(data.gatheringRecordInfoId, userId);
+                } else {
+                    participationButton.textContent = '참여 신청';
+                    participationButton.onclick = () => joinGathering(marketGatheringRecordInfoId, userId);
+                }
+            })
+            .catch(error => console.error('Error checking participation status:', error));
+    }
+    
+    function joinGathering(gatheringRecordInfoId, userId) {
+        fetch(`/market/gathering/join`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userId: userId, gatheringRecordInfoId: gatheringRecordInfoId })
+            
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('참여 신청이 완료되었습니다.');
+            checkParticipationStatus(gatheringRecordInfoId, userId); // Refresh button state
+        })
+        .catch(error => console.error('참여 신청에 실패했습니다:', error));
+    }
+    
+   // Function to cancel participation
+function cancelParticipation(gatheringRecordId, userId) {
+    fetch(`/market/gathering/cancel`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ gatheringRecordId: gatheringRecordId, userId: userId })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('참여 취소에 실패했습니다.');
+        }
+        alert('참여 취소가 완료되었습니다.');
+        checkParticipationStatus(gatheringRecordId, userId); // Refresh button state
+    })
+    .catch(error => {
+        console.error(error);
+        alert('참여 취소에 실패했습니다.');
+    });
+}
+
+    
+ 
     </script>
 						</div>
 				<!-- Main -->
