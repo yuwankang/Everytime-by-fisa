@@ -34,7 +34,11 @@
         <input type="submit" value="내가 만든 모임" class="primary" style="margin:20px">
           <input type="submit" value="내가 참여한 모임" class="primary" style="margin:20px">
             <input type="submit" value="내가 작성한 리뷰" class="primary" style="margin:20px">
-              <input type="submit" value="모임 만들기" class="primary" style="margin:20px">
+           <button type="button" class="primary" style="margin:20px" onclick="location.href='/create_gathering'">
+    모임 만들기
+</button>
+
+
         <form id="product-form" method="post" action="/submitProducts">
             <div id="product-sections"></div>
             <!-- No submit button required if not needed -->

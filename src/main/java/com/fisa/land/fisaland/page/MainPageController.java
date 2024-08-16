@@ -61,4 +61,8 @@ public class MainPageController {
 	   public String getmyProducts() {
 		   return "myProducts";
 		}
+	   @GetMapping("addMarket")
+	   public String addMarket() {
+		   return "addMarket";
+		}
 }
