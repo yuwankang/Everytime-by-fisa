@@ -6,88 +6,118 @@
     <title>Lent Products</title>
     <style>
         body {
-            background-color: #e9ecef;
-            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to bottom, #000000, #434343); /* 검정색 그라데이션 배경 */
+            color: #ffffff;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
-        .container {
-            width: 80%;
-            margin: 30px auto;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border: 1px solid #dee2e6;
-            position: relative;
+        .header {
+            background-color: #333333;
+            color: #ffffff;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid #555555;
+            position: relative; /* 우측 상단 텍스트 위치를 위해 position을 relative로 설정 */
         }
-        h1 {
-            margin-top: 0;
-            color: #343a40;
-            font-size: 24px;
-            font-weight: 500;
+        .header .info {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #cccccc;
         }
         #user-info {
             position: absolute;
-            top: 20px;
+            top: 15px;
             right: 20px;
-            background-color: #f8f9fa;
-            border-radius: 6px;
-            border: 1px solid #dee2e6;
-            padding: 10px;
+            font-size: 12px;
+            color: #cccccc;
+            text-align: right;
             display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+            align-items: center;
+            gap: 10px; /* 요소 간의 간격 */
+        }  
         .buttons {
             display: flex;
             gap: 10px;
         }
         .buttons button {
-            background-color: #007bff;
+             background-color: #555555;
             border: none;
             color: #ffffff;
-            padding: 8px 15px;
+            padding: 5px 10px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
+            font-size: 12px;
         }
         .buttons button:hover {
             background-color: #0056b3;
         }
         .record {
-            border-bottom: 1px solid #dee2e6;
-            padding: 15px 0;
-        }
+			    position: relative; /* 버튼을 이 요소를 기준으로 절대 위치에 배치할 수 있도록 함 */
+			    border-bottom: 1px solid #dee2e6;
+			    padding: 15px 0;
+			    padding-right: 80px; /* 오른쪽 여백 추가 */
+			}
+			
+			.return-button {
+			    position: absolute;
+			    right: 10px; /* 오른쪽에서 10px 떨어진 위치 */
+			    top: 50%; /* 요소의 세로 중앙에 배치 */
+			    transform: translateY(-50%); /* 수직 중앙 정렬 */
+			    background-color: #555555;
+			    border: none;
+			    color: #ffffff;
+			    padding: 20px; /* 버튼의 크기를 키우기 위해 패딩을 조정 */
+			    border-radius: 50%; /* 원형으로 만들기 위해 border-radius를 50%로 설정 */
+			    cursor: pointer;
+			    font-size: 20px; /* 버튼의 글자 크기를 조정 */
+			    text-align: center; /* 텍스트를 중앙에 위치시키기 위한 설정 */
+			    line-height: 1; /* 버튼 내부의 텍스트를 중앙에 맞추기 위해 줄 높이 설정 */
+			    width: 80px; /* 버튼의 너비를 설정 */
+			    height: 80px; /* 버튼의 높이를 설정 */
+			    display: flex; /* Flexbox를 사용하여 텍스트를 중앙에 배치 */
+			    align-items: center; /* 수직 중앙 정렬 */
+			    justify-content: center; /* 수평 중앙 정렬 */
+			    font-weight: bold; /* 버튼의 글자를 굵게 */
+			}
+			
+			.return-button:hover {
+			    background-color: #0056b3;
+			}
+
         .record:last-child {
             border-bottom: none;
         }
         .title {
             font-size: 18px;
             font-weight: 600;
-            color: #495057;
+            color: #ffffff;
         }
         .info {
             margin-top: 5px;
             font-size: 14px;
-            color: #6c757d;
+            color: #ffffff;
         }
         .info strong {
-            color: #343a40;
+            color: #ffffff;
         }
         .no-records {
             text-align: center;
             font-size: 16px;
-            color: #495057;
+            color: #ffffff;
             padding: 20px;
+        }
+        .status-available {
+            color: blue; /* AVAILABLE일 때 파란색 */
+        }
+        .status-rented {
+            color: red; /* RENTED일 때 빨간색 */
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Lent Products</h1>
+    <div class="header">
+        <h1>Lend Products</h1>
         <div id="user-info">
             <!-- 사용자 정보가 삽입됩니다 -->
         </div>
@@ -96,15 +126,12 @@
         </div>
     </div>
 
-
     <script src="assets/js/jquery.min.js"></script>
     <script>
     $(document).ready(function() {
         function loadLentProducts() {
-            // localStorage에서 전체 userData 객체를 가져오기
             var userData = localStorage.getItem('userData'); 
             if (userData) {
-                // 문자열로 저장된 JSON을 객체로 변환
                 userData = JSON.parse(userData); 
                 var ownerId = userData.userId;
                 var username = userData.username;
@@ -115,7 +142,6 @@
                     return;
                 }
 
-                // 우측 상단에 사용자 정보 표시
                 $('#user-info').html(`
                     <div>반: ${userClass} | 이름: ${username}</div>
                     <div class="buttons">
@@ -124,16 +150,14 @@
                     </div>
                 `);
 
-                // 로그아웃 버튼 클릭 시 이벤트 처리
                 $('#logout-btn').on('click', function() {
                     $.ajax({
                         url: 'http://127.0.0.1:8080/common/user/logout',
                         method: 'POST',
                         success: function() {
-                            // localStorage 데이터 삭제
                             localStorage.clear();
                             alert('로그아웃 되었습니다.');
-                            window.location.href = '/main'; // 로그아웃 후 메인 페이지로 리디렉션
+                            window.location.href = '/main';
                         },
                         error: function(err) {
                             console.error('로그아웃 실패:', err);
@@ -142,23 +166,19 @@
                     });
                 });
                 
-                // 데이터를 가져올 URL
                 var url = 'http://127.0.0.1:8080/village/products/owner/' + ownerId;
 
-                // AJAX 요청을 통해 데이터를 가져옵니다.
                 $.ajax({
                     url: url,
                     method: 'GET',
                     contentType: 'application/json',
                     success: function(response) {
-                        // 서버에서 반환된 응답의 형식이 올바른지 확인
                         if (!response || !Array.isArray(response)) {
                             console.error('올바르지 않은 응답 형식:', response);
                             $('#records-container').html('<p>데이터 형식 오류가 발생했습니다.</p>');
                             return;
                         }
 
-                        // 데이터를 표시
                         var recordsContainer = $('#records-container');
                         if (response.length > 0) {
                             var recordHtml = response.map(function(record) {
@@ -170,6 +190,7 @@
                                 var borrowerName = record.borrower.username;
                                 var borrowerEmail = record.borrower.email;
                                 var borrowerClass = record.borrower.userClass;
+                                var productId = record.product.product_id;
 
                                 return `
                                     <div class="record">
@@ -190,14 +211,18 @@
                                             <strong>Return Date:</strong> ${returnDate}
                                         </div>
                                         <div class="info">
-                                            <strong>Status:</strong> ${record.lendingRecordInfo.status}
-                                        </div>
+                                        <strong>Status:</strong> 
+                                        <span class="${record.product.status === 'AVAILABLE' ? 'status-available' : 'status-rented'}">
+                                            ${record.product.status}
+                                        </span>
+                                    </div>
                                         <div class="info">
                                             <strong>Fee:</strong> ${fee} 원
                                         </div>
                                         <div class="info">
                                             <strong>Overdue Fee:</strong> ${overdueFee ? overdueFee + ' 원' : 'N/A'}
                                         </div>
+                                        <button class="return-button" data-product-id="${record.product.productId}">반납완료</button>
                                     </div>
                                 `;
                             }).join('');
@@ -213,12 +238,32 @@
                 });
             } else {
                 console.error('User data가 없습니다. 로그인이 필요합니다.');
-                window.location.href = '/login'; // 로그인 페이지로 리디렉션
+                window.location.href = '/login';
             }
         }
 
         // 페이지 로드 시 loadLentProducts 함수 호출
         loadLentProducts();
+
+        // 이벤트 위임을 사용하여 동적으로 생성된 return-button 요소의 클릭 이벤트 처리
+        $('#records-container').on('click', '.return-button', function() {
+            var productId = $(this).data('productId');
+            $.ajax({
+                url: `http://127.0.0.1:8080/village/products/${productId}/return`,
+                method: 'PATCH',
+                success: function() {
+                    alert('반납이 완료되었습니다.');
+                    loadLentProducts(); // 데이터를 새로고침하여 목록을 업데이트
+                },
+                error: function(xhr, status, error) {
+                    console.log('Product ID:', productId);
+                    console.error('반납 요청 실패:', status, error);
+                    console.error('응답 코드:', xhr.status);
+                    console.error('응답 본문:', xhr.responseText);
+                    alert('반납 요청에 실패했습니다. 다시 시도해주세요.');
+                }
+            });
+        });
     });
     </script>
 </body>

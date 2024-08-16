@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Borrower Records</title>
+    <title>My Products</title>
     <style>
         body {
             background: linear-gradient(to bottom, #000000, #434343); /* 검정색 그라데이션 배경 */
@@ -20,11 +20,6 @@
             border-bottom: 2px solid #555555;
             position: relative; /* 우측 상단 텍스트 위치를 위해 position을 relative로 설정 */
         }
-        .header .info {
-            margin-top: 10px;
-            font-size: 14px;
-            color: #cccccc;
-        }
         #user-info {
             position: absolute;
             top: 15px;
@@ -35,18 +30,13 @@
             display: flex;
             align-items: center;
             gap: 10px; /* 요소 간의 간격 */
-        }
-        #user-info div {
-            margin-bottom: 12px;
-            font-size: 16px;
-            color: #2c3e50;
-        }
+        }  
         .buttons {
             display: flex;
             gap: 10px;
         }
         .buttons button {
-              background-color: #555555;
+            background-color: #555555;
             border: none;
             color: #ffffff;
             padding: 5px 10px;
@@ -57,11 +47,12 @@
         .buttons button:hover {
             background-color: #0056b3;
         }
-        .record {
-            border-bottom: 1px solid #ced6e0;
+        .product {
+            border-bottom: 1px solid #dee2e6;
             padding: 15px 0;
+            position: relative; /* 버튼 위치를 절대적으로 설정하기 위해 */
         }
-        .record:last-child {
+        .product:last-child {
             border-bottom: none;
         }
         .title {
@@ -77,43 +68,64 @@
         .info strong {
             color: #ffffff;
         }
-        .no-records {
+        .no-products {
             text-align: center;
             font-size: 16px;
             color: #ffffff;
             padding: 20px;
         }
+        .status-available {
+            color: blue; /* AVAILABLE일 때 파란색 */
+        }
+        .status-rented {
+            color: red; /* RENTED일 때 빨간색 */
+        }
+        .delete-button {
+            position: absolute;
+            right: 15px;
+            bottom: 15px;
+            background-color: red;
+            border: none;
+            color: #ffffff;
+            padding: 8px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .delete-button:hover {
+            background-color: #b30000;
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>Borrower Records</h1>
+        <h1>My Products</h1>
         <div id="user-info">
             <!-- 사용자 정보가 삽입됩니다 -->
-            <div id="user-info-content">
-                <!-- 사용자 정보와 버튼이 삽입됩니다 -->
-            </div>
         </div>
-        <div id="records-container">
-            <!-- 대여 기록 정보가 삽입됩니다 -->
+        <div id="products-container">
+            <!-- 내가 등록한 물건 정보가 삽입됩니다 -->
         </div>
     </div>
 
     <script src="assets/js/jquery.min.js"></script>
     <script>
     $(document).ready(function() {
-        function loadGatherings() {
+        function loadMyProducts() {
             // localStorage에서 전체 userData 객체를 가져오기
-            var userData = localStorage.getItem('userData'); 
+            var userData = localStorage.getItem('userData');
             if (userData) {
                 // 문자열로 저장된 JSON을 객체로 변환
-                userData = JSON.parse(userData); 
-                var userId = userData.userId;
+                userData = JSON.parse(userData);
+                var ownerId = userData.userId;
                 var username = userData.username;
                 var userClass = userData.userClass;
-                
-                if (!userId) {
-                    console.error('User ID가 없습니다. 로그인이 필요합니다.');
+
+                if (!ownerId) {
+                    console.error('Owner ID가 없습니다. 로그인이 필요합니다.');
                     return;
                 }
 
@@ -125,7 +137,7 @@
                         <button id="logout-btn">로그아웃</button>
                     </div>
                 `);
-                
+
                 // 로그아웃 버튼 클릭 시 이벤트 처리
                 $('#logout-btn').on('click', function() {
                     $.ajax({
@@ -143,9 +155,9 @@
                         }
                     });
                 });
-                
+
                 // 데이터를 가져올 URL
-                var url = 'http://127.0.0.1:8080/village/products/borrower/' + userId;
+                var url = 'http://127.0.0.1:8080/village/myProducts';
 
                 // AJAX 요청을 통해 데이터를 가져옵니다.
                 $.ajax({
@@ -156,52 +168,63 @@
                         // 서버에서 반환된 응답의 형식이 올바른지 확인
                         if (!response || !Array.isArray(response)) {
                             console.error('올바르지 않은 응답 형식:', response);
-                            $('#records-container').html('<p>데이터 형식 오류가 발생했습니다.</p>');
+                            $('#products-container').html('<p>데이터 형식 오류가 발생했습니다.</p>');
                             return;
                         }
 
-                        // borrower.userId와 localStorage의 userId가 일치하는 항목만 필터링
-                        var filteredRecords = response.filter(function(record) {
-                            return record.borrower.userId == userId;
-                        });
-
-                        // 필터링된 데이터를 표시
-                        var recordsContainer = $('#records-container');
-                        if (filteredRecords.length > 0) {
-                            var recordHtml = filteredRecords.map(function(record) {
-                            	 var productName = record.product.product_name;
-                            	var borrowDate = new Date(record.lendingRecordInfo.borrowDate).toLocaleString();
-                                var returnDate = new Date(record.lendingRecordInfo.returnDate).toLocaleString();
-                                var fee = record.lendingRecordInfo.fee;
-                                var ownerName = record.owner.username;
-                                var ownerEmail = record.owner.email;
-                                var ownerClass = record.owner.userClass;
+                        // 데이터를 표시
+                        var productsContainer = $('#products-container');
+                        if (response.length > 0) {
+                            var productHtml = response.map(function(product) {
+                                var createdAt = new Date(product.createdAt).toLocaleString();
+                                var statusClass = product.status === 'AVAILABLE' ? 'status-available' : 'status-rented';
 
                                 return `
-                                    <div class="record">
-                                <div class="title">Product: ${productName}</div> <!-- product_name을 제목에 추가 -->
-                                        <div class="title">Owner: ${ownerName}</div>
+                                    <div class="product">
+                                        <div class="title">Product: ${product.productName}</div>
                                         <div class="info">
-                                            <strong>Email:</strong> ${ownerEmail}
+                                            <strong>Description:</strong> ${product.description}
                                         </div>
                                         <div class="info">
-                                            <strong>Class:</strong> ${ownerClass}
+                                            <strong>Price:</strong> ${product.price} 원
                                         </div>
                                         <div class="info">
-                                            <strong>Borrow Date:</strong> ${borrowDate}
+                                            <strong>Category:</strong> ${product.category}
                                         </div>
                                         <div class="info">
-                                            <strong>Return Date:</strong> ${returnDate}
+                                            <strong>Status:</strong> 
+                                            <span class="${statusClass}">
+                                                ${product.status}
+                                            </span>
                                         </div>
                                         <div class="info">
-                                            <strong>Fee:</strong> ${fee} 원
+                                            <strong>Created At:</strong> ${createdAt}
                                         </div>
+                                        <button class="delete-button" data-product-id="${product.productId}">삭제</button>
                                     </div>
                                 `;
                             }).join('');
-                            recordsContainer.html(recordHtml);
+                            productsContainer.html(productHtml);
+
+                            // 여기에서 이벤트 리스너를 등록합니다.
+                            $('.delete-button').on('click', function() {
+                                var productId = $(this).data('product-id');
+                                $.ajax({
+                                    url: `http://127.0.0.1:8080/village/products/${productId}/delete`,
+                                    method: 'DELETE',
+                                    success: function() {
+                                        alert('물건이 삭제되었습니다.');
+                                        loadMyProducts(); // 데이터를 새로고침하여 목록을 업데이트
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.error('삭제 요청 실패:', status, error);
+                                        alert('삭제 요청에 실패했습니다. 다시 시도해주세요.');
+                                    }
+                                });
+                            });
+
                         } else {
-                            recordsContainer.html('<p>해당 유저의 대여 기록이 없습니다.</p>');
+                            productsContainer.html('<p>등록한 물건이 없습니다.</p>');
                         }
                     },
                     error: function(xhr, status, error) {
@@ -215,8 +238,8 @@
             }
         }
 
-        // 페이지 로드 시 loadGatherings 함수 호출
-        loadGatherings();
+        // 페이지 로드 시 loadMyProducts 함수 호출
+        loadMyProducts();
     });
     </script>
 </body>
