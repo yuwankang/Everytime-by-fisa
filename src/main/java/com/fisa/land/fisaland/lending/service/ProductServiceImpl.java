@@ -34,7 +34,7 @@ public class ProductServiceImpl implements ProductService{
 		Long userId = (Long) httpSession.getAttribute("userId");
 		
 		        Product product = new Product();
-		        product.setProduct_name(createProduct.getProductName());
+		        product.setProduct_name(createProduct.getProduct_name());
 		        product.setDescription(createProduct.getDescription());
 		        product.setPrice(createProduct.getPrice());
 		        product.setCategory(createProduct.getCategory());
@@ -104,7 +104,7 @@ public class ProductServiceImpl implements ProductService{
     private ProductDTO.getMyProduct convertToDTO(Product product) {
         ProductDTO.getMyProduct dto = new ProductDTO.getMyProduct();
         dto.setProductId(product.getProductId());
-        dto.setProductName(product.getProduct_name()); // `product_name`이 아니라 `getProductName`으로 수정
+        dto.setProduct_name(product.getProduct_name()); // `product_name`이 아니라 `getProductName`으로 수정
         dto.setDescription(product.getDescription());
         dto.setStatus(product.getStatus());
         dto.setPrice(product.getPrice());
