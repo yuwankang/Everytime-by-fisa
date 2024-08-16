@@ -81,49 +81,56 @@ public class LendingRecordServiceImpl implements LendingRecordService{
     }
 
 	@Transactional
-    @Override
-    public LendingRecordInfo updateLendingRecordStatus(Long lendingRecordId) {
-        // 1. 대여 기록 조회
-        Optional<LendingRecords> lendingRecordOptional = lendingRecordsRepository.findById(lendingRecordId);
-        if (!lendingRecordOptional.isPresent()) {
-            throw new BusinessLoginException(ExceptionList.LENDING_RECORD_NOT_FOUND);
-        }
+	@Override
+	public LendingRecordInfo updateLendingRecordStatus(Long lendingRecordId) {
+	    // 1. 대여 기록 조회
+	    Optional<LendingRecords> lendingRecordOptional = lendingRecordsRepository.findById(lendingRecordId);
+	    if (!lendingRecordOptional.isPresent()) {
+	        throw new BusinessLoginException(ExceptionList.LENDING_RECORD_NOT_FOUND);
+	    }
 
-        LendingRecords lendingRecord = lendingRecordOptional.get();
-        LendingRecordInfo lendingRecordInfo = lendingRecord.getLendingRecordInfo();
+	    LendingRecords lendingRecord = lendingRecordOptional.get();
+	    LendingRecordInfo lendingRecordInfo = lendingRecord.getLendingRecordInfo();
 
-        // 2. 대여 상태를 RETURN_COMPLETED로 설정
-        lendingRecordInfo.setStatus(LendingRecordInfo.LendingStatus.RETURN_COMPLETED);
+	    // 2. 대여 상태를 RETURN_COMPLETED로 설정
+	    lendingRecordInfo.setStatus(LendingRecordInfo.LendingStatus.RETURN_COMPLETED);
 
-        // 3. 실제 반납 날짜를 현재로 설정
-        LocalDateTime now = LocalDateTime.now();
-        lendingRecordInfo.setActualReturnDate(now);
+	    // 3. 실제 반납 날짜를 현재로 설정
+	    LocalDateTime now = LocalDateTime.now();
+	    lendingRecordInfo.setActualReturnDate(now);
 
-        // 4. 반납 예정 날짜와 실제 반납 날짜 비교해서 연체료 계산
-        LocalDateTime returnDate = lendingRecordInfo.getReturnDate();
-        if (now.isAfter(returnDate)) {
-            // 연체 상태로 변경
-            lendingRecordInfo.setStatus(LendingRecordInfo.LendingStatus.OVERDUE);
+	    // 4. 반납 예정 날짜와 실제 반납 날짜 비교해서 연체료 계산
+	    LocalDateTime returnDate = lendingRecordInfo.getReturnDate();
+	    if (now.isAfter(returnDate)) {
+	        // 연체 상태로 변경
+	        lendingRecordInfo.setStatus(LendingRecordInfo.LendingStatus.OVERDUE);
 
-            // 상품 가격 조회
-            Long productId = lendingRecord.getProductId();
-            Product product = productRepository.findById(productId)
-                    .orElseThrow(() -> new BusinessLoginException(ExceptionList.PRODUCT_NOT_FOUND));
+	        // 상품 가격 조회
+	        Long productId = lendingRecord.getProductId();
+	        Product product = productRepository.findById(productId)
+	                .orElseThrow(() -> new BusinessLoginException(ExceptionList.PRODUCT_NOT_FOUND));
 
-            // 연체료 계산
-            long overdueDays = ChronoUnit.DAYS.between(returnDate, now);
-            int price = product.getPrice();
-            int overdueFee = (int) (price * overdueDays * 2);
+	        // 연체료 계산
+	        long overdueDays = ChronoUnit.DAYS.between(returnDate, now);
+	        int price = product.getPrice();
+	        int overdueFee = (int) (price * overdueDays * 2);
 
-            lendingRecordInfo.setOverdueFee(overdueFee);
-        } else {
-            lendingRecordInfo.setOverdueFee(0); // 연체료가 없으면 0으로 설정
-        }
+	        lendingRecordInfo.setOverdueFee(overdueFee);
+	    } else {
+	        lendingRecordInfo.setOverdueFee(0); // 연체료가 없으면 0으로 설정
+	    }
 
-        // LendingRecords와의 연관관계 업데이트
-        lendingRecord.setLendingRecordInfo(lendingRecordInfo);
-        lendingRecordsRepository.save(lendingRecord);
+	    // 5. 상품 상태를 available로 변경
+	    Product product = productRepository.findById(lendingRecord.getProductId())
+	            .orElseThrow(() -> new BusinessLoginException(ExceptionList.PRODUCT_NOT_FOUND));
+	    product.setStatus(Product.Status.AVAILABLE); // 상품 상태를 available로 설정
+	    productRepository.save(product); // 변경 사항 저장
 
-        return lendingRecordInfo;
-    }
+	    // 6. LendingRecords와의 연관관계 업데이트
+	    lendingRecord.setLendingRecordInfo(lendingRecordInfo);
+	    lendingRecordsRepository.save(lendingRecord);
+
+	    return lendingRecordInfo;
+	}
+
 }
