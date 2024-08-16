@@ -41,7 +41,8 @@ public class LendingReviewsController {
             @Parameter(description = "상품 ID", example = "1") @PathVariable("productId") Long productId) {
         LOGGER.info("상품별 리뷰 리스트 조회 호출됨: 상품 ID: " + productId);
         List<LendingReviewsDto> reviews = lendingReviewsService.getReviewsByProductId(productId);
-        LOGGER.info("상품별 리뷰 리스트 조회 성공: 총 리뷰 수: " + reviews.size());
+        // 리뷰 조회 시 로그 추가
+        LOGGER.info("상품별 리뷰 리스트 조회 성공: 상품 ID: " + productId + ", 총 리뷰 수: " + reviews.size());
         return ResponseEntity.ok(reviews);
     }
 
