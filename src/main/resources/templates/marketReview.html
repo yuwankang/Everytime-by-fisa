@@ -1,286 +1,188 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>FISALAND</title>
-<meta charset="utf-8" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, user-scalable=no" />
-<link rel="stylesheet" href="assets/css/main2.css" />
-<style>
-#main-market-btn {
-	position: relative;
-	left: 0; /* 왼쪽 라인에 맞추기 위해 left를 0으로 설정 */
-	margin-left: calc(( 100% - 960px)/2); /* 화면 크기에 맞춰 가운데로부터 정렬 */
-	margin-top: 10px;
-}
-</style>
+    <title>FISALAND</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main2.css" />
+    <style>
+        /* 마켓 정보 스타일 */
+        #market-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        #market-info .highlight {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        #market-info img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+        }
+
+        #market-info h2 {
+            margin: 0 0 10px;
+            font-size: 2em;
+        }
+
+        #market-info p {
+            margin: 0 0 10px;
+            font-size: 1.2em;
+        }
+
+        #market-info .rating {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #333;
+        }
+    </style>
 </head>
 <body class="homepage is-preload">
-	<div id="page-wrapper">
-		<!-- Header -->
-		<section id="header" class="wrapper">
-			<!-- Logo -->
-			<div id="logo">
-				<h1>
-					<a href="index">FISALAND</a>
-				</h1>
-				<p>FISA 인들의 솔직한 리뷰 확인하기</p>
-			</div>
+    <div id="page-wrapper">
+        <!-- Header -->
+        <section id="header" class="wrapper">
+            <!-- Logo -->
+            <div id="logo">
+                <h1><a href="index">FISALAND</a></h1>
+                <p>FISA 인들의 솔직한 리뷰 확인하기</p>
+            </div>
 
-			<!-- Nav -->
-			<nav id="nav">
-				<ul>
-					<li class="current"><a href="main">Home</a></li>
-					<li><a href="myGathering">Gathering</a>
-						<ul>
-							<li><a href="#">Lorem ipsum</a></li>
-							<li><a href="#">Magna veroeros</a></li>
-							<li><a href="#">Etiam nisl</a></li>
-							<li><a href="#">Sed consequat</a>
-								<ul>
-									<li><a href="#">Lorem dolor</a></li>
-									<li><a href="#">Amet consequat</a></li>
-									<li><a href="#">Magna phasellus</a></li>
-									<li><a href="#">Etiam nisl</a></li>
-									<li><a href="#">Sed feugiat</a></li>
-								</ul></li>
-							<li><a href="#">Nisl tempus</a></li>
-						</ul></li>
-					<li><a href="market">Market</a></li>
-					<li><a href="village">Village</a></li>
-					<li><a href="marketReview">My Review</a></li>
-				</ul>
-			</nav>
-		</section>
+            <!-- Nav -->
+            <nav id="nav">
+                <ul>
+                    <li class="current"><a href="main">Home</a></li>
+                    <li><a href="myGathering">Gathering</a>
+                        <ul>
+                            <li><a href="#">Lorem ipsum</a></li>
+                            <li><a href="#">Magna veroeros</a></li>
+                            <li><a href="#">Etiam nisl</a></li>
+                            <li><a href="#">Sed consequat</a>
+                                <ul>
+                                    <li><a href="#">Lorem dolor</a></li>
+                                    <li><a href="#">Amet consequat</a></li>
+                                    <li><a href="#">Magna phasellus</a></li>
+                                    <li><a href="#">Etiam nisl</a></li>
+                                    <li><a href="#">Sed feugiat</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Nisl tempus</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="market">Market</a></li>
+                    <li><a href="village">Village</a></li>
+                    <li><a href="marketReview">My Review</a></li>
+                </ul>
+            </nav>
+        </section>
 
-		<!-- Highlights -->
-		<section id="highlights" class="wrapper style3">
-			<div class="title">Reviews</div>
-			<!-- 통합된 "맛집 보러가기" 버튼과 평점 평균 -->
-			
-			<div class="container">
-				<div class="row aln-center" id="highlights-container">
-					<!-- Reviews will be dynamically inserted here -->
-				</div>
-			</div>
-			<div id="market-info"
-				style="display: flex; align-items: center; margin-top: 10px;">
-				<a id="main-market-btn" href="#" class="button style1">맛집 보러가기</a>
-			</div>
-		</section>
+        <!-- 마켓 정보 표시 -->
+        <div id="market-info">
+            <!-- 마켓 정보가 여기에 동적으로 추가됩니다 -->
+        </div>
 
-		<!-- Modal -->
-		<div id="modal" class="modal" style="display: none;">
-			<div class="modal-content">
-				<span id="close-modal" class="close">&times;</span>
-				<div class="modal-header">
-					<h2 id="modal-market-name">Market Name</h2>
-					<p id="modal-market-location">Location</p>
-					<p id="modal-average-rating" style="font-weight: bold;"></p>
-					<!-- 평균 평점 표시 -->
-				</div>
-				<div class="modal-body">
-					<img id="modal-market-image" src="/static/images/food1.jpg"
-						alt="Market Image" class="modal-image">
-					<p id="modal-market-description">Market Description</p>
-				</div>
-				<div class="modal-footer">
-					<button id="modal-contact-btn" class="button style1">Contact
-						Us</button>
-				</div>
-			</div>
-		</div>
+        <!-- Highlights -->
+        <section id="highlights" class="wrapper style3">
+            <div class="title">Reviews</div>
+            <div class="container">
+                <div class="row aln-center" id="highlights-container">
+                    <!-- Reviews will be dynamically inserted here -->
+                </div>
+            </div>
+        </section>
+    </div>
 
-		<script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const marketId = 1; // 예시로 고정된 marketId
-                const url = `http://localhost:8080/market/${marketId}/review`;
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.dropotron.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
 
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        const container = document.getElementById("highlights-container");
-                        container.innerHTML = ''; // 기존 내용 지우기
+    <!-- Custom Scripts -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const marketId = 1; // 예시로 고정된 marketId
+            const reviewsUrl = `http://localhost:8080/market/${marketId}/review`;
+            const marketInfoUrl = `http://localhost:8080/market/${marketId}`;
 
-                        const reviewsToShow = data.slice(0, 3);
+            // 마켓 정보와 리뷰를 가져옵니다
+            Promise.all([
+                fetch(reviewsUrl).then(response => response.json()),
+                fetch(marketInfoUrl).then(response => response.json())
+            ])
+            .then(([reviewsData, marketData]) => {
+                const reviewsContainer = document.getElementById("highlights-container");
+                reviewsContainer.innerHTML = ''; // 기존 내용 지우기
 
-                        // 평균 평점 계산
-                        const averageRating = reviewsToShow.reduce((sum, review) => sum + review.rate, 0) / reviewsToShow.length;
-                        document.getElementById("modal-average-rating").textContent = `평점 평균: ${averageRating.toFixed(1)}`; // 모달 창에 표시
+                const reviewsToShow = reviewsData.slice(0, 3);
 
-                        // 통합된 버튼에 데이터 속성으로 marketId 추가
-                        const mainMarketBtn = document.getElementById("main-market-btn");
-                        mainMarketBtn.setAttribute('data-market-id', marketId);
+                // 평균 평점 계산
+                const averageRating = reviewsToShow.reduce((sum, review) => sum + review.rate, 0) / reviewsToShow.length;
 
-                        reviewsToShow.forEach(review => {
-                            // 각 리뷰를 화면에 표시
-                            const colDiv = document.createElement("div");
-                            colDiv.className = "col-4 col-12-medium";
+                // 마켓 정보 표시
+                const marketInfoContainer = document.getElementById("market-info");
+                marketInfoContainer.innerHTML = `
+                    <section class="highlight">
+                        <h2 id="market-name">${marketData.name}</h2>
+                        <p id="market-location">Location: ${marketData.location}</p>
+                        <p class="rating">평점 평균: ${averageRating.toFixed(1)}</p>
+                        <img id="market-image" src="images/market-sample.jpg" alt="Market Image" />
+                    </section>
+                `;
 
-                            const section = document.createElement("section");
-                            section.className = "highlight";
+                reviewsToShow.forEach(review => {
+                    // 각 리뷰를 화면에 표시
+                    const colDiv = document.createElement("div");
+                    colDiv.className = "col-4 col-12-medium";
 
-                            const img = document.createElement("img");
-                            img.src = "images/pic0" + ((Math.floor(Math.random() * 4)) + 2) + ".jpg";
-                            img.alt = review.content;
-                            img.className = "image featured";
-                            const imgLink = document.createElement("a");
-                            imgLink.href = "#";
-                            imgLink.appendChild(img);
+                    const section = document.createElement("section");
+                    section.className = "highlight";
 
-                            const h3 = document.createElement("h3");
-                            const titleLink = document.createElement("a");
-                            titleLink.href = "#";
-                            titleLink.textContent = `Rating: ${review.rate}`;
-                            h3.appendChild(titleLink);
+                    const img = document.createElement("img");
+                    img.src = "images/pic0" + ((Math.floor(Math.random() * 4)) + 2) + ".jpg";
+                    img.alt = review.content;
+                    img.className = "image featured";
+                    const imgLink = document.createElement("a");
+                    imgLink.href = "#";
+                    imgLink.appendChild(img);
 
-                            const p = document.createElement("p");
-                            p.textContent = review.content;
+                    const h3 = document.createElement("h3");
+                    const titleLink = document.createElement("a");
+                    titleLink.href = "#";
+                    titleLink.textContent = `Rating: ${review.rate}`;
+                    h3.appendChild(titleLink);
 
-                            const ul = document.createElement("ul");
-                            ul.className = "actions";
-                            const li = document.createElement("li");
+                    const p = document.createElement("p");
+                    p.textContent = review.content;
 
-                            section.appendChild(imgLink);
-                            section.appendChild(h3);
-                            section.appendChild(p);
-                            ul.appendChild(li);
-                            section.appendChild(ul);
-                            colDiv.appendChild(section);
-                            container.appendChild(colDiv);
-                        });
+                    const ul = document.createElement("ul");
+                    ul.className = "actions";
+                    const li = document.createElement("li");
 
-                        // 클릭 이벤트 리스너 추가
-                        mainMarketBtn.addEventListener('click', function(event) {
-                            event.preventDefault();
-
-                            const marketId = this.getAttribute('data-market-id');
-                            const detailsUrl = `http://localhost:8080/market/${marketId}`;
-
-                            fetch(detailsUrl)
-                                .then(response => response.json())
-                                .then(data => {
-                                    document.getElementById('modal-market-name').textContent = data.name;
-                                    document.getElementById('modal-market-location').textContent = `Location: ${data.location}`;
-                                    document.getElementById('modal-market-description').textContent = data.description;
-                                    document.getElementById('modal-market-image').src = "images/market-sample.jpg";
-
-                                    document.getElementById('modal').style.display = 'block';
-                                })
-                                .catch(error => console.error('Error fetching market details:', error));
-                        });
-
-                        document.getElementById('close-modal').addEventListener('click', function() {
-                            document.getElementById('modal').style.display = 'none';
-                        });
-
-                        window.addEventListener('click', function(event) {
-                            if (event.target === document.getElementById('modal')) {
-                                document.getElementById('modal').style.display = 'none';
-                            }
-                        });
-                    })
-                    .catch(error => console.error('Error fetching data:', error));
-            });
-        </script>
-
-		<!-- Footer -->
-		<section id="footer" class="wrapper">
-			<div class="title">The Rest Of It</div>
-			<div class="container">
-				<header class="style1">
-					<h2>Ipsum sapien elementum portitor?</h2>
-					<p>
-						Sed turpis tortor, tincidunt sed ornare in metus porttitor mollis
-						nunc in aliquet.<br /> Nam pharetra laoreet imperdiet volutpat
-						etiam feugiat.
-					</p>
-				</header>
-				<div class="row">
-					<div class="col-6 col-12-medium">
-						<!-- Contact Form -->
-						<section>
-							<form method="post" action="#">
-								<div class="row gtr-50">
-									<div class="col-6 col-12-small">
-										<input type="text" name="name" id="contact-name"
-											placeholder="Name" />
-									</div>
-									<div class="col-6 col-12-small">
-										<input type="text" name="email" id="contact-email"
-											placeholder="Email" />
-									</div>
-									<div class="col-12">
-										<textarea name="message" id="contact-message"
-											placeholder="Message" rows="4"></textarea>
-									</div>
-									<div class="col-12">
-										<ul class="actions">
-											<li><input type="submit" class="style1" value="Send" /></li>
-											<li><input type="reset" class="style2" value="Reset" /></li>
-										</ul>
-									</div>
-								</div>
-							</form>
-						</section>
-					</div>
-					<div class="col-6 col-12-medium">
-						<!-- Contact -->
-						<section class="feature-list small">
-							<div class="row">
-								<div class="col-6 col-12-small">
-									<section>
-										<h3 class="icon solid fa-home">Mailing Address</h3>
-										<p>
-											Untitled Corp<br /> 1234 Somewhere Rd<br /> Nashville, TN
-											00000
-										</p>
-									</section>
-								</div>
-								<div class="col-6 col-12-small">
-									<section>
-										<h3 class="icon solid fa-comment">Social</h3>
-										<p>
-											<a href="#">@untitled-corp</a><br /> <a href="#">linkedin.com/untitled</a><br />
-											<a href="#">facebook.com/untitled</a>
-										</p>
-									</section>
-								</div>
-								<div class="col-6 col-12-small">
-									<section>
-										<h3 class="icon solid fa-envelope">Email</h3>
-										<p>
-											<a href="#">info@untitled.tld</a>
-										</p>
-									</section>
-								</div>
-								<div class="col-6 col-12-small">
-									<section>
-										<h3 class="icon solid fa-phone">Phone</h3>
-										<p>(000) 555-0000</p>
-									</section>
-								</div>
-							</div>
-						</section>
-					</div>
-				</div>
-				<div id="copyright">
-					<ul>
-						<li>&copy; Untitled. All rights reserved.</li>
-						<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-					</ul>
-				</div>
-			</div>
-		</section>
-
-	</div>
-
-	<!-- Scripts -->
-	<script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/jquery.dropotron.min.js"></script>
-	<script src="assets/js/browser.min.js"></script>
-	<script src="assets/js/breakpoints.min.js"></script>
-	<script src="assets/js/util.js"></script>
-	<script src="assets/js/main.js"></script>
+                    section.appendChild(imgLink);
+                    section.appendChild(h3);
+                    section.appendChild(p);
+                    ul.appendChild(li);
+                    section.appendChild(ul);
+                    colDiv.appendChild(section);
+                    reviewsContainer.appendChild(colDiv);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+        });
+    </script>
 </body>
 </html>
