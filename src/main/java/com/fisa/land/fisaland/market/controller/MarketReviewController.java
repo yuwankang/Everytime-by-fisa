@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/market/review")
+//@RequestMapping("/market/review")
 @Tag(name = "마켓 리뷰 API", description = "마켓에 대한 리뷰 등록, 조회 API")
 public class MarketReviewController {
 
@@ -36,7 +36,7 @@ public class MarketReviewController {
     }
 
     @Operation(summary = "리뷰 조회", description = "특정 마켓의 모든 리뷰를 조회하는 API")
-    @GetMapping("/market/{marketId}")
+    @GetMapping("/market/{marketId}/review")
     public ResponseEntity<List<MarketReviewDTO>> getReviewsByMarketId(
             @Parameter(description = "마켓 ID", example = "1") @PathVariable("marketId") Long marketId) {
         List<MarketReviewDTO> reviews = marketReviewService.getAllReviews(); // Adjusted to call getAllReviews()
