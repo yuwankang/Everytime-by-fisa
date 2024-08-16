@@ -35,9 +35,9 @@ public class GatheringRecordController {
     }
 
     @Operation(summary = "모임 참가 취소", description = "유저가 참가한 모임을 취소하는 API")
-    @DeleteMapping("/gathering/cancel/{gatheringRecordId}")
+    @DeleteMapping("/gathering/cancel")
     public ResponseEntity<Void> cancelGathering(
-            @PathVariable("gatheringRecordId") GatheringRecordDTO.JoinRequest gatheringRecordId) {
+            @RequestBody GatheringRecordDTO.JoinRequest gatheringRecordId) {
         gatheringRecordService.deleteGatheringRecord(gatheringRecordId);
         logger.info("Gathering record {} cancelled", gatheringRecordId);
         return ResponseEntity.noContent().build();

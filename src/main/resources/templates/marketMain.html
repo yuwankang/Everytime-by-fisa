@@ -52,7 +52,7 @@
 
     <form id="product-form">
    		 <div id="product-sections"></div>
-    <button type="submit"></button> <!-- Optional submit button -->
+ 
 </form>
 
     </div>
@@ -126,6 +126,7 @@
         .then(data => {
             alert('참여 신청이 완료되었습니다.');
             checkParticipationStatus(gatheringRecordInfoId, userId); // Refresh button state
+            window.location.reload();
         })
         .catch(error => console.error('참여 신청에 실패했습니다:', error));
     }
@@ -141,10 +142,11 @@ function cancelParticipation(gatheringRecordInfoId, userId) {
     })
     .then(response => response.json())
     .then(data => {
-        alert('참여 신청이 완료되었습니다.');
+        alert('참여 취소가 완료되었습니다.');
         checkParticipationStatus(gatheringRecordInfoId, userId); // Refresh button state
+        window.location.reload();
     })
-    .catch(error => console.error('참여 신청에 실패했습니다:', error));
+    .catch(error => console.error('참여 취소에 실패했습니다:', error));
 }
 
     
