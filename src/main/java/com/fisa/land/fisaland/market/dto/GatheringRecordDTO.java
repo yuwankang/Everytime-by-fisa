@@ -15,7 +15,7 @@ public class GatheringRecordDTO {
     private Long gatheringRecordId;
     private Long userId;
     private Long gatheringRecordInfoId;
-    
+
     @Getter
     @Setter
     @NoArgsConstructor
@@ -24,7 +24,7 @@ public class GatheringRecordDTO {
     public static class JoinRequest {
         private Long userId;
         private Long gatheringRecordInfoId;
+        private String visitDate; // 추가된 필드
+        private String visitTime; // 추가된 필드
     }
 }
-
-
