@@ -16,6 +16,7 @@ public class MainPageController {
 		return "create_gathering";
 	}
 
+<<<<<<< Updated upstream
 	@GetMapping("/login")
 	public String loginPage() {
 		return "login";
@@ -80,3 +81,12 @@ public class MainPageController {
 		return "marketReview";
 	}
 }
+=======
+	   }
+	   @GetMapping("createMarketReview")
+	   public String gatheringDetailPage() {
+		   return "createMarketReview";
+
+	   }
+}
+>>>>>>> Stashed changes

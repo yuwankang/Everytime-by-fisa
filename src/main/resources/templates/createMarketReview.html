@@ -1,0 +1,183 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Review</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery CDN 추가 -->
+		<style>
+			/* 슬라이더 스타일 */
+			.slider-container {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-direction: column;
+			}
+
+			.slider {
+				-webkit-appearance: none;
+				width: 100%;
+				height: 10px;
+				border-radius: 5px;
+				background: #ddd;
+				outline: none;
+				opacity: 0.7;
+				-webkit-transition: .2s;
+				transition: opacity .2s;
+				margin: 10px 0;
+			}
+
+			.slider:hover {
+				opacity: 1;
+			}
+
+			.slider::-webkit-slider-thumb {
+				-webkit-appearance: none;
+				appearance: none;
+				width: 20px;
+				height: 20px;
+				border-radius: 50%;
+				background: #f5b301;
+				cursor: pointer;
+			}
+
+			.slider::-moz-range-thumb {
+				width: 20px;
+				height: 20px;
+				border-radius: 50%;
+				background: #f5b301;
+				cursor: pointer;
+			}
+
+			.rating-display {
+				font-size: 1.5em;
+				color: #f5b301;
+				margin-top: 5px;
+			}
+		</style>
+		<script>
+			// URL 파라미터에서 값을 추출하는 함수
+			function getQueryParameter(name) {
+				const urlParams = new URLSearchParams(window.location.search);
+				return urlParams.get(name);
+			}
+
+			// 페이지가 로드될 때 실행
+			$(document).ready(function() {
+				// URL에 해시가 없으면 #review로 이동
+				if (!window.location.hash) {
+					window.location.hash = '#review';
+				}
+
+				// 맛집 이름을 가져와 name 필드에 넣음
+				const marketName = getQueryParameter('market_name');
+				if (marketName) {
+					$('#name').val(marketName);
+				}
+
+				// 슬라이더 값을 업데이트하는 함수
+				$('#ratingSlider').on('input', function() {
+					$('#ratingValue').text($(this).val());
+				});
+
+				// 폼 제출 처리
+				$('form').submit(function(event) {
+					event.preventDefault(); // 기본 폼 제출 방지
+
+					// localStorage에서 전체 userData 객체를 가져오기
+					var userData = localStorage.getItem('userData'); 
+					var userId;
+
+					if (userData) {
+						// 문자열로 저장된 JSON을 객체로 변환
+						userData = JSON.parse(userData); 
+						userId = userData.userId;
+					} else {
+						alert('User not logged in.');
+						return; // 유저 데이터가 없으면 요청 중단
+					}
+
+					const marketId = getQueryParameter('market_id'); // URL에서 market_id를 추출
+					const content = $('#message').val();
+					const rate = $('#ratingSlider').val();
+
+					const data = {
+						userId: userId,
+						marketId: parseInt(marketId, 10),
+						content: content,
+						rate: parseFloat(rate)
+					};
+
+					$.ajax({
+						url: `/market/${marketId}/review`,
+						type: 'POST',
+						contentType: 'application/json',
+						data: JSON.stringify(data),
+						success: function(response) {
+							console.log('Success:', response);
+							alert('Review submitted successfully!');
+						},
+						error: function(xhr, status, error) {
+							console.error('Error:', error);
+							alert('Failed to submit the review.');
+						}
+					});
+				});
+			});
+		</script>
+	</head>
+	<body class="is-preload">
+		<div id="wrapper">
+			<div id="main">
+				<!-- Review -->
+				<article id="review">
+					<h2 class="major">Review</h2>
+					<form method="post">
+						<div class="fields">
+							<div class="field half">
+								<label for="name">Market Name</label>
+								<input type="text" name="name" id="name" readonly />
+							</div>
+							<div class="field half">
+								<label for="rating">Rating</label>
+								<div class="slider-container">
+									<input type="range" min="0.5" max="5.0" step="0.5" value="2.5" class="slider" id="ratingSlider" name="rating">
+									<div class="rating-display">
+										<span id="ratingValue">2.5</span> stars
+									</div>
+								</div>
+							</div>
+							<div class="field">
+								<label for="message">Message</label>
+								<textarea name="message" id="message" rows="4"></textarea>
+							</div>
+						</div>
+						<ul class="actions">
+							<li><input type="submit" value="Send Message" class="primary" /></li>
+							<li><input type="reset" value="Reset" /></li>
+						</ul>
+					</form>
+					<ul class="icons">
+						<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+						<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+						<li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+					</ul>
+				</article>
+			</div>
+		</div>
+
+		<!-- BG -->
+		<div id="bg"></div>
+
+		<!-- Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
