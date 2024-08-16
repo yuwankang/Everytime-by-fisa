@@ -1,301 +1,286 @@
 <!DOCTYPE HTML>
-<!--
-	Escape Velocity by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
 <html>
-	<head>
-		<title>FISALAND</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main2.css" />
-	</head>
-	<body class="homepage is-preload">
-		<div id="page-wrapper">
-
-			<!-- Header -->
-				<section id="header" class="wrapper">
-
-					<!-- Logo -->
-						<div id="logo">
-							<h1><a href="index">FISALAND</a></h1>
-							<p>FISA 인들의 솔직한 리뷰 확인하기</p>
-						</div>
-
-					<!-- Nav -->
-						<nav id="nav">
-							<ul>
-								<li class="current"><a href="main">Home</a></li>
-								<li>
-									<a href="myGathering">Gathering</a>
-									<ul>
-										<li><a href="#">Lorem ipsum</a></li>
-										<li><a href="#">Magna veroeros</a></li>
-										<li><a href="#">Etiam nisl</a></li>
-										<li>
-											<a href="#">Sed consequat</a>
-											<ul>
-												<li><a href="#">Lorem dolor</a></li>
-												<li><a href="#">Amet consequat</a></li>
-												<li><a href="#">Magna phasellus</a></li>
-												<li><a href="#">Etiam nisl</a></li>
-												<li><a href="#">Sed feugiat</a></li>
-											</ul>
-										</li>
-										<li><a href="#">Nisl tempus</a></li>
-									</ul>
-								</li>
-								<li><a href="market">Market</a></li>
-								<li><a href="village">Village</a></li>
-								<li><a href="marketReview">My Review</a></li>
-							</ul>
-						</nav>
-
-				</section>
-
-			<!-- Highlights -->
-			<section id="highlights" class="wrapper style3">
-				<div class="title">Reviews</div>
-				<div class="container">
-					<div class="row aln-center" id="highlights-container">
-						<!-- Reviews will be dynamically inserted here -->
-					</div>
-				</div>
-			</section>
-
-			<!-- Modal -->
-			<div id="modal" class="modal" style="display: none;">
-				<div class="modal-content">
-					<span id="close-modal" class="close">&times;</span>
-					<div class="modal-header">
-						<h2 id="modal-market-name">Market Name</h2>
-						<p id="modal-market-location">Location</p>
-					</div>
-					<div class="modal-body">
-						<img id="modal-market-image" src="/static/images/food1.jpg" alt="Market Image" class="modal-image">
-						<p id="modal-market-description">Market Description</p>
-					</div>
-					<div class="modal-footer">
-						<button id="modal-contact-btn" class="button style1">Contact Us</button>
-					</div>
-				</div>
+<head>
+<title>FISALAND</title>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no" />
+<link rel="stylesheet" href="assets/css/main2.css" />
+<style>
+#main-market-btn {
+	position: relative;
+	left: 0; /* 왼쪽 라인에 맞추기 위해 left를 0으로 설정 */
+	margin-left: calc(( 100% - 960px)/2); /* 화면 크기에 맞춰 가운데로부터 정렬 */
+	margin-top: 10px;
+}
+</style>
+</head>
+<body class="homepage is-preload">
+	<div id="page-wrapper">
+		<!-- Header -->
+		<section id="header" class="wrapper">
+			<!-- Logo -->
+			<div id="logo">
+				<h1>
+					<a href="index">FISALAND</a>
+				</h1>
+				<p>FISA 인들의 솔직한 리뷰 확인하기</p>
 			</div>
 
-			<script>
-					document.addEventListener("DOMContentLoaded", function() {
-					const marketId = 2; // 예시로 고정된 marketId
-					const url = `http://localhost:8080/market/${marketId}/review`;
+			<!-- Nav -->
+			<nav id="nav">
+				<ul>
+					<li class="current"><a href="main">Home</a></li>
+					<li><a href="myGathering">Gathering</a>
+						<ul>
+							<li><a href="#">Lorem ipsum</a></li>
+							<li><a href="#">Magna veroeros</a></li>
+							<li><a href="#">Etiam nisl</a></li>
+							<li><a href="#">Sed consequat</a>
+								<ul>
+									<li><a href="#">Lorem dolor</a></li>
+									<li><a href="#">Amet consequat</a></li>
+									<li><a href="#">Magna phasellus</a></li>
+									<li><a href="#">Etiam nisl</a></li>
+									<li><a href="#">Sed feugiat</a></li>
+								</ul></li>
+							<li><a href="#">Nisl tempus</a></li>
+						</ul></li>
+					<li><a href="market">Market</a></li>
+					<li><a href="village">Village</a></li>
+					<li><a href="marketReview">My Review</a></li>
+				</ul>
+			</nav>
+		</section>
 
-					fetch(url)
-						.then(response => response.json())
-						.then(data => {
-							const container = document.getElementById("highlights-container");
-							container.innerHTML = ''; // Clear existing content if any
+		<!-- Highlights -->
+		<section id="highlights" class="wrapper style3">
+			<div class="title">Reviews</div>
+			<!-- 통합된 "맛집 보러가기" 버튼과 평점 평균 -->
+			
+			<div class="container">
+				<div class="row aln-center" id="highlights-container">
+					<!-- Reviews will be dynamically inserted here -->
+				</div>
+			</div>
+			<div id="market-info"
+				style="display: flex; align-items: center; margin-top: 10px;">
+				<a id="main-market-btn" href="#" class="button style1">맛집 보러가기</a>
+			</div>
+		</section>
 
-							// Display only the first 3 reviews
-							const reviewsToShow = data.slice(0, 3);
-
-							reviewsToShow.forEach(review => {
-								// Create a new column for each review
-								const colDiv = document.createElement("div");
-								colDiv.className = "col-4 col-12-medium";
-
-								// Create a new section for each review
-								const section = document.createElement("section");
-								section.className = "highlight";
-
-								// Create image element (placeholder)
-								const img = document.createElement("img");
-								img.src = "images/pic0" + ((Math.floor(Math.random() * 4)) + 2) + ".jpg"; // Placeholder image
-								img.alt = review.content; // Using content as alt text
-								img.className = "image featured";
-								const imgLink = document.createElement("a");
-								imgLink.href = "#";
-								imgLink.appendChild(img);
-
-								// Create title element with rating
-								const h3 = document.createElement("h3");
-								const titleLink = document.createElement("a");
-								titleLink.href = "#";
-								titleLink.textContent = `Rating: ${review.rate}`;
-								h3.appendChild(titleLink);
-
-								// Create description element with content
-								const p = document.createElement("p");
-								p.textContent = review.content;
-
-								// Create button element
-								const button = document.createElement("a");
-								button.href = "#";
-								button.className = "button style1";
-								button.textContent = "맛집 보러가기";
-								button.setAttribute('data-market-id', review.marketId); // marketId를 data 속성으로 저장
-
-								// Append all elements to section
-								section.appendChild(imgLink);
-								section.appendChild(h3);
-								section.appendChild(p);
-
-								const ul = document.createElement("ul");
-								ul.className = "actions";
-								const li = document.createElement("li");
-								li.appendChild(button);
-								ul.appendChild(li);
-
-								section.appendChild(ul);
-
-								// Append section to column
-								colDiv.appendChild(section);
-
-								// Append column to container
-								container.appendChild(colDiv);
-							});
-
-							// Add click event listener to buttons
-							document.querySelectorAll('.button.style1').forEach(button => {
-								button.addEventListener('click', function(event) {
-									event.preventDefault();
-
-									const marketId = this.getAttribute('data-market-id'); // Get marketId from data attribute
-									const detailsUrl = `http://localhost:8080/market/${marketId}`;
-
-									// Fetch detailed information
-									fetch(detailsUrl)
-										.then(response => response.json())
-										.then(data => {
-											// Populate modal with market information
-											document.getElementById('modal-market-name').textContent = data.name;
-											document.getElementById('modal-market-location').textContent = `Location: ${data.location}`;
-											document.getElementById('modal-market-description').textContent = data.description;
-											document.getElementById('modal-market-image').src = "images/market-sample.jpg"; // Replace with actual image URL
-
-											// Show the modal
-											document.getElementById('modal').style.display = 'block';
-										})
-										.catch(error => console.error('Error fetching market details:', error));
-								});
-							});
-
-							// Add click event listener to close button
-							document.getElementById('close-modal').addEventListener('click', function() {
-								document.getElementById('modal').style.display = 'none';
-							});
-
-							// Close modal if user clicks outside of the modal-content
-							window.addEventListener('click', function(event) {
-								if (event.target === document.getElementById('modal')) {
-									document.getElementById('modal').style.display = 'none';
-								}
-							});
-						})
-						.catch(error => console.error('Error fetching data:', error));
-				});
-
-			</script>
-
-
-			<!-- Footer -->
-				<section id="footer" class="wrapper">
-					<div class="title">The Rest Of It</div>
-					<div class="container">
-						<header class="style1">
-							<h2>Ipsum sapien elementum portitor?</h2>
-							<p>
-								Sed turpis tortor, tincidunt sed ornare in metus porttitor mollis nunc in aliquet.<br />
-								Nam pharetra laoreet imperdiet volutpat etiam feugiat.
-							</p>
-						</header>
-						<div class="row">
-							<div class="col-6 col-12-medium">
-
-								<!-- Contact Form -->
-									<section>
-										<form method="post" action="#">
-											<div class="row gtr-50">
-												<div class="col-6 col-12-small">
-													<input type="text" name="name" id="contact-name" placeholder="Name" />
-												</div>
-												<div class="col-6 col-12-small">
-													<input type="text" name="email" id="contact-email" placeholder="Email" />
-												</div>
-												<div class="col-12">
-													<textarea name="message" id="contact-message" placeholder="Message" rows="4"></textarea>
-												</div>
-												<div class="col-12">
-													<ul class="actions">
-														<li><input type="submit" class="style1" value="Send" /></li>
-														<li><input type="reset" class="style2" value="Reset" /></li>
-													</ul>
-												</div>
-											</div>
-										</form>
-									</section>
-
-							</div>
-							<div class="col-6 col-12-medium">
-
-								<!-- Contact -->
-									<section class="feature-list small">
-										<div class="row">
-											<div class="col-6 col-12-small">
-												<section>
-													<h3 class="icon solid fa-home">Mailing Address</h3>
-													<p>
-														Untitled Corp<br />
-														1234 Somewhere Rd<br />
-														Nashville, TN 00000
-													</p>
-												</section>
-											</div>
-											<div class="col-6 col-12-small">
-												<section>
-													<h3 class="icon solid fa-comment">Social</h3>
-													<p>
-														<a href="#">@untitled-corp</a><br />
-														<a href="#">linkedin.com/untitled</a><br />
-														<a href="#">facebook.com/untitled</a>
-													</p>
-												</section>
-											</div>
-											<div class="col-6 col-12-small">
-												<section>
-													<h3 class="icon solid fa-envelope">Email</h3>
-													<p>
-														<a href="#">info@untitled.tld</a>
-													</p>
-												</section>
-											</div>
-											<div class="col-6 col-12-small">
-												<section>
-													<h3 class="icon solid fa-phone">Phone</h3>
-													<p>
-														(000) 555-0000
-													</p>
-												</section>
-											</div>
-										</div>
-									</section>
-
-							</div>
-						</div>
-						<div id="copyright">
-							<ul>
-								<li>&copy; Untitled.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-							</ul>
-						</div>
-					</div>
-				</section>
-
+		<!-- Modal -->
+		<div id="modal" class="modal" style="display: none;">
+			<div class="modal-content">
+				<span id="close-modal" class="close">&times;</span>
+				<div class="modal-header">
+					<h2 id="modal-market-name">Market Name</h2>
+					<p id="modal-market-location">Location</p>
+					<p id="modal-average-rating" style="font-weight: bold;"></p>
+					<!-- 평균 평점 표시 -->
+				</div>
+				<div class="modal-body">
+					<img id="modal-market-image" src="/static/images/food1.jpg"
+						alt="Market Image" class="modal-image">
+					<p id="modal-market-description">Market Description</p>
+				</div>
+				<div class="modal-footer">
+					<button id="modal-contact-btn" class="button style1">Contact
+						Us</button>
+				</div>
+			</div>
 		</div>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.dropotron.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+		<script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const marketId = 1; // 예시로 고정된 marketId
+                const url = `http://localhost:8080/market/${marketId}/review`;
 
-	</body>
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        const container = document.getElementById("highlights-container");
+                        container.innerHTML = ''; // 기존 내용 지우기
+
+                        const reviewsToShow = data.slice(0, 3);
+
+                        // 평균 평점 계산
+                        const averageRating = reviewsToShow.reduce((sum, review) => sum + review.rate, 0) / reviewsToShow.length;
+                        document.getElementById("modal-average-rating").textContent = `평점 평균: ${averageRating.toFixed(1)}`; // 모달 창에 표시
+
+                        // 통합된 버튼에 데이터 속성으로 marketId 추가
+                        const mainMarketBtn = document.getElementById("main-market-btn");
+                        mainMarketBtn.setAttribute('data-market-id', marketId);
+
+                        reviewsToShow.forEach(review => {
+                            // 각 리뷰를 화면에 표시
+                            const colDiv = document.createElement("div");
+                            colDiv.className = "col-4 col-12-medium";
+
+                            const section = document.createElement("section");
+                            section.className = "highlight";
+
+                            const img = document.createElement("img");
+                            img.src = "images/pic0" + ((Math.floor(Math.random() * 4)) + 2) + ".jpg";
+                            img.alt = review.content;
+                            img.className = "image featured";
+                            const imgLink = document.createElement("a");
+                            imgLink.href = "#";
+                            imgLink.appendChild(img);
+
+                            const h3 = document.createElement("h3");
+                            const titleLink = document.createElement("a");
+                            titleLink.href = "#";
+                            titleLink.textContent = `Rating: ${review.rate}`;
+                            h3.appendChild(titleLink);
+
+                            const p = document.createElement("p");
+                            p.textContent = review.content;
+
+                            const ul = document.createElement("ul");
+                            ul.className = "actions";
+                            const li = document.createElement("li");
+
+                            section.appendChild(imgLink);
+                            section.appendChild(h3);
+                            section.appendChild(p);
+                            ul.appendChild(li);
+                            section.appendChild(ul);
+                            colDiv.appendChild(section);
+                            container.appendChild(colDiv);
+                        });
+
+                        // 클릭 이벤트 리스너 추가
+                        mainMarketBtn.addEventListener('click', function(event) {
+                            event.preventDefault();
+
+                            const marketId = this.getAttribute('data-market-id');
+                            const detailsUrl = `http://localhost:8080/market/${marketId}`;
+
+                            fetch(detailsUrl)
+                                .then(response => response.json())
+                                .then(data => {
+                                    document.getElementById('modal-market-name').textContent = data.name;
+                                    document.getElementById('modal-market-location').textContent = `Location: ${data.location}`;
+                                    document.getElementById('modal-market-description').textContent = data.description;
+                                    document.getElementById('modal-market-image').src = "images/market-sample.jpg";
+
+                                    document.getElementById('modal').style.display = 'block';
+                                })
+                                .catch(error => console.error('Error fetching market details:', error));
+                        });
+
+                        document.getElementById('close-modal').addEventListener('click', function() {
+                            document.getElementById('modal').style.display = 'none';
+                        });
+
+                        window.addEventListener('click', function(event) {
+                            if (event.target === document.getElementById('modal')) {
+                                document.getElementById('modal').style.display = 'none';
+                            }
+                        });
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+            });
+        </script>
+
+		<!-- Footer -->
+		<section id="footer" class="wrapper">
+			<div class="title">The Rest Of It</div>
+			<div class="container">
+				<header class="style1">
+					<h2>Ipsum sapien elementum portitor?</h2>
+					<p>
+						Sed turpis tortor, tincidunt sed ornare in metus porttitor mollis
+						nunc in aliquet.<br /> Nam pharetra laoreet imperdiet volutpat
+						etiam feugiat.
+					</p>
+				</header>
+				<div class="row">
+					<div class="col-6 col-12-medium">
+						<!-- Contact Form -->
+						<section>
+							<form method="post" action="#">
+								<div class="row gtr-50">
+									<div class="col-6 col-12-small">
+										<input type="text" name="name" id="contact-name"
+											placeholder="Name" />
+									</div>
+									<div class="col-6 col-12-small">
+										<input type="text" name="email" id="contact-email"
+											placeholder="Email" />
+									</div>
+									<div class="col-12">
+										<textarea name="message" id="contact-message"
+											placeholder="Message" rows="4"></textarea>
+									</div>
+									<div class="col-12">
+										<ul class="actions">
+											<li><input type="submit" class="style1" value="Send" /></li>
+											<li><input type="reset" class="style2" value="Reset" /></li>
+										</ul>
+									</div>
+								</div>
+							</form>
+						</section>
+					</div>
+					<div class="col-6 col-12-medium">
+						<!-- Contact -->
+						<section class="feature-list small">
+							<div class="row">
+								<div class="col-6 col-12-small">
+									<section>
+										<h3 class="icon solid fa-home">Mailing Address</h3>
+										<p>
+											Untitled Corp<br /> 1234 Somewhere Rd<br /> Nashville, TN
+											00000
+										</p>
+									</section>
+								</div>
+								<div class="col-6 col-12-small">
+									<section>
+										<h3 class="icon solid fa-comment">Social</h3>
+										<p>
+											<a href="#">@untitled-corp</a><br /> <a href="#">linkedin.com/untitled</a><br />
+											<a href="#">facebook.com/untitled</a>
+										</p>
+									</section>
+								</div>
+								<div class="col-6 col-12-small">
+									<section>
+										<h3 class="icon solid fa-envelope">Email</h3>
+										<p>
+											<a href="#">info@untitled.tld</a>
+										</p>
+									</section>
+								</div>
+								<div class="col-6 col-12-small">
+									<section>
+										<h3 class="icon solid fa-phone">Phone</h3>
+										<p>(000) 555-0000</p>
+									</section>
+								</div>
+							</div>
+						</section>
+					</div>
+				</div>
+				<div id="copyright">
+					<ul>
+						<li>&copy; Untitled. All rights reserved.</li>
+						<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.dropotron.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+</body>
 </html>
