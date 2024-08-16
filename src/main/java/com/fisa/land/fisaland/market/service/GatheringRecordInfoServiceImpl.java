@@ -153,6 +153,7 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
 		List<GatheringRecordInfoDTO.getGatheringRecordInfo> gatheringRecordInfoDtoBefore = gatheringRecordInfoBefore.stream().map(m->{
 			return GatheringRecordInfoDTO.getGatheringRecordInfo.builder()
 			.gatheringRecordInfoId(m.getGatheringRecordInfoId())
+			.marketId(m.getMarket().getMarketId())
 			.userName(m.getUser().getUsername())
 			.marketName(m.getMarket().getName())
 			.status(m.getStatus())
@@ -165,6 +166,7 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
 		List<GatheringRecordInfoDTO.getGatheringRecordInfo> gatheringRecordInfoDtoAfter = gatheringRecordInfoAfter.stream().map(m->{
 			return GatheringRecordInfoDTO.getGatheringRecordInfo.builder()
 			.gatheringRecordInfoId(m.getGatheringRecordInfoId())
+			.marketId(m.getMarket().getMarketId())
 			.userName(m.getUser().getUsername())
 			.marketName(m.getMarket().getName())
 			.status(m.getStatus())
