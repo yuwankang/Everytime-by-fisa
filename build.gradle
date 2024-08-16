@@ -46,6 +46,18 @@ dependencies {
     
     //mapper
     implementation 'org.modelmapper:modelmapper:3.1.1'
+    // Spring AOP
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+    // AspectJ Weaver
+    runtimeOnly 'org.aspectj:aspectjweaver:1.9.9.1'
+
+    // CGLIB for dynamic byte code generation
+    implementation 'cglib:cglib:3.3.0'
+    
+
+    // Log4j 2 dependencies
+ 	implementation 'log4j:log4j:1.2.17'
 }
 
 tasks.named('test') {
