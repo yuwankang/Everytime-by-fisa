@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Dimension by HTML5 UP</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <style>
+        .split section {
+            flex: 1;
+            padding: 20px;
+            max-width: 100%;
+        }
+        button {
+            display: inline-block;
+            margin: 20px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="is-preload">
+    <div id="wrapper">
+        <header id="header">
+            <img src="images/LogoMarket.png" alt="Logo">
+        </header>
+
+        <div class="inner">
+            <form id="product-form">
+                <div id="product-sections"></div>
+            </form>
+        </div>
+
+        <footer id="footer">
+            <p class="copyright">
+                &copy; FISALAND. Design: backend developer. <br> <a href="#contact">Contact</a>
+            </p>
+        </footer>
+    </div>
+
+    <div id="bg"></div>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <script>
+    $(document).ready(() => {
+        $.getJSON('/market/markets', markets => {
+            const container = $('#product-sections');
+
+            markets.forEach(market => {
+                const section = $(`
+                    <section class="form-section">
+                        <div class="contact-method" style="border: 1px solid black; margin:10px; padding:10px">
+                            <h3>Title: ${market.name}</h3>
+                            <span>Location: ${market.location}<br>Details: ${market.description}</span>
+                            <button type="button" id="select-button-${market.marketId}" style="margin: 20px;">Check Reviews</button>
+                        </div>
+                    </section>
+                `);
+
+                container.append(section);
+            });
+        }).fail(error => console.error('Error fetching products:', error));
+    });
+
+    $(document).on('click', 'button[id^="select-button-"]', function() {
+        const marketId = $(this).attr('id').split('-').pop();
+        console.log(marketId); // Debugging line
+        localStorage.setItem('selectedMarketId', marketId);
+        window.location.href = '/marketReviews'; // Absolute path
+    });
+    </script>
+</body>
+</html>
