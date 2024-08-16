@@ -70,5 +70,10 @@ public class MainPageController {
 	   public String addMarket() {
 		   return "addMarket";
 		}
+	   
+	   @GetMapping("marketReview")
+	   public String marketReview() {
+		   return "marketReview";
+		}
 		
 }
