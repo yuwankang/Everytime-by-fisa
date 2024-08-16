@@ -106,7 +106,7 @@
             event.preventDefault(); // 폼 기본 제출 방지
 
             $.ajax({
-                url: 'http://127.0.0.1:8080/common/user/login', // 로그인 API URL
+                url: 'common/user/login', // 로그인 API URL
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({

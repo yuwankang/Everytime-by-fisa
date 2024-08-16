@@ -182,7 +182,7 @@
 
                     $('#logout-btn').on('click', function() {
                         $.ajax({
-                            url: 'http://127.0.0.1:8080/common/user/logout',
+                            url: 'common/user/logout',
                             method: 'POST',
                             success: function() {
                                 localStorage.clear();
@@ -196,7 +196,7 @@
                         });
                     });
 
-                    var url = 'http://127.0.0.1:8080/market/gathering/user/' + userId;
+                    var url = 'market/gathering/user/' + userId;
 
                     $.ajax({
                         url: url,
@@ -210,7 +210,7 @@
 
                             var gatheringHtml = '';
                             response.forEach(function(record) {
-                                var gatheringDetailUrl = 'http://127.0.0.1:8080/market/gathering/' + record.gatheringRecordInfoId;
+                                var gatheringDetailUrl = 'market/gathering/' + record.gatheringRecordInfoId;
 
                                 $.ajax({
                                     url: gatheringDetailUrl,
@@ -270,7 +270,7 @@
 
         function cancelGathering(gatheringRecordId) {
             $.ajax({
-                url: 'http://127.0.0.1:8080/market/gathering/cancel/' + gatheringRecordId,
+                url: 'market/gathering/cancel/' + gatheringRecordId,
                 method: 'DELETE',
                 success: function() {
                     alert('모임 참가가 취소되었습니다.');

@@ -191,12 +191,12 @@
         $('#user-name').text(username);
 
         $('#user-name').on('click', function() {
-          window.location.href = 'http://127.0.0.1:8080/myLend';
+          window.location.href = 'myLend';
         });
 
         $('#logout-btn').on('click', function() {
           $.ajax({
-            url: 'http://127.0.0.1:8080/common/user/logout',
+            url: 'common/user/logout',
             method: 'POST',
             success: function() {
               localStorage.clear();
@@ -257,7 +257,7 @@
     });
 
     $('#view-products-btn').on('click', function() {
-      window.location.href = 'http://127.0.0.1:8080/village';
+      window.location.href = 'village';
     });
 
     loadUserInfo();

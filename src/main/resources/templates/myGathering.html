@@ -270,7 +270,7 @@
     <script>
     function deleteGathering(gatheringRecordInfoId) {
         $.ajax({
-            url: 'http://127.0.0.1:8080/market/gathering/' + gatheringRecordInfoId,
+            url: 'market/gathering/' + gatheringRecordInfoId,
             method: 'DELETE',
             success: function() {
                 alert('모임이 성공적으로 삭제되었습니다.');
@@ -307,7 +307,7 @@
 
                 $('#logout-btn').on('click', function() {
                     $.ajax({
-                        url: 'http://127.0.0.1:8080/common/user/logout',
+                        url: 'common/user/logout',
                         method: 'POST',
                         success: function() {
                             localStorage.clear();
@@ -321,7 +321,7 @@
                     });
                 });
 
-                var url = 'http://127.0.0.1:8080/market/' + userId + '/gatherings';
+                var url = 'market/' + userId + '/gatherings';
             } else {
                 console.error('User 데이터가 없습니다. 로그인이 필요합니다.');
             }
