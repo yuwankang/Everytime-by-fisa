@@ -60,7 +60,9 @@
                     </ul>
                 </form>
             </article>
-
+  			<a href="addMarket">
+		        	<input type="submit" value="음식점 등록하기" class="primary" style="margin:20px">
+		   	</a>
         </div>
 
         <!-- Footer -->
@@ -86,7 +88,7 @@
         $(document).ready(function() {
             // 유저 ID 가져오기
             $.ajax({
-                url: 'http://127.0.0.1:8080/getSessionData',
+                url: 'getSessionData',
                 method: 'GET',
                 success: function(data) {
                     var userId = data.userId;
@@ -99,7 +101,7 @@
 
             // 서버로부터 음식점 목록을 가져오는 AJAX 요청
             $.ajax({
-                url: 'http://127.0.0.1:8080/market/markets',
+                url: 'market/markets',
                 method: 'GET',
                 success: function(data) {
                     console.log("Data fetched:", data);
@@ -132,7 +134,7 @@
                 };
 
                 $.ajax({
-                    url: 'http://127.0.0.1:8080/market/gathering',
+                    url: 'market/gathering',
                     method: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(requestData),

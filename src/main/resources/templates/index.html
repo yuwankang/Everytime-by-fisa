@@ -444,7 +444,7 @@ $(document).ready(function() {
         event.preventDefault(); // 링크 기본 동작 방지
 
         $.ajax({
-            url: 'http://127.0.0.1:8080/common/user/logout', // 서버의 로그아웃 API URL
+            url: 'common/user/logout', // 서버의 로그아웃 API URL
             method: 'POST',
             xhrFields: {
                 withCredentials: true // 쿠키를 포함하여 요청

@@ -155,7 +155,7 @@
 
                 $('#logout-btn').on('click', function() {
                     $.ajax({
-                        url: 'http://127.0.0.1:8080/common/user/logout',
+                        url: 'common/user/logout',
                         method: 'POST',
                         success: function() {
                             localStorage.clear();
@@ -169,7 +169,7 @@
                     });
                 });
                 
-                var url = 'http://127.0.0.1:8080/village/products/owner/' + ownerId;
+                var url = 'village/products/owner/' + ownerId;
 
                 $.ajax({
                     url: url,
@@ -256,14 +256,14 @@
             var lendingRecordId = $(this).data('lending-record-id');
 
             $.ajax({
-            	url: `http://127.0.0.1:8080/village/products/${productId}/return`,
+            	url: 'village/products/${productId}/return',
                 method: 'PATCH',
                 success: function() {
                     alert('상태 업데이트 성공');
                     
                     // 추가된 PUT 요청
                     $.ajax({
-                        url: 'http://127.0.0.1:8080/village/products/' + lendingRecordId + '/status',
+                        url: 'village/products/' + lendingRecordId + '/status',
                         method: 'PUT',
                         success: function() {
                             alert('반납 완료 성공');

@@ -129,7 +129,7 @@
                 // 로그아웃 버튼 클릭 시 이벤트 처리
                 $('#logout-btn').on('click', function() {
                     $.ajax({
-                        url: 'http://127.0.0.1:8080/common/user/logout',
+                        url: 'common/user/logout',
                         method: 'POST',
                         success: function() {
                             // localStorage 데이터 삭제
@@ -145,7 +145,7 @@
                 });
                 
                 // 데이터를 가져올 URL
-                var url = 'http://127.0.0.1:8080/village/products/borrower/' + userId;
+                var url = 'village/products/borrower/' + userId;
 
                 // AJAX 요청을 통해 데이터를 가져옵니다.
                 $.ajax({
