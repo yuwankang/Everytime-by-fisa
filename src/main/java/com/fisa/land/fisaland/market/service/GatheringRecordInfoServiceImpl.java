@@ -104,6 +104,7 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
 		GatheringRecordInfo gatheringRecordInfo = gatheringRecordInfoRepository.findById(gatheringRecordId).orElseThrow(()-> new IllegalArgumentException("존재하지 않는 모임입니다"));
 		GatheringRecordInfoDTO.getGatheringRecordInfo gatheringRecord = GatheringRecordInfoDTO.getGatheringRecordInfo.builder()
 			.gatheringRecordInfoId(gatheringRecordInfo.getGatheringRecordInfoId())
+			.marketId(gatheringRecordInfo.getMarket().getMarketId())
 			.userName(gatheringRecordInfo.getUser().getUsername())
 			.marketName(gatheringRecordInfo.getMarket().getName())
 			.status(gatheringRecordInfo.getStatus())
