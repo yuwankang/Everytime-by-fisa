@@ -18,14 +18,9 @@
             padding: 15px;
             text-align: center;
             border-bottom: 2px solid #555555;
-            position: relative; /* 우측 상단 텍스트 위치를 위해 position을 relative로 설정 */
+            position: relative;
         }
-        .header .info {
-            margin-top: 10px;
-            font-size: 14px;
-            color: #cccccc;
-        }
-        .header .user-info { /* 우측 상단 텍스트 스타일 */
+        .header .user-info {
             position: absolute;
             top: 15px;
             right: 20px;
@@ -34,11 +29,11 @@
             text-align: right;
             display: flex;
             align-items: center;
-            gap: 10px; /* 요소 간의 간격 */
+            gap: 10px;
         }
         .header .user-info .buttons {
             display: flex;
-            gap: 10px; /* 버튼 간의 간격 */
+            gap: 10px;
         }
         .header .user-info button {
             background-color: #555555;
@@ -125,37 +120,161 @@
         .gathering-info .delete-btn:hover {
             background-color: #ff7777;
         }
+        .gathering-info .review-btn {
+            background-color: #4CAF50;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #ffffff;
+            margin-top: 10px;
+        }
+        .gathering-info .review-btn:hover {
+            background-color: #66BB6A;
+        }
+        /* 모달 스타일 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #333333;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            color: #ffffff;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #ffffff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .slider-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+            margin: 10px 0;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #f5b301;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #f5b301;
+            cursor: pointer;
+        }
+
+        .rating-display {
+            font-size: 1.5em;
+            color: #f5b301;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>내가 만든 모임 페이지</h1>
-
-        <div class="user-info" id="user-info">
-            <!-- 여기에 className과 userName이 표시됩니다 -->
-        </div>
+        <div class="user-info" id="user-info"></div>
     </div>
     <div class="container">
         <div class="section-title">현재 내가 만든 모임</div>
-        <div id="gathering-records">
-            <!-- 현재 모임 정보가 여기에 삽입됩니다 -->
-        </div>
+        <div id="gathering-records"></div>
 
         <div class="section-title">지난 모임</div>
-        <div id="past-gatherings">
-            <!-- 지난 모임 정보가 여기에 삽입됩니다 -->
+        <div id="past-gatherings"></div>
+    </div>
+
+    <!-- Modal -->
+    <div id="reviewModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Review</h2>
+            <form method="post" id="reviewForm">
+                <div class="fields">
+                    <div class="field half">
+                        <label for="name">Market Name</label>
+                        <input type="text" name="name" id="modalMarketName" readonly />
+                    </div>
+                    <div class="field half">
+                        <label for="rating">Rating</label>
+                        <div class="slider-container">
+                            <input type="range" min="0.5" max="5.0" step="0.5" value="2.5" class="slider" id="ratingSlider" name="rating">
+                            <div class="rating-display">
+                                <span id="ratingValue">2.5</span> stars
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="message">Message</label>
+                        <textarea name="message" id="message" rows="4"></textarea>
+                    </div>
+                </div>
+                <input type="hidden" id="modalMarketId" name="marketId" />
+                <ul class="actions">
+                    <li><input type="submit" value="Send Message" class="primary" /></li>
+                    <li><input type="reset" value="Reset" /></li>
+                </ul>
+            </form>
         </div>
     </div>
+
     <script src="assets/js/jquery.min.js"></script>
     <script>
-    // 모임 삭제 함수
     function deleteGathering(gatheringRecordInfoId) {
         $.ajax({
             url: 'http://127.0.0.1:8080/market/gathering/' + gatheringRecordInfoId,
             method: 'DELETE',
             success: function() {
                 alert('모임이 성공적으로 삭제되었습니다.');
-                location.reload(); // 페이지 새로고침
+                location.reload();
             },
             error: function(xhr, status, error) {
                 console.error('모임 삭제 실패:', status, error);
@@ -163,17 +282,11 @@
             }
         });
     }
-	
+
     $(document).ready(function() {
-
-
         function loadGatherings() {
-
-            // localStorage에서 전체 userData 객체를 가져오기
             var userData = localStorage.getItem('userData'); 
-
             if (userData) {
-                // 문자열로 저장된 JSON을 객체로 변환
                 userData = JSON.parse(userData); 
                 var userId = userData.userId;
                 var username = userData.username;
@@ -184,7 +297,6 @@
                     return;
                 }
 
-                // 우측 상단에 사용자 정보 표시
                 $('#user-info').html(`
                     <div>반: ${userClass} | 이름: ${username}</div>
                     <div class="buttons">
@@ -193,16 +305,14 @@
                     </div>
                 `);
 
-                // 로그아웃 버튼 클릭 시 이벤트 처리
                 $('#logout-btn').on('click', function() {
                     $.ajax({
                         url: 'http://127.0.0.1:8080/common/user/logout',
                         method: 'POST',
                         success: function() {
-                            // localStorage 데이터 삭제
                             localStorage.clear();
                             alert('로그아웃 되었습니다.');
-                            window.location.href = '/main'; // 로그아웃 후 메인 페이지로 리디렉션
+                            window.location.href = '/main';
                         },
                         error: function(err) {
                             console.error('로그아웃 실패:', err);
@@ -212,8 +322,6 @@
                 });
 
                 var url = 'http://127.0.0.1:8080/market/' + userId + '/gatherings';
-
-                // 여기서 AJAX 요청 등을 진행합니다.
             } else {
                 console.error('User 데이터가 없습니다. 로그인이 필요합니다.');
             }
@@ -228,17 +336,13 @@
                         return;
                     }
 
-                    // 현재 모임 정보 출력
                     var gatheringRecords = response.getGatheringRecordInfoBefore;
                     var gatheringHtml = '';
                     gatheringRecords.forEach(function(record) {
                         gatheringHtml += '<div class="gathering-info">';
-                        
-                        // 모임 상태가 BEFORE인 경우 "모임 삭제" 버튼 추가
                         if (record.status === 'BEFORE') {
                             gatheringHtml += '<button class="delete-btn" onclick="deleteGathering(' + record.gatheringRecordInfoId + ')">모임 삭제</button>';
                         }
-
                         gatheringHtml += '<div class="title">' + record.title + '</div>';
                         gatheringHtml += '<div class="info">';
                         gatheringHtml += '<div>작성자: ' + record.userName + '</div>';
@@ -252,7 +356,6 @@
                     });
                     $('#gathering-records').html(gatheringHtml);
 
-                    // 지난 모임 정보 출력
                     var pastGatherings = response.getGatheringRecordInfoAfter;
                     var pastHtml = '';
                     pastGatherings.forEach(function(record) {
@@ -265,10 +368,23 @@
                         pastHtml += '<div class="info">';
                         pastHtml += '<div>모임 시간: ' + new Date(record.meetingTime).toLocaleString() + '</div>';
                         pastHtml += '</div>';
+                        pastHtml += '<button class="review-btn" data-market-id="' + record.marketId + '" data-market-name="' + record.marketName + '">리뷰 작성</button>'; 
                         pastHtml += '<div class="status">모임 상태: <span class="btn">' + record.status + '</span></div>';
                         pastHtml += '</div>';
                     });
                     $('#past-gatherings').html(pastHtml);
+
+                    $('.review-btn').on('click', function() {
+                        var marketName = $(this).data('market-name');
+                        var marketId = $(this).data('market-id');
+                        
+                        console.log("Market Name: ", marketName);
+                        console.log("Market ID: ", marketId);
+                        
+                        $('#modalMarketName').val(marketName);
+                        $('#modalMarketId').val(marketId);
+                        $('#reviewModal').show();
+                    });
                 },
                 error: function(xhr, status, error) {
                     console.error('AJAX 요청 실패:', status, error);
@@ -277,9 +393,60 @@
             });
         }
 
+        $('.close').on('click', function() {
+            $('#reviewModal').hide();
+        });
 
-        // 페이지 로드 시 자동으로 모임 정보 가져오기
         loadGatherings();
+
+        $('#ratingSlider').on('input', function() {
+            $('#ratingValue').text($(this).val());
+        });
+
+        $('#reviewForm').submit(function(event) {
+            event.preventDefault();
+
+            var userData = localStorage.getItem('userData');
+            var userId;
+            if (userData) {
+                userData = JSON.parse(userData);
+                userId = userData.userId;
+            } else {
+                alert('User not logged in.');
+                return;
+            }
+
+            // marketId를 long 타입으로 변환
+            var marketId = parseInt($('#modalMarketId').val(), 10);
+            
+            console.log("Submitted Market ID: ", marketId); // 여기서도 확인합니다.
+            
+            var content = $('#message').val();
+            var rate = $('#ratingSlider').val();
+
+            var data = {
+                userId: userId,
+                marketId: marketId, // 이미 long으로 변환된 marketId
+                content: content,
+                rate: parseFloat(rate)
+            };
+
+            $.ajax({
+                url: `/market/${marketId}/review`,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function(response) {
+                    console.log('Success:', response);
+                    alert('Review submitted successfully!');
+                    $('#reviewModal').hide();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    alert('Failed to submit the review.');
+                }
+            });
+        });
     });
 
     </script>
