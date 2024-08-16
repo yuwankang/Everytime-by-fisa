@@ -65,6 +65,7 @@ public class GatheringRecordInfoDTO {
 	@ToString
 	public static class getGatheringRecordInfo implements Serializable{
 		private Long gatheringRecordInfoId;
+		private Long userId;
 		private Long marketId;
 		private String userName;
 		private String marketName;

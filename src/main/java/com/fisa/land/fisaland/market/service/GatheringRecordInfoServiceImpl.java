@@ -78,6 +78,8 @@ public class GatheringRecordInfoServiceImpl implements GatheringRecordInfoServic
 		return list.stream().map(m ->{
 			return GatheringRecordInfoDTO.getGatheringRecordInfo.builder()
 				.gatheringRecordInfoId(m.getGatheringRecordInfoId())
+				.marketId(m.getMarket().getMarketId())
+				.userId(m.getUser().getUserId())
 				.userName(m.getUser().getUsername())
 				.marketName(m.getMarket().getName())
 				.title(m.getTitle())

@@ -34,10 +34,10 @@ public class GatheringRecordController {
     }
 
     @Operation(summary = "모임 참가 취소", description = "유저가 참가한 모임을 취소하는 API")
-    @DeleteMapping("/gathering/cancel/{gatheringRecordId}")
+    @DeleteMapping("/gathering/cancel")
     public ResponseEntity<Void> cancelGathering(
-            @Parameter(description = "모임 기록 ID", example = "1") @PathVariable("gatheringRecordId") Long gatheringRecordId) {
-        gatheringRecordService.deleteGatheringRecord(gatheringRecordId);
+            @Parameter(description = "모임 기록 ID", example = "1")@RequestBody GatheringRecordDTO.JoinRequest joinRequest) {
+        gatheringRecordService.deleteGatheringRecord(joinRequest);
         return ResponseEntity.noContent().build();
     }
 
