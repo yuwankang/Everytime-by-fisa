@@ -177,16 +177,16 @@
             text-decoration: none;
             cursor: pointer;
         }
+
         .slider-container {
             display: flex;
             align-items: center;
-            justify-content: center;
-            flex-direction: column;
+            gap: 20px;
         }
 
         .slider {
             -webkit-appearance: none;
-            width: 100%;
+            width: 50%; /* 슬라이더 크기를 50%로 줄임 */
             height: 10px;
             border-radius: 5px;
             background: #ddd;
@@ -194,7 +194,6 @@
             opacity: 0.7;
             -webkit-transition: .2s;
             transition: opacity .2s;
-            margin: 10px 0;
         }
 
         .slider:hover {
@@ -224,6 +223,25 @@
             color: #f5b301;
             margin-top: 5px;
         }
+
+        .modal-content .field textarea {
+            width: 100%;
+            height: 150px; /* 메시지 창의 크기를 더 크게 조정 */
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #555555;
+            color: #ffffff;
+            border: none;
+            resize: none;
+        }
+
+        .fields .field-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
     </style>
 </head>
 <body>
@@ -247,16 +265,18 @@
             <h2>Review</h2>
             <form method="post" id="reviewForm">
                 <div class="fields">
-                    <div class="field half">
-                        <label for="name">Market Name</label>
-                        <input type="text" name="name" id="modalMarketName" readonly />
-                    </div>
-                    <div class="field half">
-                        <label for="rating">Rating</label>
-                        <div class="slider-container">
-                            <input type="range" min="0.5" max="5.0" step="0.5" value="2.5" class="slider" id="ratingSlider" name="rating">
-                            <div class="rating-display">
-                                <span id="ratingValue">2.5</span> stars
+                    <div class="field-container">
+                        <div class="field half">
+                            <label for="name">Market Name</label>
+                            <input type="text" name="name" id="modalMarketName" readonly />
+                        </div>
+                        <div class="field half">
+                            <label for="rating">Rating</label>
+                            <div class="slider-container">
+                                <div class="rating-display">
+                                    <span id="ratingValue">2.5</span> stars
+                                </div>
+                                <input type="range" min="0.5" max="5.0" step="0.5" value="2.5" class="slider" id="ratingSlider" name="rating">
                             </div>
                         </div>
                     </div>
@@ -268,7 +288,6 @@
                 <input type="hidden" id="modalMarketId" name="marketId" />
                 <ul class="actions">
                     <li><input type="submit" value="Send Message" class="primary" /></li>
-                    <li><input type="reset" value="Reset" /></li>
                 </ul>
             </form>
         </div>
@@ -362,7 +381,7 @@
                                         if (info.status === 'BEFORE') {
                                             gatheringHtml += '<button class="cancel-btn" onclick="cancelGathering(' + record.gatheringRecordId + ')">모임 참가 취소</button>';
                                         }
-                                        console.log(info.marketId)
+
                                         // 모임 상태가 AFTER인 경우 "맛집 리뷰 작성" 버튼 추가
                                         if (info.status === 'AFTER') {
                                             gatheringHtml += '<button class="review-btn" data-market-id="' + info.marketId + '" data-market-name="' + info.marketName + '">맛집 리뷰 작성</button>';
@@ -460,25 +479,12 @@
                     }
                 });
             });
-        });
 
-/* <<<<<<< HEAD
-        function cancelGathering(gatheringRecordId) {
-            $.ajax({
-                url: 'market/gathering/cancel/' + gatheringRecordId,
-                method: 'DELETE',
-                success: function() {
-                    alert('모임 참가가 취소되었습니다.');
-                    location.reload();  // 페이지 새로고침하여 변경사항 반영
-                },
-                error: function(xhr, status, error) {
-                    console.error('모임 참가 취소 실패:', status, error);
-                    alert('모임 취소에 실패했습니다. 다시 시도해주세요.');
-                }
+            // 슬라이더 값 변경 시 숫자 업데이트
+            $('#ratingSlider').on('input', function() {
+                $('#ratingValue').text($(this).val());
             });
-        }
-=======
->>>>>>> 26d9bedcca0df3d8df0cef5ab99f10fa92302466 */
+        });
     </script>
 </body>
 </html>

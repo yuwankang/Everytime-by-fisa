@@ -174,12 +174,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
+            flex-direction: row;
+            gap: 20px;
         }
 
         .slider {
             -webkit-appearance: none;
-            width: 100%;
+            width: 50%; /* 슬라이더 크기를 50%로 줄임 */
             height: 10px;
             border-radius: 5px;
             background: #ddd;
@@ -217,6 +218,25 @@
             color: #f5b301;
             margin-top: 5px;
         }
+
+        .modal-content .field textarea {
+            width: 100%;
+            height: 150px; /* 메시지 창의 크기를 더 크게 조정 */
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #555555;
+            color: #ffffff;
+            border: none;
+            resize: none;
+        }
+
+        .fields .field-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
     </style>
 </head>
 <body>
@@ -239,16 +259,18 @@
             <h2>Review</h2>
             <form method="post" id="reviewForm">
                 <div class="fields">
-                    <div class="field half">
-                        <label for="name">Market Name</label>
-                        <input type="text" name="name" id="modalMarketName" readonly />
-                    </div>
-                    <div class="field half">
-                        <label for="rating">Rating</label>
-                        <div class="slider-container">
-                            <input type="range" min="0.5" max="5.0" step="0.5" value="2.5" class="slider" id="ratingSlider" name="rating">
-                            <div class="rating-display">
-                                <span id="ratingValue">2.5</span> stars
+                    <div class="field-container">
+                        <div class="field half">
+                            <label for="name">Market Name</label>
+                            <input type="text" name="name" id="modalMarketName" readonly />
+                        </div>
+                        <div class="field half">
+                            <label for="rating">Rating</label>
+                            <div class="slider-container">
+                                <div class="rating-display">
+                                    <span id="ratingValue">2.5</span> stars
+                                </div>
+                                <input type="range" min="0.5" max="5.0" step="0.5" value="2.5" class="slider" id="ratingSlider" name="rating">
                             </div>
                         </div>
                     </div>
@@ -260,7 +282,6 @@
                 <input type="hidden" id="modalMarketId" name="marketId" />
                 <ul class="actions">
                     <li><input type="submit" value="Send Message" class="primary" /></li>
-                    <li><input type="reset" value="Reset" /></li>
                 </ul>
             </form>
         </div>
