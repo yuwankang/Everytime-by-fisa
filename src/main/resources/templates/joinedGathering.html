@@ -140,6 +140,90 @@
         .gathering-info .review-btn:hover {
             background-color: #77ff77;
         }
+        /* 모달 스타일 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #333333;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            color: #ffffff;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #ffffff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .slider-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+            margin: 10px 0;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #f5b301;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #f5b301;
+            cursor: pointer;
+        }
+
+        .rating-display {
+            font-size: 1.5em;
+            color: #f5b301;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -155,8 +239,58 @@
             <!-- 모임 정보가 여기에 삽입됩니다 -->
         </div>
     </div>
+
+    <!-- Modal -->
+    <div id="reviewModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Review</h2>
+            <form method="post" id="reviewForm">
+                <div class="fields">
+                    <div class="field half">
+                        <label for="name">Market Name</label>
+                        <input type="text" name="name" id="modalMarketName" readonly />
+                    </div>
+                    <div class="field half">
+                        <label for="rating">Rating</label>
+                        <div class="slider-container">
+                            <input type="range" min="0.5" max="5.0" step="0.5" value="2.5" class="slider" id="ratingSlider" name="rating">
+                            <div class="rating-display">
+                                <span id="ratingValue">2.5</span> stars
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="message">Message</label>
+                        <textarea name="message" id="message" rows="4"></textarea>
+                    </div>
+                </div>
+                <input type="hidden" id="modalMarketId" name="marketId" />
+                <ul class="actions">
+                    <li><input type="submit" value="Send Message" class="primary" /></li>
+                    <li><input type="reset" value="Reset" /></li>
+                </ul>
+            </form>
+        </div>
+    </div>
+
     <script src="assets/js/jquery.min.js"></script>
     <script>
+        function cancelGathering(gatheringRecordId) {
+            $.ajax({
+                url: 'http://127.0.0.1:8080/market/gathering/cancel/' + gatheringRecordId,
+                method: 'DELETE',
+                success: function() {
+                    alert('모임 참가가 취소되었습니다.');
+                    location.reload();  // 페이지 새로고침하여 변경사항 반영
+                },
+                error: function(xhr, status, error) {
+                    console.error('모임 참가 취소 실패:', status, error);
+                    alert('모임 취소에 실패했습니다. 다시 시도해주세요.');
+                }
+            });
+        }
+
         $(document).ready(function() {
             function loadGatherings() {
                 var userData = localStorage.getItem('userData'); 
@@ -220,6 +354,7 @@
                                     success: function(gatheringDetail) {
                                         var info = gatheringDetail.getGatheringRecordInfos;
                                         var participants = gatheringDetail.participants.join(', ');
+                                        var marketId = info.marketId; // marketId를 저장
 
                                         gatheringHtml += '<div class="gathering-info">';
                                         
@@ -230,7 +365,7 @@
 
                                         // 모임 상태가 AFTER인 경우 "맛집 리뷰 작성" 버튼 추가
                                         if (info.status === 'AFTER') {
-                                            gatheringHtml += '<button class="review-btn" onclick="window.location.href=\'/create_market_review\';">맛집 리뷰 작성</button>';
+                                            gatheringHtml += '<button class="review-btn" data-market-id="' + info.marketId + '" data-market-name="' + info.marketName + '">맛집 리뷰 작성</button>';
                                         }
 
                                         gatheringHtml += '<div class="title">' + info.title + '</div>';
@@ -254,6 +389,16 @@
                             });
 
                             $('#gathering-records').html(gatheringHtml);
+
+                            // 리뷰 버튼 클릭 시 모달 열기
+                            $('.review-btn').on('click', function() {
+                                var marketName = $(this).data('market-name');
+                                var marketId = $(this).data('market-id');
+                                
+                                $('#modalMarketName').val(marketName);
+                                $('#modalMarketId').val(marketId);
+                                $('#reviewModal').show();
+                            });
                         },
                         error: function(xhr, status, error) {
                             console.error('참여한 모임 정보를 불러오는데 실패했습니다:', status, error);
@@ -266,22 +411,57 @@
             }
 
             loadGatherings();
+
+            // 모달 닫기
+            $('.close').on('click', function() {
+                $('#reviewModal').hide();
+            });
+
+            // 리뷰 제출
+            $('#reviewForm').submit(function(event) {
+                event.preventDefault();
+
+                var userData = localStorage.getItem('userData');
+                var userId;
+                if (userData) {
+                    userData = JSON.parse(userData);
+                    userId = userData.userId;
+                } else {
+                    alert('User not logged in.');
+                    return;
+                }
+
+                // marketId를 long 타입으로 변환
+                var marketId = parseInt($('#modalMarketId').val(), 10);
+                
+                var content = $('#message').val();
+                var rate = $('#ratingSlider').val();
+
+                var data = {
+                    userId: userId,
+                    marketId: marketId, // 이미 long으로 변환된 marketId
+                    content: content,
+                    rate: parseFloat(rate)
+                };
+
+                $.ajax({
+                    url: `/market/${marketId}/review`,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function(response) {
+                        console.log('Success:', response);
+                        alert('Review submitted successfully!');
+                        $('#reviewModal').hide();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                        alert('Failed to submit the review.');
+                    }
+                });
+            });
         });
 
-        function cancelGathering(gatheringRecordId) {
-            $.ajax({
-                url: 'http://127.0.0.1:8080/market/gathering/cancel/' + gatheringRecordId,
-                method: 'DELETE',
-                success: function() {
-                    alert('모임 참가가 취소되었습니다.');
-                    location.reload();  // 페이지 새로고침하여 변경사항 반영
-                },
-                error: function(xhr, status, error) {
-                    console.error('모임 참가 취소 실패:', status, error);
-                    alert('모임 취소에 실패했습니다. 다시 시도해주세요.');
-                }
-            });
-        }
     </script>
 </body>
 </html>
