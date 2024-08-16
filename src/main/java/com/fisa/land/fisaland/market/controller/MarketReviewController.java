@@ -27,8 +27,9 @@ public class MarketReviewController {
     private MarketReviewService marketReviewService;
 
     @Operation(summary = "리뷰 등록", description = "특정 마켓에 리뷰를 등록하는 API")
-    @PostMapping("")
-    public ResponseEntity<Long> saveReview(@RequestBody MarketReviewDTO reviewDTO) {
+    @PostMapping("/market/{marketId}/review")
+    public ResponseEntity<Long> saveReview( @PathVariable("marketId") Long marketId,@RequestBody MarketReviewDTO reviewDTO) {
+    	 reviewDTO.setMarketId(marketId);
         MarketReviewDTO createdReview = marketReviewService.createReview(reviewDTO);
         logger.info("Review created with ID {} for market {} by user {} on {}", 
                     createdReview.getReviewId(), createdReview.getMarketId(), createdReview.getUserId(), LocalDate.now());
