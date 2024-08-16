@@ -7,10 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.fisa.land.fisaland.market.dto.GatheringRecordDTO;
+import com.fisa.land.fisaland.market.dto.GatheringRecordDTO.JoinRequest;
 import com.fisa.land.fisaland.market.service.GatheringRecordService;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
@@ -37,7 +37,7 @@ public class GatheringRecordController {
     @Operation(summary = "모임 참가 취소", description = "유저가 참가한 모임을 취소하는 API")
     @DeleteMapping("/gathering/cancel/{gatheringRecordId}")
     public ResponseEntity<Void> cancelGathering(
-            @Parameter(description = "모임 기록 ID", example = "1") @PathVariable("gatheringRecordId") Long gatheringRecordId) {
+            @PathVariable("gatheringRecordId") GatheringRecordDTO.JoinRequest gatheringRecordId) {
         gatheringRecordService.deleteGatheringRecord(gatheringRecordId);
         logger.info("Gathering record {} cancelled", gatheringRecordId);
         return ResponseEntity.noContent().build();
@@ -46,7 +46,7 @@ public class GatheringRecordController {
     @Operation(summary = "특정 유저의 모임 리스트 조회", description = "특정 유저가 참가한 모든 모임 기록을 조회하는 API")
     @GetMapping("/gathering/user/{userId}")
     public ResponseEntity<List<GatheringRecordDTO>> getUserGatheringList(
-            @Parameter(description = "유저 ID", example = "1") @PathVariable("userId") Long userId) {
+            @PathVariable("userId") Long userId) {
         List<GatheringRecordDTO> gatheringList = gatheringRecordService.getGatheringRecordsByUserId(userId);
         logger.info("Fetched gathering list for user {}", userId);
         return ResponseEntity.ok(gatheringList);
