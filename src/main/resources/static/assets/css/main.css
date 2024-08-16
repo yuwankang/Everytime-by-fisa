@@ -6,6 +6,64 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
+/* header-nav 스타일 */
+/* 전체 레이아웃 설정 */
+body {
+    margin: 0;
+    padding: 0;
+    position: relative; /* 절대 위치 요소를 상대적으로 배치할 수 있게 함 */
+}
+
+/* header-nav 스타일 */
+.header-nav {
+    position: absolute;
+    top: 20px; /* 상단에서 20px 떨어지게 함 */
+    right: 20px; /* 오른쪽에서 20px 떨어지게 함 */
+    display: flex;
+    flex-direction: row; /* 가로 방향으로 배치 */
+    gap: 10px; /* 항목 간의 간격 */
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: solid 1px #ffffff;
+    border-radius: 4px;
+}
+
+.header-nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex; /* 리스트 항목을 가로로 배치 */
+}
+
+.header-nav ul li {
+    margin: 0;
+    padding: 0;
+    display: flex; /* 리스트 항목 내부의 링크를 가로로 배치 */
+}
+
+.header-nav ul li a {
+    display: block;
+    height: 2.75rem;
+    line-height: 2.75rem;
+    padding: 0 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+    font-size: 0.8rem;
+    color: #ffffff; /* 텍스트 색상 */
+    text-decoration: none; /* 링크 밑줄 제거 */
+    white-space: nowrap; /* 텍스트가 줄바꿈 되지 않도록 함 */
+}
+
+.header-nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.075);
+}
+
+.header-nav ul li a:active {
+    background-color: rgba(255, 255, 255, 0.175);
+}
+
+
 
 html, body, div, span, applet, object,
 iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
