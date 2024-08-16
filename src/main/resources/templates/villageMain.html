@@ -41,7 +41,7 @@
 		        <a href="#">
 		        	<input type="submit" value="내 연체료 조회" class="primary" style="margin:20px">
 		       	</a>
-		       <form id="product-form" method="post" action="/submitProducts">
+		       <form id="product-form">
            		<div id="product-sections"></div>
            <!-- No submit button required if not needed -->
        </form>
@@ -64,13 +64,16 @@
 
                                 // Add content to the section
                                 section.innerHTML = `
-                                    <div class="contact-method ${statusClass}">
+                                    <div class="contact-method ${statusClass}" style="border:1px solid black; margin:20px; padding:10px">
                                         <h3>상품이름: ${product.product_name}</h3>
                                         <span>설명: ${product.description}
                                         <br>상태: ${product.status}
                                         <br>가격: ${product.price}
                                         <br>종류: ${product.category}</span>
-                                    </div>
+                                        <button id="participation-button-${product.productId}" style="margin: 20px;"
+                                            onclick="rentProduct(${product.productId}, ${product.price}, ${product.user_id})">
+                                        빌리기
+                                    </button></div>
                                 `;
 
                                 // Append the section to the container
@@ -79,6 +82,49 @@
                         })
                         .catch(error => console.error('Error fetching products:', error));
                 });
+        
+                function rentProduct(productId, fee, user_Id) {
+ 	var userId = null;
+                    var userData = localStorage.getItem('userData'); 
+                    if (userData) {
+                        userData = JSON.parse(userData); 
+                        userId = userData.userId;
+                        var username = userData.username;
+                        var userClass = userData.userClass;
+
+                        if (!userId) {
+                            console.error('User ID가 없습니다. 로그인이 필요합니다.');
+                            return;
+                        }
+
+                        // Example: Assume you have values for these variables
+                        var fee = 100; // Replace this with actual logic to calculate or obtain the fee
+
+                        fetch('/village/products/lendingRecord', {
+                            method: 'POST', // Use POST if you are creating a new record
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                productId: productId,
+                                borrowerId: userId,
+                                ownerId: user_Id, // You may need to provide logic to obtain the owner's ID
+                                fee: fee
+                            })
+                        })
+                        .then(response => response.json()) // Parse JSON response
+                        .then(data => {
+                            alert('Product rental completed successfully.');
+                            console.log(data); // Optionally log the response data
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred while renting the product.');
+                        });
+                    } else {
+                        console.error('User data not found.');
+                    }
+                }
             </script>
             </div>
 				<!-- Main -->

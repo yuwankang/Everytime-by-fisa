@@ -33,6 +33,7 @@ public class ProductDTO {
 	@ToString
 	public static class getProduct{
 		private long productId;
+		private long user_id;
 		private String product_name;
 		private String description;
 		private Status status;  
