@@ -56,17 +56,19 @@ public class UserController {
 
     // 로그아웃
     @Operation(summary = "로그아웃", description = "사용자를 로그아웃하고 세션을 무효화하는 API")
-    @PostMapping("user/logout")
-    public void logout(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Long userId = (Long) session.getAttribute("userId");
-        
-        LOGGER.info("로그아웃 호출됨: 사용자 ID: " + userId + ", 세션 ID: " + session.getId());
-        session.invalidate();
-        LOGGER.info("사용자 로그아웃 성공.");
-    }
-
-    // 사용자 정보 조회
+	@PostMapping("user/logout")
+	public void logout(HttpServletRequest request) {
+		System.out.println("logout() is called!");
+		HttpSession session = request.getSession(false);
+	
+		if (session != null) {
+	        session.invalidate();
+	        session = null;
+	    }
+		System.out.println("logout success !!");
+	}
+	
+	// User 정보 조회
     @Operation(summary = "사용자 정보 조회", description = "사용자 ID로 사용자 정보를 조회하는 API")
     @GetMapping("user/{userId}")
     public UserResponseDTO getUser(@PathVariable("userId") Long userId) {
