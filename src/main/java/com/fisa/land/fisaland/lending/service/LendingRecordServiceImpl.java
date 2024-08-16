@@ -49,7 +49,15 @@ public class LendingRecordServiceImpl implements LendingRecordService{
 
         // 3. LendingRecords 엔티티 생성 및 설정
         LendingRecords lendingRecords = LendingRecords.createLendingRecords(lendingRecordDto);
-        return lendingRecordsRepository.save(lendingRecords);
+        LendingRecords savedRecord = lendingRecordsRepository.save(lendingRecords);
+        
+        // 4. 상품 상태를 RENTED로 변경
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new BusinessLoginException(ExceptionList.PRODUCT_NOT_FOUND));
+        product.setStatus(Product.Status.RENTED); 
+        productRepository.save(product); 
+
+        return savedRecord;
     }
      
 	@Override
