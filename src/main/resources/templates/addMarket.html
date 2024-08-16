@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #000000, #434343); /* 검정색 그라데이션 배경 */
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #333333;
+            color: #ffffff;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid #555555;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #444444;
+            border-radius: 8px;
+        }
+        .form-container h2 {
+            margin-top: 0;
+            font-size: 24px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #555555;
+            border-radius: 5px;
+            background: #333333;
+            color: #ffffff;
+        }
+        .form-group input[type="submit"] {
+            background-color: #555555;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 10px;
+        }
+        .form-group input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Add Product</h1>
+    </div>
+    <div class="form-container">
+        <h2>상품 등록</h2>
+        <form id="add-product-form">
+            <div class="form-group">
+                <label for="name">음식점 이름:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="location">위치:</label>
+                <input type="text" id="location" name="location" required>
+            </div>
+            <div class="form-group">
+                <label for="description">설명:</label>
+                <input type="text" id="description" name="description" required>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="등록">
+            </div>
+   
+        </form>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#add-product-form').on('submit', function(e) {
+                e.preventDefault(); // 폼 제출 기본 동작 방지
+                
+                var productData = {
+                		name: $('#name').val(),
+                		location: $('#location').val(),
+                		description: $('#description').val()
+                };
+
+                $.ajax({
+                    url: 'market',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(productData),
+                    success: function(response) {
+                        alert('음식점이 성공적으로 등록되었습니다.');
+                        $('#add-product-form')[0].reset(); // 폼 초기화
+                        window.history.back(); // 이전 페이지로 이동
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('음식점 등록 실패:', status, error);
+                        alert('음식점 등록에 실패했습니다. 다시 시도해주세요.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
