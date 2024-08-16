@@ -12,10 +12,14 @@ import com.fisa.land.fisaland.market.dto.GatheringRecordDTO;
 import com.fisa.land.fisaland.market.entity.GatheringRecord;
 import com.fisa.land.fisaland.market.entity.GatheringRecordInfo;
 import com.fisa.land.fisaland.market.repository.GatheringRecordRepository;
+
+import jakarta.transaction.Transactional;
+
 import com.fisa.land.fisaland.common.respository.UserRepository;
 import com.fisa.land.fisaland.market.repository.GatheringRecordInfoRepository;
 
 @Service
+@Transactional
 public class GatheringRecordServiceImpl implements GatheringRecordService {
 
     @Autowired
