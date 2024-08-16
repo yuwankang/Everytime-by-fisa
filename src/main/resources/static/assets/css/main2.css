@@ -2219,12 +2219,13 @@ input, select, textarea {
 	}
 
 		#intro p.style1 {
-			font-size: 1.5em;
-			letter-spacing: 0.075em;
+			font-size: 1.1em;
+			text-transform: uppercase;
+			letter-spacing: 0.2em;
 		}
 
-		#intro p.style2 {
-			font-weight: 700;
+		#intro p.style2 {font-weight: 700;
+			
 			color: #fff;
 			border-radius: 0.35em;
 			box-shadow: inset 0px 0px 1px 1px rgba(255, 255, 255, 0.25);
@@ -3074,3 +3075,65 @@ input, select, textarea {
         .modal-footer .small-button:hover {
             background-color: #2980b9;
         }
+        
+		#market-info {
+		    padding: 20px; /* 내부 여백 */
+		    border: 1px solid #fff; /* 하얀색 선으로 테두리 설정 */
+		    border-radius: 8px; /* 모서리 둥글게 */
+		    margin-bottom: 20px; /* 아래 여백 */
+		    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
+		}
+		
+		/* 글씨체 설정 */
+		#market-info p {
+			color: #333;
+			text-transform: uppercase;
+			margin: 1.25em 0 0 0;
+			display: block;
+			letter-spacing: 0.2em;
+			font-size: 1.3em;
+			margin-bottom: 12px;
+			font-weight :700;
+		}
+		
+		
+		/* 제목에 다른 폰트 적용 */
+		#market-info h2 {
+			color: #333;
+			text-transform: uppercase;
+			margin: 1.25em 0 0 0;
+			display: block;
+			letter-spacing: 0.2em;
+			font-size: 2em;
+			margin-bottom: 30px;
+			
+		}
+		
+		#market-info .market-image {
+		    width: 100%;
+		    max-width: 400px;
+		    height: auto;
+		    border-radius: 8px;
+		    margin-top: 10px;
+		}
+		#market-image {
+		    width: 100%; /* 컨테이너 너비에 맞게 조정 */
+		    max-width: 300px; /* 최대 너비 설정 */
+		    height: 350px; /* 비율 유지 */
+		    border-radius: 8px; /* 모서리 둥글게 */
+		    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
+		}
+		/* 이미지 스타일 */
+		.image-featured {
+		    width: 100%; /* 부모 요소에 맞춰서 너비 조정 */
+		    height: 100%; /* 원하는 고정 높이 설정 */
+		    object-fit: cover; /* 비율 유지하면서 자르기 */
+		    border-radius: 8px; /* 모서리 둥글게 */
+		    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+		    transition: transform 0.3s ease; /* 호버 시 애니메이션 효과 */
+		}
+		
+		/* 이미지에 마우스를 올렸을 때 효과 */
+		.image-featured:hover {
+		    transform: scale(1.05); /* 이미지 확대 효과 */
+		}
