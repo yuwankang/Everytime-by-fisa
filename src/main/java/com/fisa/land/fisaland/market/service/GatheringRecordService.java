@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.fisa.land.fisaland.market.dto.GatheringRecordDTO;
 
+import jakarta.transaction.Transactional;
+
 public interface GatheringRecordService {
 	
     Long joinGathering(Long userId, Long gatheringRecordInfoId);
