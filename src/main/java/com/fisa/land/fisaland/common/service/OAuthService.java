@@ -21,8 +21,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class OAuthService{
 
-	@Autowired
-    private PasswordEncoder passwordEncoder;
+	private final PasswordEncoder passwordEncoder = null;
 	@Autowired
     private OAuthUtil oAuth2Util;
 //	@Autowired
@@ -42,7 +41,7 @@ public class OAuthService{
         return accessToken;
     }
 
-    public void login(String accessToken, LoginProvider provider) throws IOException {
+    public String login(String accessToken, LoginProvider provider) throws IOException {
         AuthDTO.MemberInformation memberInformation;
         if (provider == LoginProvider.GOOGLE) {
             memberInformation = oAuth2Util.getGoogleUserInfo(accessToken);
@@ -53,6 +52,7 @@ public class OAuthService{
         if (memberInformation == null) {
             throw new RuntimeException();
         }
+		return accessToken;
 
 //        Member member = memberRepository.findBySocialIdAndLoginProvider(memberInformation.getSocialId(), provider)
 //                .orElseGet(() ->

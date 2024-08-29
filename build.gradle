@@ -43,13 +43,13 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
     
      // Spring Security Core Dependency
-    implementation 'org.springframework.security:spring-security-core:6.0.0' // 적절한 버전으로 변경
+    //implementation 'org.springframework.security:spring-security-core:6.0.0' // 적절한 버전으로 변경
     
     // Spring Security Web Dependency (If you are working with web applications)
-    implementation 'org.springframework.security:spring-security-web:6.0.0' // 적절한 버전으로 변경
+    //implementation 'org.springframework.security:spring-security-web:6.0.0' // 적절한 버전으로 변경
     
     // Spring Security Config Dependency (If you are using configuration classes)
-    implementation 'org.springframework.security:spring-security-config:6.0.0' // 적절한 버전으로 변경
+    //implementation 'org.springframework.security:spring-security-config:6.0.0' // 적절한 버전으로 변경
     
     // Spring Security OAuth2 Dependency (If using OAuth2 features)
     implementation 'org.springframework.security:spring-security-oauth2-client:6.0.0' // 적절한 버전으로 변경
