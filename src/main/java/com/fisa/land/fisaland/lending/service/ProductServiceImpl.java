@@ -1,7 +1,6 @@
 package com.fisa.land.fisaland.lending.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -34,16 +33,16 @@ public class ProductServiceImpl implements ProductService{
 		Long userId = (Long) httpSession.getAttribute("userId");
 		
 		        Product product = new Product();
-		        product.setProduct_name(createProduct.getProduct_name());
+		        product.setProductName(createProduct.getProductName());
 		        product.setDescription(createProduct.getDescription());
 		        product.setPrice(createProduct.getPrice());
 		        product.setCategory(createProduct.getCategory());
 		        product.setStatus(Product.Status.AVAILABLE);
-		        product.setUser_id(userId);
+		        product.setUserId(userId);
 		
 		        Product savedProduct = productRepository.save(product);
 		        
-		        return savedProduct.getUser_id();
+		        return savedProduct.getUserId();
 		    }
 
 	@Override
@@ -75,12 +74,12 @@ public class ProductServiceImpl implements ProductService{
     }
 	
 	@Override
-    public void approveReturn(Long productId, Long user_id) {
+    public void approveReturn(Long productId, Long userId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid product ID"));
 
         // 유저 ID 비교
-        if (!product.getUser_id().equals(user_id)) {
+        if (!product.getUserId().equals(userId)) {
             throw new IllegalStateException("물건의 주인이 아닙니다");
         }
         // 물건의 상태가 RENTED가 아니면 반납 승인 불가
@@ -104,7 +103,7 @@ public class ProductServiceImpl implements ProductService{
     private ProductDTO.getMyProduct convertToDTO(Product product) {
         ProductDTO.getMyProduct dto = new ProductDTO.getMyProduct();
         dto.setProductId(product.getProductId());
-        dto.setProduct_name(product.getProduct_name()); 
+        dto.setProductName(product.getProductName()); 
         dto.setDescription(product.getDescription());
         dto.setStatus(product.getStatus());
         dto.setPrice(product.getPrice());
@@ -119,7 +118,7 @@ public class ProductServiceImpl implements ProductService{
             .orElseThrow(() -> new RuntimeException("Product not found"));
 
         // 확인: 사용자가 이 상품의 소유자인지 체크
-        if (!product.getUser_id().equals(userId)) {
+        if (!product.getUserId().equals(userId)) {
             return false; 
         }
 

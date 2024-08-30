@@ -11,6 +11,6 @@ import com.fisa.land.fisaland.lending.entity.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-	@Query("SELECT p FROM Product p WHERE p.user_id = :userId")
+	@Query("SELECT p FROM Product p WHERE p.userId = :userId")
     List<Product> findByUserId(@Param("userId") Long userId);
 }

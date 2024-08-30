@@ -186,14 +186,14 @@
 
             var reviewData = {
                 content: reviewContent,
-                productId: productData.product_id,
+                productId: productData.productId,
                 rate: 5.0, // Example rate, should be dynamic
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString()
             };
 
             $.ajax({
-                url: `/village/products/${productData.product_id}/review`,
+                url: `/village/products/${productData.productId}/review`,
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(reviewData),

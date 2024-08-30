@@ -65,7 +65,7 @@
                                 // Add content to the section
                                 section.innerHTML = `
                                     <div class="contact-method ${statusClass}" style="border:1px solid black; margin:20px; padding:10px">
-                                        <h3>상품이름: ${product.product_name}</h3>
+                                        <h3>상품이름: ${product.productName}</h3>
                                         <span>설명: ${product.description}
                                         <br>상태: ${product.status}
                                         <br>가격: ${product.price}
@@ -108,7 +108,7 @@
                             body: JSON.stringify({
                                 productId: productId,
                                 borrowerId: userId,
-                                ownerId: user_Id, // You may need to provide logic to obtain the owner's ID
+                                ownerId: userId, // You may need to provide logic to obtain the owner's ID
                                 fee: fee
                             })
                         })
