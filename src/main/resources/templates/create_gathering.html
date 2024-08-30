@@ -60,9 +60,9 @@
                     </ul>
                 </form>
             </article>
-  			<a href="addMarket">
-		        	<input type="submit" value="음식점 등록하기" class="primary" style="margin:20px">
-		   	</a>
+            <a href="addMarket">
+                <input type="submit" value="음식점 등록하기" class="primary" style="margin:20px">
+            </a>
         </div>
 
         <!-- Footer -->
@@ -125,26 +125,49 @@
                 var title = $('#title').val();
                 var meetingTime = $('#time').val();
 
-                var requestData = {
-                    userId: userId,
-                    marketId: marketId,
-                    title: title,
-                    status: "BEFORE",
-                    meetingTime: meetingTime
-                };
-
+                // 모임 시간 중복 확인 요청
                 $.ajax({
-                    url: 'market/gathering',
-                    method: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(requestData),
-                    success: function(response) {
-                        alert("모임이 성공적으로 등록되었습니다!");
-                        window.location.href = '/main';
+                    url: `http://127.0.0.1:8080/market/${userId}/gatherings`,
+                    method: 'GET',
+                    success: function(data) {
+                        var inputDate = new Date(meetingTime).getDate();
+
+                        var isDuplicate = data.getGatheringRecordInfoBefore.some(function(record) {
+                            var recordDate = new Date(record.meetingTime).getDate();
+                            return inputDate === recordDate;
+                        });
+
+                        if (isDuplicate) {
+                            alert("이미 해당 날짜에 등록된 모임이 있습니다. 다른 날짜를 선택해주세요.");
+                        } else {
+                            var requestData = {
+                                userId: userId,
+                                marketId: marketId,
+                                title: title,
+                                status: "BEFORE",
+                                meetingTime: meetingTime
+                            };
+
+                            // 모임 등록 요청
+                            $.ajax({
+                                url: 'market/gathering',
+                                method: 'POST',
+                                contentType: 'application/json',
+                                data: JSON.stringify(requestData),
+                                success: function(response) {
+                                    alert("모임이 성공적으로 등록되었습니다!");
+                                    window.location.href = '/main';
+                                },
+                                error: function(err) {
+                                    console.error("모임 등록 실패:", err);
+                                    alert("모임 등록에 실패했습니다. 다시 시도해주세요.");
+                                }
+                            });
+                        }
                     },
                     error: function(err) {
-                        console.error("모임 등록 실패:", err);
-                        alert("모임 등록에 실패했습니다. 다시 시도해주세요.");
+                        console.error("모임 정보 가져오기 실패:", err);
+                        alert("모임 정보를 불러오는데 실패했습니다. 다시 시도해주세요.");
                     }
                 });
             });

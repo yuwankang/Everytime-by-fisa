@@ -160,8 +160,8 @@ body {
 		<h2>상품 등록</h2>
 		<form id="add-product-form">
 			<div class="form-group">
-				<label for="product_name">상품명:</label> <input type="text"
-					id="product_name" name="product_name" required>
+				<label for="productName">상품명:</label> <input type="text"
+					id="productName" name="productName" required>
 			</div>
 			<div class="form-group">
 				<label for="description">설명:</label> <input type="text"
@@ -195,7 +195,7 @@ body {
                 
                 var productData = {
                     description: $('#description').val(),
-                    product_name: $('#product_name').val(),
+                    productName: $('#productName').val(),
                     price: $('#price').val(),
                     category: $('#category').val()
                 };
