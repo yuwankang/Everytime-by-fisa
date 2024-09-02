@@ -80,13 +80,13 @@ public class OAuthUtil {
 
         JsonElement element = JsonParser.parseString(Objects.requireNonNull(response.getBody()));
         JsonObject jsonObject = element.getAsJsonObject();
-//        MemberDTO.MemberInformation memberInformation = MemberDTO.MemberInformation.builder()
-//                .socialId(jsonObject.get("id").getAsString())
-//                .name(jsonObject.get("given_name").getAsString())
-//                .postUrl(jsonObject.get("picture").getAsString())
-//                .email(jsonObject.get("email").getAsString())
-//                .build();
+       AuthDTO.MemberInformation memberInformation = AuthDTO.MemberInformation.builder()
+               .socialId(jsonObject.get("id").getAsString())
+                .name(jsonObject.get("given_name").getAsString())
+                .postUrl(jsonObject.get("picture").getAsString())
+                .email(jsonObject.get("email").getAsString())
+               .build();
 
-        return null;
+        return memberInformation;
     }
 }

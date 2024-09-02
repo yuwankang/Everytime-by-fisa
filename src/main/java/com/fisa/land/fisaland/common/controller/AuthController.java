@@ -37,10 +37,9 @@ public class AuthController {
     }
 
     @GetMapping("/callback")
-    public String getGoogleAccessToken(String code, String scope, HttpServletResponse response) throws IOException {
+    public void getGoogleAccessToken(String code, String scope, HttpServletResponse response) throws IOException {
         String accessToken = oAuth2Service.getAccessToken(code, LoginProvider.GOOGLE);
-        String loginUrl = oAuth2Service.login(accessToken, LoginProvider.GOOGLE);
-        return "redirect:" + loginUrl;
+        oAuth2Service.login(accessToken, LoginProvider.GOOGLE);
     }
 
 }

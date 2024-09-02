@@ -1,5 +1,9 @@
 package com.fisa.land.fisaland.common.service;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fisa.land.fisaland.common.dto.response.AuthDTO;
+import com.fisa.land.fisaland.common.entity.User;
+import com.fisa.land.fisaland.common.respository.UserRepository;
 import com.fisa.land.fisaland.common.type.LoginProvider;
 import com.fisa.land.fisaland.common.util.OAuthUtil;
 
@@ -24,8 +30,8 @@ public class OAuthService{
 	private final PasswordEncoder passwordEncoder = null;
 	@Autowired
     private OAuthUtil oAuth2Util;
-//	@Autowired
-//    private MemberRepository memberRepository;
+	@Autowired
+    private UserRepository userRepository;
     public String getRedirectUrl(LoginProvider provider) {
         if (provider == LoginProvider.GOOGLE) {
             return oAuth2Util.getGoogleRedirectUrl();
@@ -41,7 +47,7 @@ public class OAuthService{
         return accessToken;
     }
 
-    public String login(String accessToken, LoginProvider provider) throws IOException {
+    public void login(String accessToken, LoginProvider provider) throws IOException {
         AuthDTO.MemberInformation memberInformation;
         if (provider == LoginProvider.GOOGLE) {
             memberInformation = oAuth2Util.getGoogleUserInfo(accessToken);
@@ -52,33 +58,18 @@ public class OAuthService{
         if (memberInformation == null) {
             throw new RuntimeException();
         }
-		return accessToken;
-
-//        Member member = memberRepository.findBySocialIdAndLoginProvider(memberInformation.getSocialId(), provider)
-//                .orElseGet(() ->
-//                        memberRepository.save(Member.builder()
-//                                .socialId(memberInformation.getSocialId())
-//                                .loginProvider(provider)
-//                                .name(memberInformation.getName())
-//                                .email(memberInformation.getEmail())
-//                                .password(passwordEncoder.encode(memberInformation.getSocialId()))
-//                                .imgUrl(memberInformation.getPostUrl())
-//                                .memberRoleList(Arrays.asList(MemberRole.USER))
-//                                .build())
-//                );
-//
-//        MemberSecurityDTO memberSecurityDTO =
-//                new MemberSecurityDTO(member.getSocialId(), member.getPassword(), member.getMemberRoleList().stream().map(Enum::toString).collect(Collectors.toList()), member.getName());
-
-//        Map<String, Object> claims = memberSecurityDTO.getClaims();
-//
-//        String jwtToken = JWTUtil.generateToken(memberSecurityDTO.getClaims(), 24 * 60 * 36); //지금 당장 사용할 수 있는 권리
-//        String jwtRefreshToken = JWTUtil.generateToken(memberSecurityDTO.getClaims(), 24 * 60 * 36); //교환권
-//
-//        claims.put("accessToken", jwtToken);
-//        claims.put("refreshToken", jwtRefreshToken);
-//
-//        return "http://localhost:3000/login?accessToken=" + jwtToken + "&refreshToken=" + jwtRefreshToken;
+        
+        User user = userRepository.findBySocialIdAndLoginProvider(memberInformation.getSocialId(), provider)
+				.orElseGet(()->
+						userRepository.save(User.builder()
+								.socialId(memberInformation.getSocialId())
+								.loginProvider(provider)
+								.username(memberInformation.getName())
+								.email(memberInformation.getEmail())
+								.password(passwordEncoder.encode(memberInformation.getSocialId()))
+								.imgUrl(memberInformation.getPostUrl())
+								.build())
+						);
     }
 
 }
