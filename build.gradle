@@ -41,9 +41,19 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
-<<<<<<< Updated upstream
-
-
+    
+     // Spring Security Core Dependency
+    //implementation 'org.springframework.security:spring-security-core:6.0.0' // 적절한 버전으로 변경
+    
+    // Spring Security Web Dependency (If you are working with web applications)
+    //implementation 'org.springframework.security:spring-security-web:6.0.0' // 적절한 버전으로 변경
+    
+    // Spring Security Config Dependency (If you are using configuration classes)
+    //implementation 'org.springframework.security:spring-security-config:6.0.0' // 적절한 버전으로 변경
+    
+    // Spring Security OAuth2 Dependency (If using OAuth2 features)
+    implementation 'org.springframework.security:spring-security-oauth2-client:6.0.0' // 적절한 버전으로 변경
+    
     
     //mapper
     implementation 'org.modelmapper:modelmapper:3.1.1'
@@ -59,11 +69,9 @@ dependencies {
 
     // Log4j 2 dependencies
  	implementation 'log4j:log4j:1.2.17'
-=======
-    
-    //mapper
-    implementation 'org.modelmapper:modelmapper:3.1.1'
->>>>>>> Stashed changes
+ 	
+ 	 // Gson Dependency
+    implementation 'com.google.code.gson:gson:2.10.1' // 적절한 버전으로 변경
 }
 
 tasks.named('test') {

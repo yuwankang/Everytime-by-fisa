@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.fisa.land.fisaland.common.entity.User;
+import com.fisa.land.fisaland.common.type.LoginProvider;
 	
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
@@ -15,4 +16,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	Optional<User> findByEmail(String email);
 	
 	void deleteByUserId(Long userId);
+	
+	Optional<User> findBySocialIdAndLoginProvider(String socialId, LoginProvider loginProvider);
 }
