@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,9 +32,12 @@ public class Product extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
-
-    private Long user_id;
-    private String product_name;
+    
+    @Column(name = "user_id")
+    private Long userId;
+    
+    @Column(name = "product_name")
+    private String productName;
     private String description;
 
     @Enumerated(EnumType.STRING)

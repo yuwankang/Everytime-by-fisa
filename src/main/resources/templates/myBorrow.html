@@ -169,7 +169,7 @@
                         var recordsContainer = $('#records-container');
                         if (filteredRecords.length > 0) {
                             var recordHtml = filteredRecords.map(function(record) {
-                            	 var productName = record.product.product_name;
+                            	 var productName = record.product.productName;
                             	var borrowDate = new Date(record.lendingRecordInfo.borrowDate).toLocaleString();
                                 var returnDate = new Date(record.lendingRecordInfo.returnDate).toLocaleString();
                                 var fee = record.lendingRecordInfo.fee;

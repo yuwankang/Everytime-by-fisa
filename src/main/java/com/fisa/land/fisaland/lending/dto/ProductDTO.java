@@ -21,7 +21,7 @@ public class ProductDTO {
     @Builder
     public static class CreateProduct {
     	private String description;
-        private String product_name;
+        private String productName;
         private Integer price;
         private Category category; 
     }
@@ -33,8 +33,8 @@ public class ProductDTO {
 	@ToString
 	public static class getProduct{
 		private long productId;
-		private long user_id;
-		private String product_name;
+		private long userId;
+		private String productName;
 		private String description;
 		private Status status;  
 		private int price;	
@@ -49,7 +49,7 @@ public class ProductDTO {
 	@ToString
 	public static class getMyProduct{
 		private long productId;
-		private String product_name;
+		private String productName;
 		private String description;
 		private Status status;  
 		private int price;	

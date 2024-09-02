@@ -148,14 +148,14 @@
                 $('#user-info').html(`
                     <div>반: ${userClass} | 이름: ${username}</div>
                     <div class="buttons">
-                        <button onclick="window.location.href='/village';">Village Home</button>
+                        <button onclick="window.location.href='/userinfo';">회원정보</button>
                         <button id="logout-btn">로그아웃</button>
                     </div>
                 `);
 
                 $('#logout-btn').on('click', function() {
                     $.ajax({
-                        url: 'common/user/logout',
+                        url: 'http://127.0.0.1:8080/common/user/logout',
                         method: 'POST',
                         success: function() {
                             localStorage.clear();
@@ -169,7 +169,7 @@
                     });
                 });
                 
-                var url = 'village/products/owner/' + ownerId;
+                var url = 'http://127.0.0.1:8080/village/products/owner/' + ownerId;
 
                 $.ajax({
                     url: url,
@@ -189,11 +189,11 @@
                                 var returnDate = new Date(record.lendingRecordInfo.returnDate).toLocaleString();
                                 var fee = record.lendingRecordInfo.fee;
                                 var overdueFee = record.lendingRecordInfo.overdueFee;
-                                var productName = record.product.product_name;
+                                var productName = record.product.productName;
                                 var borrowerName = record.borrower.username;
                                 var borrowerEmail = record.borrower.email;
                                 var borrowerClass = record.borrower.userClass;
-                                var productId = record.product.product_id;
+                                var productId = record.product.productId;
                                 var lendingRecordId = record.lendingRecordInfo.lendingRecordId;
 
                                 return `
@@ -226,7 +226,7 @@
                                             <strong>Fee:</strong> ${fee} 원
                                         </div>
                                         <div class="info">
-                                            <strong>Overdue Fee:</strong> ${overdueFee} 원
+                                            <strong>Overdue Fee:</strong> ${overdueFee ? overdueFee + ' 원' : 'N/A'}
                                         </div>
                                         <button class="return-button" data-product-id="${record.product.productId}" data-lending-record-id="${record.lendingRecordInfo.lendingRecordId}">반납완료</button>
                                     </div>
@@ -256,14 +256,14 @@
             var lendingRecordId = $(this).data('lending-record-id');
 
             $.ajax({
-            	url: 'village/products/${productId}/return',
+            	url: `http://127.0.0.1:8080/village/products/${productId}/return`,
                 method: 'PATCH',
                 success: function() {
                     alert('상태 업데이트 성공');
                     
                     // 추가된 PUT 요청
                     $.ajax({
-                        url: 'village/products/' + lendingRecordId + '/status',
+                        url: 'http://127.0.0.1:8080/village/products/' + lendingRecordId + '/status',
                         method: 'PUT',
                         success: function() {
                             alert('반납 완료 성공');
