@@ -78,10 +78,11 @@ public class OAuthUtil {
                 String.class
         );
 
+        System.out.println(response);
         JsonElement element = JsonParser.parseString(Objects.requireNonNull(response.getBody()));
         JsonObject jsonObject = element.getAsJsonObject();
        AuthDTO.MemberInformation memberInformation = AuthDTO.MemberInformation.builder()
-               .socialId(jsonObject.get("id").getAsString())
+               .socialId(jsonObject.get("sub").getAsString())
                 .name(jsonObject.get("given_name").getAsString())
                 .postUrl(jsonObject.get("picture").getAsString())
                 .email(jsonObject.get("email").getAsString())

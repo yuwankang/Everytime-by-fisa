@@ -44,10 +44,10 @@ public class User extends BaseTimeEntity {
     @Column(name = "email", nullable = false, length = 50)
     private String email;
 
-    @Column(name = "password", nullable = false, length = 50)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "img_url", nullable = false, length = 50)
+    @Column(name = "img_url", nullable = false)
     private String imgUrl;
 
     @Column(name = "phone", length = 20)

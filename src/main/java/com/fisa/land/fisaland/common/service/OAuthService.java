@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,11 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class OAuthService{
 
-	private final PasswordEncoder passwordEncoder = null;
+
+	public final PasswordEncoder passwordEncoder;
 	@Autowired
     private OAuthUtil oAuth2Util;
 	@Autowired
@@ -59,6 +62,7 @@ public class OAuthService{
             throw new RuntimeException();
         }
         
+        System.out.println(memberInformation);
         User user = userRepository.findBySocialIdAndLoginProvider(memberInformation.getSocialId(), provider)
 				.orElseGet(()->
 						userRepository.save(User.builder()

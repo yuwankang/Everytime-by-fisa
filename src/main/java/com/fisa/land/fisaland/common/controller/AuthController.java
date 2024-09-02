@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/myrok/auth")
+@RequestMapping("auth")
 public class AuthController {
 
 
@@ -36,8 +37,10 @@ public class AuthController {
         return map;
     }
 
+    @ResponseBody
     @GetMapping("/callback")
-    public void getGoogleAccessToken(String code, String scope, HttpServletResponse response) throws IOException {
+    public void getGoogleAccessToken(@RequestParam("code") String code, @RequestParam("scope") String scope, HttpServletResponse response) throws IOException {
+    	System.out.println(code);
         String accessToken = oAuth2Service.getAccessToken(code, LoginProvider.GOOGLE);
         oAuth2Service.login(accessToken, LoginProvider.GOOGLE);
     }
