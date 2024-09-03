@@ -1,12 +1,11 @@
 package com.fisa.land.fisaland.common.aspect;
 
+import com.fisa.land.fisaland.common.entity.UserEntity;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.fisa.land.fisaland.common.entity.User;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -33,8 +32,8 @@ public class UserAspect {
 
     @AfterReturning(pointcut = "execution(* com.fisa.land.fisaland.common.service.UserService.updateUser(..))", returning = "result")
     public void logUserUpdate(JoinPoint joinPoint, Object result) {
-        User user = (User) result;
-        Long userId = user.getUserId();
+        UserEntity userEntity = (UserEntity) result;
+        Long userId = userEntity.getUserId();
         LocalDateTime updateDate = LocalDateTime.now();
 
         LOGGER.info("User Update: User ID: " + userId + ", Updated At: " + updateDate);

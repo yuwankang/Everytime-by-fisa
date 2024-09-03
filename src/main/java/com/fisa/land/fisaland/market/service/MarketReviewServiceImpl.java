@@ -3,11 +3,11 @@ package com.fisa.land.fisaland.market.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fisa.land.fisaland.common.entity.UserEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fisa.land.fisaland.common.entity.User;
 import com.fisa.land.fisaland.common.respository.UserRepository;
 import com.fisa.land.fisaland.market.dto.MarketReviewDTO;
 import com.fisa.land.fisaland.market.entity.Market;
@@ -23,13 +23,13 @@ public class MarketReviewServiceImpl implements MarketReviewService {
 
     @Autowired
     private ModelMapper modelMapper;
-    
+
     @Autowired
     private MarketRepository marketRepository;
 
     @Autowired
     private UserRepository userRepository;
-    
+
 
     @Override
     public List<MarketReviewDTO> getAllReviews() {
@@ -48,21 +48,21 @@ public class MarketReviewServiceImpl implements MarketReviewService {
     @Override
     public MarketReviewDTO createReview(MarketReviewDTO reviewDTO) {
         MarketReview review = new MarketReview();
-        
+
         // User 설정
-        User user = userRepository.findById(reviewDTO.getUserId())
-            .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
-        review.setUser(user);
-        
+        UserEntity userEntity = userRepository.findById(reviewDTO.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+        review.setUserEntity(userEntity);
+
         // Market 설정
         Market market = marketRepository.findById(reviewDTO.getMarketId())
-            .orElseThrow(() -> new IllegalArgumentException("Invalid market ID"));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid market ID"));
         review.setMarket(market);
-        
+
         // 나머지 필드 설정
         review.setContent(reviewDTO.getContent());
         review.setRate(reviewDTO.getRate());
-        
+
         MarketReview savedReview = marketReviewRepository.save(review);
         return modelMapper.map(savedReview, MarketReviewDTO.class);
     }
@@ -83,13 +83,13 @@ public class MarketReviewServiceImpl implements MarketReviewService {
     public void deleteReview(Long id) {
         marketReviewRepository.deleteById(id);
     }
-    
-    
+
+
     @Override
     public List<MarketReviewDTO> getReviewsByUserId(Long userId) {
-        return marketReviewRepository.findByUser_UserId(userId).stream()
-            .map(review -> modelMapper.map(review, MarketReviewDTO.class))
-            .collect(Collectors.toList());
+        return marketReviewRepository.findByUserEntityUserId(userId).stream()
+                .map(review -> modelMapper.map(review, MarketReviewDTO.class))
+                .collect(Collectors.toList());
     }
-    
+
 }

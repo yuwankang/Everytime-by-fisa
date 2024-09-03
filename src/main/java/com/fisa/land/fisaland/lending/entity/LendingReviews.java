@@ -14,12 +14,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fisa.land.fisaland.common.entity.BaseTimeEntity;
-import com.fisa.land.fisaland.common.entity.User;
-import com.fisa.land.fisaland.lending.entity.Product;
 
 @Entity
 @Getter

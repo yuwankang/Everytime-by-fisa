@@ -1,26 +1,13 @@
 package com.fisa.land.fisaland.market.dto;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fisa.land.fisaland.common.entity.User;
+import com.fisa.land.fisaland.common.entity.UserEntity;
 import com.fisa.land.fisaland.market.entity.Market;
 import com.fisa.land.fisaland.market.type.Status;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -50,7 +37,7 @@ public class GatheringRecordInfoDTO {
 	@Builder
 	@ToString
 	public static class saveGatheringRecordInfo{
-		private User userId;
+		private UserEntity userEntityId;
 		private Market marketId;
 		private Status status;
 		private LocalDateTime meetingTime;

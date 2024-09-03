@@ -14,12 +14,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fisa.land.fisaland.common.entity.User;
+import com.fisa.land.fisaland.common.entity.UserEntity;
 import com.fisa.land.fisaland.lending.dto.LendingRecordDto;
 
 @Entity
@@ -55,12 +54,12 @@ public class LendingRecords {
     // 대여자 (Borrower)와의 ManyToOne 관계 설정
     @ManyToOne
     @JoinColumn(name = "borrower_id", insertable = false, updatable = false)
-    private User borrower; // User 엔티티와의 관계 (대여자)
+    private UserEntity borrower; // User 엔티티와의 관계 (대여자)
 
     // 소유자 (Owner)와의 ManyToOne 관계 설정
     @ManyToOne
     @JoinColumn(name = "owner_id", insertable = false, updatable = false)
-    private User owner; // User 엔티티와의 관계 (소유자)
+    private UserEntity owner; // User 엔티티와의 관계 (소유자)
 
     // LendingRecordInfo와의 1:1 관계 설정
     @OneToOne(mappedBy = "lendingRecords", cascade = CascadeType.ALL)

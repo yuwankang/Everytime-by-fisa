@@ -2,14 +2,10 @@ package com.fisa.land.fisaland.market.entity;
 
 import java.time.LocalDateTime;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fisa.land.fisaland.common.entity.BaseTimeEntity;
-import com.fisa.land.fisaland.common.entity.User;
+import com.fisa.land.fisaland.common.entity.UserEntity;
 import com.fisa.land.fisaland.market.type.Status;
 
-import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -39,7 +35,7 @@ public class GatheringRecordInfo extends BaseTimeEntity{
 	
 	@JoinColumn(name="userId")
 	@ManyToOne(fetch=FetchType.EAGER)
-	private User user;
+	private UserEntity userEntity;
 	
 	@JoinColumn(name="marketId")
 	@ManyToOne(fetch=FetchType.EAGER)
