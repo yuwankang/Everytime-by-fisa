@@ -25,8 +25,11 @@ public class SecurityConfig {
             "/",
             "/common/user/login",
             "/logout",
-            "/swagger-resources/**",
-            "/swagger-ui/**",
+            "/swagger-ui.html",       // Swagger UI 페이지
+            "/swagger-ui/**",         // Swagger UI 정적 리소스
+            "/v3/api-docs/**",        // Swagger API 문서
+            "/swagger-resources/**",   // Swagger 리소스
+            "/auth/**"
     };
 
     @Bean
