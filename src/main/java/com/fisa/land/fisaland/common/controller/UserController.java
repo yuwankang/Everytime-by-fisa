@@ -1,5 +1,6 @@
 package com.fisa.land.fisaland.common.controller;
 
+import com.fisa.land.fisaland.common.dto.response.JWTAuthResponse;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,36 +40,30 @@ public class UserController {
         LOGGER.info("사용자 등록 성공: 이메일: " + user.getEmail());
     }
 
+
     // 로그인
     @Operation(summary = "로그인", description = "사용자를 인증하고 세션에 ID 값을 저장하는 API")
     @PostMapping("user/login")
-    public UserResponseDTO login(@RequestBody LoginDTO loginDTO, HttpSession session) {
+    public JWTAuthResponse login(@RequestBody LoginDTO loginDTO) {
         LOGGER.info("로그인 호출됨: 로그인 정보: " + loginDTO);
-        UserResponseDTO userDto = userService.login(loginDTO);
-        
-        // 로그인 성공 시 세션에 id 값을 저장
-        Long userId = userService.findByEmail(userDto.getEmail());
-        session.setAttribute("userId", userId);
-        
-        LOGGER.info("사용자 로그인 성공: 사용자 ID: " + userId + ", 세션 ID: " + session.getId());
-        return userDto;
+        return userService.login(loginDTO);
     }
 
     // 로그아웃
     @Operation(summary = "로그아웃", description = "사용자를 로그아웃하고 세션을 무효화하는 API")
-	@PostMapping("user/logout")
-	public void logout(HttpServletRequest request) {
-		System.out.println("logout() is called!");
-		HttpSession session = request.getSession(false);
-	
-		if (session != null) {
-	        session.invalidate();
-	        session = null;
-	    }
-		System.out.println("logout success !!");
-	}
-	
-	// User 정보 조회
+    @PostMapping("user/logout")
+    public void logout(HttpServletRequest request) {
+        System.out.println("logout() is called!");
+        HttpSession session = request.getSession(false);
+
+        if (session != null) {
+            session.invalidate();
+            session = null;
+        }
+        System.out.println("logout success !!");
+    }
+
+    // User 정보 조회
     @Operation(summary = "사용자 정보 조회", description = "사용자 ID로 사용자 정보를 조회하는 API")
     @GetMapping("user/{userId}")
     public UserResponseDTO getUser(@PathVariable("userId") Long userId) {
