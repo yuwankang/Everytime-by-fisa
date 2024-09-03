@@ -11,33 +11,28 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Builder
 @Entity
 @Table(name = "User")
-public class User extends BaseTimeEntity {
+public class UserEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="user_id")
     private Long userId;
-    
-    @Column(name = "social_id", nullable = false)
+
+    @Column(name = "social_id")
     private String socialId;
 
-    @Column(name = "login_provider", nullable = false)
+    @Column(name = "login_provider") //수정
     private LoginProvider loginProvider;
-    
+
     @Column(name = "username", nullable = false, length = 16)
     private String username;
 
@@ -45,9 +40,9 @@ public class User extends BaseTimeEntity {
     private String email;
 
     @Column(name = "password", nullable = false)
-    private String password;
+    private String encryptedPwd; //암호화 추가
 
-    @Column(name = "img_url", nullable = false)
+    @Column(name = "img_url", nullable = true) //fix : not null이면 에러 발생해서 수정r
     private String imgUrl;
 
     @Column(name = "phone", length = 20)
@@ -58,12 +53,12 @@ public class User extends BaseTimeEntity {
 
     @Column(name = "is_activated", nullable = false)
     @Builder.Default
-    private boolean isActivated = true; 
+    private boolean isActivated = true;
 
-    public User update(UserDTO userDto) {
+    public UserEntity update(UserDTO userDto) {
         this.username = userDto.getUsername();
         this.email = userDto.getEmail();
-        this.password = userDto.getPassword();
+        this.encryptedPwd = userDto.getPassword();
         this.phone = userDto.getPhone();
         this.userClass = userDto.getUserClass();
         this.setUpdatedAt(LocalDateTime.now());

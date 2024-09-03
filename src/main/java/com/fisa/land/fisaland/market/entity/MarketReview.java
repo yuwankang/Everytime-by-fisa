@@ -1,9 +1,8 @@
 package com.fisa.land.fisaland.market.entity;
 
-import java.time.LocalDateTime;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fisa.land.fisaland.common.entity.BaseTimeEntity;
-import com.fisa.land.fisaland.common.entity.User;
+import com.fisa.land.fisaland.common.entity.UserEntity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -33,7 +32,7 @@ public class MarketReview extends BaseTimeEntity{
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private UserEntity userEntity;
 
     @ManyToOne
     @JoinColumn(name = "market_id", nullable = false)

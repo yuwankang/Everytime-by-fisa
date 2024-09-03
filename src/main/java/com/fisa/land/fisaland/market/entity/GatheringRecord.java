@@ -1,7 +1,7 @@
 package com.fisa.land.fisaland.market.entity;
 
 import com.fisa.land.fisaland.common.entity.BaseTimeEntity;
-import com.fisa.land.fisaland.common.entity.User;
+import com.fisa.land.fisaland.common.entity.UserEntity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,7 +31,7 @@ public class GatheringRecord extends BaseTimeEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private UserEntity userEntity;
 
     @ManyToOne
     @JoinColumn(name = "gathering_record_info_id", nullable = false)

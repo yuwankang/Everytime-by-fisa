@@ -9,5 +9,5 @@ import com.fisa.land.fisaland.market.entity.MarketReview;
 
 @Repository
 public interface MarketReviewRepository extends JpaRepository<MarketReview, Long> {
-	List<MarketReview> findByUser_UserId(Long userId);
+	List<MarketReview> findByUserEntityUserId(Long userId);
 }

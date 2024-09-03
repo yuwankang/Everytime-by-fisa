@@ -7,19 +7,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.fisa.land.fisaland.common.entity.User;
+import com.fisa.land.fisaland.common.entity.UserEntity;
 import com.fisa.land.fisaland.market.entity.GatheringRecord;
 import com.fisa.land.fisaland.market.entity.GatheringRecordInfo;
 
 @Repository
-public interface GatheringRecordRepository extends JpaRepository<GatheringRecord, Long>{
-	
-	@Query("SELECT gr.user FROM GatheringRecord gr WHERE gr.gatheringRecordInfo = :gatheringRecordInfo")
-	List<User> findUsersByGatheringRecordInfo(@Param("gatheringRecordInfo") GatheringRecordInfo gatheringRecordInfo);
+public interface GatheringRecordRepository extends JpaRepository<GatheringRecord, Long> {
 
-	void deleteByUserUserIdAndGatheringRecordInfoGatheringRecordInfoId(Long userId, Long gatheringRecordInfoId);
-	
-	List<GatheringRecord> findByUserUserId(Long userId);
+	@Query("SELECT gr.userEntity FROM GatheringRecord gr WHERE gr.gatheringRecordInfo = :gatheringRecordInfo")
+	List<UserEntity> findUsersByGatheringRecordInfo(@Param("gatheringRecordInfo") GatheringRecordInfo gatheringRecordInfo);
 
+	void deleteByUserEntityUserIdAndGatheringRecordInfoGatheringRecordInfoId(Long userId, Long gatheringRecordInfoId);
+
+	List<GatheringRecord> findByUserEntityUserId(Long userId);
 }
-

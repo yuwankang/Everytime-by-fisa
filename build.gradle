@@ -33,30 +33,35 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.projectlombok:lombok:1.18.22'
+    testImplementation 'junit:junit:4.13.1'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    
+
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
-    
-     // Spring Security Core Dependency
-    //implementation 'org.springframework.security:spring-security-core:6.0.0' // 적절한 버전으로 변경
-    
-    // Spring Security Web Dependency (If you are working with web applications)
-    //implementation 'org.springframework.security:spring-security-web:6.0.0' // 적절한 버전으로 변경
-    
-    // Spring Security Config Dependency (If you are using configuration classes)
-    //implementation 'org.springframework.security:spring-security-config:6.0.0' // 적절한 버전으로 변경
-    
-    // Spring Security OAuth2 Dependency (If using OAuth2 features)
-    implementation 'org.springframework.security:spring-security-oauth2-client:6.0.0' // 적절한 버전으로 변경
-    
-    
+
+    //jwt
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'javax.xml.bind:jaxb-api:2.3.0'
+    implementation 'org.webjars.npm:jsonwebtoken:8.5.1'
+    implementation 'com.nimbusds:nimbus-jose-jwt:9.31'
+
+    //redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    //Spring Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    //Oauth
+    implementation 'org.springframework.security:spring-security-oauth2-client'
+
     //mapper
     implementation 'org.modelmapper:modelmapper:3.1.1'
+    
     // Spring AOP
     implementation 'org.springframework.boot:spring-boot-starter-aop'
 
@@ -65,12 +70,11 @@ dependencies {
 
     // CGLIB for dynamic byte code generation
     implementation 'cglib:cglib:3.3.0'
-    
 
     // Log4j 2 dependencies
- 	implementation 'log4j:log4j:1.2.17'
- 	
- 	 // Gson Dependency
+    implementation 'log4j:log4j:1.2.17'
+
+    // Gson Dependency
     implementation 'com.google.code.gson:gson:2.10.1' // 적절한 버전으로 변경
 }
 
