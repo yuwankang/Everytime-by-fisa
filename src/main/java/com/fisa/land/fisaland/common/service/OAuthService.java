@@ -38,6 +38,8 @@ public class OAuthService{
     public String getRedirectUrl(LoginProvider provider) {
         if (provider == LoginProvider.GOOGLE) {
             return oAuth2Util.getGoogleRedirectUrl();
+        }else if(provider == LoginProvider.KAKAO) {
+        	return oAuth2Util.getKakaoRedirectUrl();
         }
         return null;
     }
@@ -46,6 +48,8 @@ public class OAuthService{
         String accessToken = null;
         if (provider == LoginProvider.GOOGLE) {
             accessToken = oAuth2Util.getGoogleAccessToken(authorizationCode);
+        }else if(provider == LoginProvider.KAKAO) {
+        	accessToken = oAuth2Util.getKakaoAccessToken(authorizationCode);
         }
         return accessToken;
     }
@@ -54,7 +58,9 @@ public class OAuthService{
         AuthDTO.MemberInformation memberInformation;
         if (provider == LoginProvider.GOOGLE) {
             memberInformation = oAuth2Util.getGoogleUserInfo(accessToken);
-        } else {
+        }else if(provider == LoginProvider.KAKAO) {
+        	memberInformation = oAuth2Util.getKakaoUserInfo(accessToken);
+        }else {
             memberInformation = null;
         }
 
@@ -62,7 +68,6 @@ public class OAuthService{
             throw new RuntimeException();
         }
         
-        System.out.println(memberInformation);
         User user = userRepository.findBySocialIdAndLoginProvider(memberInformation.getSocialId(), provider)
 				.orElseGet(()->
 						userRepository.save(User.builder()

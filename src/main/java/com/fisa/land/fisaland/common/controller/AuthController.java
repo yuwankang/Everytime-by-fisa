@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("auth")
 public class AuthController {
 
@@ -29,20 +29,30 @@ public class AuthController {
 
 
     //callback url 정보 담아오기
-    @ResponseBody
     @GetMapping("/google")
     public Map<String, String> getGoogleRedirectUrl(){
         Map<String, String> map = new HashMap<>();
         map.put("loginUrl", oAuth2Service.getRedirectUrl(LoginProvider.GOOGLE));
         return map;
     }
+    
+    @GetMapping("/kakao")
+    public Map<String, String> getKakaoRedirectUrl(){
+        Map<String, String> map = new HashMap<>();
+        map.put("loginUrl", oAuth2Service.getRedirectUrl(LoginProvider.KAKAO));
+        return map;
+    }
 
-    @ResponseBody
     @GetMapping("/callback")
     public void getGoogleAccessToken(@RequestParam("code") String code, @RequestParam("scope") String scope, HttpServletResponse response) throws IOException {
-    	System.out.println(code);
         String accessToken = oAuth2Service.getAccessToken(code, LoginProvider.GOOGLE);
         oAuth2Service.login(accessToken, LoginProvider.GOOGLE);
+    }
+    
+    @GetMapping("/kakao/callback")
+    public void getKakaoAccessToken(@RequestParam("code") String code, HttpServletResponse response) throws IOException {
+        String accessToken = oAuth2Service.getAccessToken(code, LoginProvider.KAKAO);
+        oAuth2Service.login(accessToken, LoginProvider.KAKAO);
     }
 
 }
