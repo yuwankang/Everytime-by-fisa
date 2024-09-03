@@ -68,7 +68,6 @@ public class OAuthService{
             throw new RuntimeException();
         }
         
-        System.out.println(memberInformation);
         User user = userRepository.findBySocialIdAndLoginProvider(memberInformation.getSocialId(), provider)
 				.orElseGet(()->
 						userRepository.save(User.builder()

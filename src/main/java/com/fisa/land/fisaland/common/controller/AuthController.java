@@ -51,7 +51,6 @@ public class AuthController {
     
     @GetMapping("/kakao/callback")
     public void getKakaoAccessToken(@RequestParam("code") String code, HttpServletResponse response) throws IOException {
-    	System.out.println("code");
         String accessToken = oAuth2Service.getAccessToken(code, LoginProvider.KAKAO);
         oAuth2Service.login(accessToken, LoginProvider.KAKAO);
     }
