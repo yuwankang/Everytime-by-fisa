@@ -24,7 +24,9 @@ public class SecurityConfig {
             "/common/user/register",
             "/",
             "/common/user/login",
-            "/logout"
+            "/logout",
+            "/swagger-resources/**",
+            "/swagger-ui/**",
     };
 
     @Bean
