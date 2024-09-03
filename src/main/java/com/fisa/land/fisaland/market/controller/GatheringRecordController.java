@@ -51,4 +51,13 @@ public class GatheringRecordController {
         logger.info("Fetched gathering list for user {}", userId);
         return ResponseEntity.ok(gatheringList);
     }
+    
+    @Operation(summary = "모임 참가자의 유저 ID 조회 및 상태 업데이트", description = "특정 모임의 모든 참가자 유저 ID를 조회하고 상태를 AFTER로 업데이트하는 API")
+    @PatchMapping("/gathering/{gatheringRecordInfoId}/users")
+    public ResponseEntity<List<Long>> getUserIdsAndUpdateStatus(
+            @PathVariable("gatheringRecordInfoId") Long gatheringRecordInfoId) {
+        List<Long> userIds = gatheringRecordService.getUserIdsAndUpdateStatus(gatheringRecordInfoId);
+        logger.info("Fetched user IDs and updated status for gatheringRecordInfoId {}", gatheringRecordInfoId);
+        return ResponseEntity.ok(userIds);
+    }
 }

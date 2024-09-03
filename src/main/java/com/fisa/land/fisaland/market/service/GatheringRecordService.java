@@ -14,4 +14,6 @@ public interface GatheringRecordService {
 
     List<GatheringRecordDTO> getGatheringRecordsByUserId(Long userId);
     
+    List<Long> getUserIdsAndUpdateStatus(Long gatheringRecordInfoId);
+    
 }
