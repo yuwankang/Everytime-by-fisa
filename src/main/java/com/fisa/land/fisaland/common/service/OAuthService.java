@@ -32,6 +32,8 @@ public class OAuthService{
             return oAuth2Util.getGoogleRedirectUrl();
         }else if(provider == LoginProvider.KAKAO) {
         	return oAuth2Util.getKakaoRedirectUrl();
+        }else if(provider == LoginProvider.GITHUB) {
+        	return oAuth2Util.getGithubRedirectUrl();
         }
         return null;
     }
@@ -42,6 +44,8 @@ public class OAuthService{
             accessToken = oAuth2Util.getGoogleAccessToken(authorizationCode);
         }else if(provider == LoginProvider.KAKAO) {
         	accessToken = oAuth2Util.getKakaoAccessToken(authorizationCode);
+        }else if(provider == LoginProvider.GITHUB) {
+        	accessToken = oAuth2Util.getGithubAccessToken(authorizationCode);
         }
         return accessToken;
     }
@@ -52,6 +56,8 @@ public class OAuthService{
             memberInformation = oAuth2Util.getGoogleUserInfo(accessToken);
         }else if(provider == LoginProvider.KAKAO) {
         	memberInformation = oAuth2Util.getKakaoUserInfo(accessToken);
+        }else if(provider == LoginProvider.GITHUB) {
+        	memberInformation = oAuth2Util.getGithubUserInfo(accessToken);
         }else {
             memberInformation = null;
         }

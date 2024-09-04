@@ -38,6 +38,13 @@ public class AuthController {
         map.put("loginUrl", oAuth2Service.getRedirectUrl(LoginProvider.KAKAO));
         return map;
     }
+    
+    @GetMapping("/github")
+    public Map<String, String> getGithubRedirectUrl(){
+        Map<String, String> map = new HashMap<>();
+        map.put("loginUrl", oAuth2Service.getRedirectUrl(LoginProvider.GITHUB));
+        return map;
+    }
 
     @GetMapping("/callback")
     public void getGoogleAccessToken(@RequestParam("code") String code, @RequestParam("scope") String scope, HttpServletResponse response) throws IOException {
@@ -49,6 +56,12 @@ public class AuthController {
     public void getKakaoAccessToken(@RequestParam("code") String code, HttpServletResponse response) throws IOException {
         String accessToken = oAuth2Service.getAccessToken(code, LoginProvider.KAKAO);
         oAuth2Service.login(accessToken, LoginProvider.KAKAO);
+    }
+
+    @GetMapping("/github/callback")
+    public void getGithuubAccessToken(@RequestParam("code") String code, HttpServletResponse response) throws IOException {
+        String accessToken = oAuth2Service.getAccessToken(code, LoginProvider.GITHUB);
+        oAuth2Service.login(accessToken, LoginProvider.GITHUB);
     }
 
 

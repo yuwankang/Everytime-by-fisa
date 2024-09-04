@@ -16,6 +16,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 @RequiredArgsConstructor
@@ -44,6 +46,20 @@ public class OAuthUtil {
 	private String KAKAO_TOKEN_URL;
 	@Value("${security.oauth2.kakao.user_info_url}")
 	private String KAKAO_USER_INFO_URL;
+	
+	//github
+	@Value("${security.oauth2.github.authentication_url}")
+	private String GITHUB_AUTHENTICATION_URL;
+	@Value("${security.oauth2.github.client_id}")
+	private String GITHUB_CLIENT_ID;
+	@Value("${security.oauth2.github.redirect_uri}")
+	private String GITHUB_REDIRECT_URI;
+	@Value("${security.oauth2.github.token_url}")
+	private String GITHUB_TOKEN_URL;
+	@Value("${security.oauth2.github.user_info_url}")
+	private String GITHUB_USER_INFO_URL;
+	@Value("${security.oauth2.github.client_secret}")
+	private String GITHUB_CLIENT_SECRET;
 
 	private final RestTemplate restTemplate = new RestTemplate();
 
@@ -55,6 +71,10 @@ public class OAuthUtil {
 	public String getKakaoRedirectUrl() {
 		return KAKAO_AUTHENTICATION_URL + "?client_id=" + KAKAO_REST_API_KEY + "&redirect_uri=" + KAKAO_REDIRECT_URI
 				+ "&response_type=code";
+	}
+
+	public String getGithubRedirectUrl() {
+		return GITHUB_AUTHENTICATION_URL + "?client_id=" + GITHUB_CLIENT_ID + "&redirect_uri=" + GITHUB_REDIRECT_URI;
 	}
 
 	public String getGoogleAccessToken(String code) {
@@ -135,6 +155,63 @@ public class OAuthUtil {
 				.email(jsonObject.getAsJsonObject("kakao_account").get("email").getAsString()).build();
 
 		return memberInformation;
+	}
+	
+	public String getGithubAccessToken(String code) {
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
+		MultiValueMap<String, String> params = new org.springframework.util.LinkedMultiValueMap<>();
+		params.add("client_id", GITHUB_CLIENT_ID); // Replace with your actual REST_API_KEY
+		params.add("client_secret", GITHUB_CLIENT_SECRET);
+		params.add("code", code);
+		params.add("redirect_uri", GITHUB_REDIRECT_URI);
+
+		HttpEntity<MultiValueMap<String, String>> githubTokenRequest = new HttpEntity<>(params, httpHeaders);
+
+		ResponseEntity<String> response = restTemplate.exchange(GITHUB_TOKEN_URL,
+				org.springframework.http.HttpMethod.POST, githubTokenRequest, String.class);
+		
+		  // 정규식 패턴을 사용하여 access_token 값 추출
+        Pattern pattern = Pattern.compile("access_token=([^&]+)");
+        Matcher matcher = pattern.matcher(response.toString());
+        String accessToken = null;
+        // access_token 값이 존재하면 출력
+        if (matcher.find()) {
+            accessToken = matcher.group(1);
+        } else {
+            System.out.println("Access Token not found.");
+        }
+		return accessToken;
+	}
+	
+	public AuthDTO.MemberInformation getGithubUserInfo(String accessToken) {
+		HttpHeaders httpHeaders = new HttpHeaders();
+
+		System.out.println(accessToken);
+		httpHeaders.add("Authorization", "Bearer " + accessToken);
+		httpHeaders.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
+		HttpEntity<MultiValueMap<String, String>> githubUserInfoRequest = new HttpEntity<>(httpHeaders);
+
+		ResponseEntity<String> response = restTemplate.exchange(GITHUB_USER_INFO_URL,
+				org.springframework.http.HttpMethod.POST, githubUserInfoRequest, String.class);
+
+		JsonElement element = JsonParser.parseString(Objects.requireNonNull(response.getBody()));
+		JsonObject jsonObject = element.getAsJsonObject();
+		System.out.println(jsonObject);
+		/*
+		 * AuthDTO.MemberInformation memberInformation =
+		 * AuthDTO.MemberInformation.builder()
+		 * .socialId(jsonObject.get("id").getAsString())
+		 * .name(jsonObject.getAsJsonObject("properties").get("nickname").getAsString())
+		 * // Get the nickname
+		 * .postUrl(jsonObject.getAsJsonObject("properties").get("profile_image").
+		 * getAsString()) // Get the profile // image URL
+		 * .email(jsonObject.getAsJsonObject("kakao_account").get("email").getAsString()
+		 * ).build();
+		 * 
+		 */		return null;
 	}
 
 }
