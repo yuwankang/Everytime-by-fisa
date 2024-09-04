@@ -190,28 +190,23 @@ public class OAuthUtil {
 
 		System.out.println(accessToken);
 		httpHeaders.add("Authorization", "Bearer " + accessToken);
-		httpHeaders.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		httpHeaders.add("Content-type", "application/json;charset=utf-8");
 
 		HttpEntity<MultiValueMap<String, String>> githubUserInfoRequest = new HttpEntity<>(httpHeaders);
 
 		ResponseEntity<String> response = restTemplate.exchange(GITHUB_USER_INFO_URL,
-				org.springframework.http.HttpMethod.POST, githubUserInfoRequest, String.class);
+				org.springframework.http.HttpMethod.GET, githubUserInfoRequest, String.class);
 
 		JsonElement element = JsonParser.parseString(Objects.requireNonNull(response.getBody()));
 		JsonObject jsonObject = element.getAsJsonObject();
 		System.out.println(jsonObject);
-		/*
-		 * AuthDTO.MemberInformation memberInformation =
-		 * AuthDTO.MemberInformation.builder()
-		 * .socialId(jsonObject.get("id").getAsString())
-		 * .name(jsonObject.getAsJsonObject("properties").get("nickname").getAsString())
-		 * // Get the nickname
-		 * .postUrl(jsonObject.getAsJsonObject("properties").get("profile_image").
-		 * getAsString()) // Get the profile // image URL
-		 * .email(jsonObject.getAsJsonObject("kakao_account").get("email").getAsString()
-		 * ).build();
-		 * 
-		 */		return null;
+		AuthDTO.MemberInformation memberInformation = AuthDTO.MemberInformation.builder()
+				.socialId(jsonObject.get("id").getAsString())
+				.name(jsonObject.get("login").getAsString()) // Get the nickname
+				.postUrl(jsonObject.get("avatar_url").getAsString()) // Get the profile		// image URL
+				.email(jsonObject.get("html_url").getAsString()).build();
+
+		return memberInformation;
 	}
 
 }
