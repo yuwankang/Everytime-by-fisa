@@ -199,7 +199,6 @@ public class OAuthUtil {
 
 		JsonElement element = JsonParser.parseString(Objects.requireNonNull(response.getBody()));
 		JsonObject jsonObject = element.getAsJsonObject();
-		System.out.println(jsonObject);
 		AuthDTO.MemberInformation memberInformation = AuthDTO.MemberInformation.builder()
 				.socialId(jsonObject.get("id").getAsString())
 				.name(jsonObject.get("login").getAsString()) // Get the nickname

@@ -66,7 +66,6 @@ public class OAuthService{
             throw new RuntimeException();
         }
 
-        System.out.println(memberInformation);
         UserEntity userEntity = userRepository.findBySocialIdAndLoginProvider(memberInformation.getSocialId(), provider)
                 .orElseGet(()->
                                 userRepository.save(UserEntity.builder()
@@ -74,7 +73,7 @@ public class OAuthService{
                                         .loginProvider(provider)
                                         .username(memberInformation.getName())
                                         .email(memberInformation.getEmail())
-//								.password(passwordEncoder.encode(memberInformation.getSocialId()))
+                                        .encryptedPwd(passwordEncoder.encode(memberInformation.getSocialId()))
                                         .imgUrl(memberInformation.getPostUrl())
                                         .build())
                 );
