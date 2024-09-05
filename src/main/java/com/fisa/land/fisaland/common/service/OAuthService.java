@@ -32,6 +32,8 @@ public class OAuthService{
             return oAuth2Util.getGoogleRedirectUrl();
         }else if(provider == LoginProvider.KAKAO) {
         	return oAuth2Util.getKakaoRedirectUrl();
+        }else if(provider == LoginProvider.GITHUB) {
+        	return oAuth2Util.getGithubRedirectUrl();
         }
         return null;
     }
@@ -42,6 +44,8 @@ public class OAuthService{
             accessToken = oAuth2Util.getGoogleAccessToken(authorizationCode);
         }else if(provider == LoginProvider.KAKAO) {
         	accessToken = oAuth2Util.getKakaoAccessToken(authorizationCode);
+        }else if(provider == LoginProvider.GITHUB) {
+        	accessToken = oAuth2Util.getGithubAccessToken(authorizationCode);
         }
         return accessToken;
     }
@@ -52,6 +56,8 @@ public class OAuthService{
             memberInformation = oAuth2Util.getGoogleUserInfo(accessToken);
         }else if(provider == LoginProvider.KAKAO) {
         	memberInformation = oAuth2Util.getKakaoUserInfo(accessToken);
+        }else if(provider == LoginProvider.GITHUB) {
+        	memberInformation = oAuth2Util.getGithubUserInfo(accessToken);
         }else {
             memberInformation = null;
         }
@@ -60,7 +66,6 @@ public class OAuthService{
             throw new RuntimeException();
         }
 
-        System.out.println(memberInformation);
         UserEntity userEntity = userRepository.findBySocialIdAndLoginProvider(memberInformation.getSocialId(), provider)
                 .orElseGet(()->
                                 userRepository.save(UserEntity.builder()
@@ -68,7 +73,7 @@ public class OAuthService{
                                         .loginProvider(provider)
                                         .username(memberInformation.getName())
                                         .email(memberInformation.getEmail())
-//								.password(passwordEncoder.encode(memberInformation.getSocialId()))
+                                        .encryptedPwd(passwordEncoder.encode(memberInformation.getSocialId()))
                                         .imgUrl(memberInformation.getPostUrl())
                                         .build())
                 );
